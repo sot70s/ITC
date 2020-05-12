@@ -1,0 +1,63 @@
+﻿<div class="card m-2 p-1" style="background-color: #00b5ad;">
+    <h3 class="card-header font-weight-bold" style="background-color: #009991;"><i class="fas fa-sitemap fa-lg"></i>&nbsp;Team Foundation</h3>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3 p-1">
+                <div id="divSymptom" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnSymptom" href="#">
+                            <i class="far fa-clipboard fa-4x"></i><br />
+                        </a>
+                        Symptom
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divGrade" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnGrade" href="#">
+                            <i class="fas fa-edit fa-4x"></i><br />
+                        </a>
+                        Grade
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divPriority" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnPriority" href="#">
+                            <i class="fas fa-sort-amount-down fa-4x"></i><br />
+                        </a>
+                        Priority
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btnSymptom').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSymptom').css('background-color', '#ccfffd');
+        $('#divGrade').css('background-color', '#ffffff');
+        $('#divPriority').css('background-color', '#ffffff');
+        $('.PartialSubSetting').empty().load('./Symptom');
+    });
+
+    $('#btnGrade').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSymptom').css('background-color', '#ffffff');
+        $('#divGrade').css('background-color', '#ccfffd');
+        $('#divPriority').css('background-color', '#ffffff');
+        $('.PartialSubSetting').empty().load('./Grade');
+    });
+
+    $('#btnPriority').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSymptom').css('background-color', '#ffffff');
+        $('#divGrade').css('background-color', '#ffffff');
+        $('#divPriority').css('background-color', '#ccfffd');
+        $('.PartialSubSetting').empty().load('./Priority');
+    });
+</script>

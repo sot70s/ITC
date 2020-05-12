@@ -1,0 +1,340 @@
+﻿<style>
+    #dtUserDataTable_filter > label {
+        font-weight: bold;
+    }
+
+    #dtUserDataTable_info {
+        font-weight: bold;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="fas fa-table fa-lg"></i>&nbsp;Data Table</h3>
+            <div class="card-body">
+                <table id="dtUserDataTable" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:10%;">EMPLOYEE NO</th>
+                            <th style="width:10%;">USERNAME</th>
+                            <th style="width:18%;">FULL NAME</th>
+                            <th style="width:16%;">EMAIL</th>
+                            <th style="width:10%;">SECTION CODE</th>
+                            <th style="width:15%;">CREATE DATE</th>
+                            <th style="width:8%;">STATUS</th>
+                            <th style="width:13%;">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-user-lock fa-lg"></i>&nbsp;&nbsp;<label id="lbEmployeeName"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtId" hidden />
+            </div>
+
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>#User Types</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <form class="was-validated">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="chkPerUser" name="radio-stacked" required checked>
+                                    <label class="custom-control-label" for="chkPerUser">User Standard</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="chkPerUserCoordinator" name="radio-stacked" required>
+                                    <label class="custom-control-label" for="chkPerUserCoordinator">User Coordinator</label>
+                                </div>
+                                <div class="custom-control custom-radio mb-3">
+                                    <input type="radio" class="custom-control-input" id="chkPerAdmin" name="radio-stacked" required>
+                                    <label class="custom-control-label" for="chkPerAdmin">Admin</label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>#Permission Page</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <form class="was-validated">
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" class="custom-control-input" id="chkPage1" required>
+                                    <label class="custom-control-label font-weight-bold" for="chkPage1">Work Doing</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <form class="was-validated">
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" class="custom-control-input" id="chkPage2" required>
+                                    <label class="custom-control-label font-weight-bold" for="chkPage2">Work Management</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <form class="was-validated">
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" class="custom-control-input" id="chkPage3" required>
+                                    <label class="custom-control-label font-weight-bold" for="chkPage3">Work Monitoring by User</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <form class="was-validated">
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" class="custom-control-input" id="chkPage4" required>
+                                    <label class="custom-control-label font-weight-bold" for="chkPage4">Work Monitoring by MIS</label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="modal-footer"></div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>#Coordinator</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <form class="was-validated">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="chkCoordinatorActive" name="radio-stacked" required>
+                                    <label class="custom-control-label" for="chkCoordinatorActive">Active</label>
+                                </div>
+                                <div class="custom-control custom-radio mb-3">
+                                    <input type="radio" class="custom-control-input" id="chkCoordinatorInactive" name="radio-stacked" required checked>
+                                    <label class="custom-control-label" for="chkCoordinatorInactive">Inactive</label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning btn-sm font-weight-bold" data-dismiss="modal" onclick="ResetPassword('./ResetPassword?id=')">Reset Password</button>
+                <button type="button" class="btn btn-success btn-sm font-weight-bold" data-dismiss="modal" onclick="Role('./SetRole')">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+    });
+
+    function loadDataTable() {
+        dataTable = $('#dtUserDataTable').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetUserDataTable/",
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                { data: "EmployeeNo" },
+                { data: "UserName" },
+                { data: "EMPLOYEE_NAME" },
+                { data: "Email" },
+                { data: "SECTION_CODE" },
+                { data: "CreatedDate" },
+                {
+                    data: "EMPLOYEE_STATUS",
+                    render: function (data) {
+                        if (data === 'A' || data === 'T') {
+                            return `<button class="btn btn-success btn-sm font-weight-bold">
+                            Active
+                        </button>`;
+                        } else {
+                            return `<button class="btn btn-danger btn-sm font-weight-bold">
+                            Inactive
+                        </button>`;
+                        }
+                    }
+                },
+                {
+                    data: "Id",
+                    render: function (data) {
+                        return `<button class="btn btn-info btn-sm font-weight-bold" data-toggle="modal" data-target="#exampleModalCenter" onclick=Setting("./GetRole?id=${data}") >
+                            Setting
+                        </button>
+                        &nbsp;
+                        <button class="btn btn-danger btn-sm font-weight-bold"
+                            onclick=Delete("./DeleteUser?id=${data}") >
+                                Delete
+                        </button>`;
+                    }
+                }
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    function Delete(url) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            dataTable.ajax.reload();
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function Setting(url) {
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: (data) => {
+                $('#lbEmployeeName').text(data[0].EMPLOYEE_NAME + ' (' + data[0].EmployeeNo + ')');
+                $('#txtId').val(data[0].Id);
+                try {
+                    $('#chkPage1').prop('checked', data[0].Role[0].PageStaff);
+                    $('#chkPage2').prop('checked', data[0].Role[0].PagePlanner);
+                    $('#chkPage3').prop('checked', data[0].Role[0].PageUserManager);
+                    $('#chkPage4').prop('checked', data[0].Role[0].PageMisManager);
+                    if (data[0].Role[0].Permission === true && data[0].Role[0].Coordinator === true) {
+                        $('#chkPerUser').prop('checked', false);
+                        $('#chkPerUserCoordinator').prop('checked', false);
+                        $('#chkPerAdmin').prop('checked', true);
+                    } else if (data[0].Role[0].Permission === false && data[0].Role[0].Coordinator === true) {
+                        $('#chkPerUser').prop('checked', false);
+                        $('#chkPerUserCoordinator').prop('checked', true);
+                        $('#chkPerAdmin').prop('checked', false);
+                    } else {
+                        $('#chkPerUser').prop('checked', true);
+                        $('#chkPerUserCoordinator').prop('checked', false);
+                        $('#chkPerAdmin').prop('checked', false);
+                    }
+
+                    //if (data[0].Role[0].Coordinator === true) {
+                    //    $('#chkCoordinatorActive').prop('checked', true);
+                    //    $('#chkCoordinatorInactive').prop('checked', false);
+                    //} else {
+                    //    $('#chkCoordinatorActive').prop('checked', false);
+                    //    $('#chkCoordinatorInactive').prop('checked', true);
+                    //}
+                } catch (err) {
+                    $('#chkPage1').prop('checked', false);
+                    $('#chkPage2').prop('checked', false);
+                    $('#chkPage3').prop('checked', false);
+                    $('#chkPage4').prop('checked', false);
+                    $('#chkPerUser').prop('checked', true);
+                    $('#chkPerUserCoordinator').prop('checked', false);
+                    $('#chkPerAdmin').prop('checked', false);
+                    //$('#chkCoordinatorActive').prop('checked', false);
+                    //$('#chkCoordinatorInactive').prop('checked', true);
+                }
+            }
+        });
+    }
+
+    function ResetPassword(url) {
+        $.ajax({
+            url: url + $('#txtId').val(),
+            type: 'POST',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success === true) {
+                    swal({
+                        title: data.message,
+                        icon: "success",
+                        buttons: "DONE"
+                    });
+                } else {
+                    swal({
+                        title: "Warning",
+                        text: data.message,
+                        icon: "warning",
+                        buttons: "DONE",
+                        dangerMode: true
+                    });
+                }
+            }
+        });
+    }
+
+    function Role(url) {
+        var permission = ($('#chkPerUser').is(':checked') === true) ? 1 : ($('#chkPerUserCoordinator').is(':checked') === true) ? 2 : 3;
+
+        $.ajax({
+            url: url,
+            data: JSON.stringify({
+                Id: $('#txtId').val(),
+                PageStaff: $('#chkPage1').is(':checked'),
+                PagePlanner: $('#chkPage2').is(':checked'),
+                PageUserManager: $('#chkPage3').is(':checked'),
+                PageMisManager: $('#chkPage4').is(':checked'),
+                Permission: permission,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success === true) {
+                    swal({
+                        title: data.message,
+                        icon: "success",
+                        buttons: "DONE"
+                    });
+                } else {
+                    swal({
+                        title: "Warning",
+                        text: data.message,
+                        icon: "warning",
+                        buttons: "DONE",
+                        dangerMode: true
+                    });
+                }
+            }
+        });
+    }
+</script>

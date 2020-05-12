@@ -1,0 +1,1186 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace ITC.Models
+{
+    public class ParameterJobReqBody
+    {
+        public int Id { get; set; }
+        public string WorkRequest { get; set; }
+        public string Equipment { get; set; }
+        public string Description { get; set; }
+        public string Symptom { get; set; }
+        public string Detail { get; set; }
+        public string RequireDate { get; set; }
+        public int Status { get; set; }
+        public int JobReqHeader_Id { get; set; }
+        public string Suggestion { get; set; }
+        public string Responsible { get; set; }
+        public string AssignTo { get; set; }
+        public string FieldsDate { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+    }
+
+    public class ParameterJobPlanning
+    {
+        public int Id { get; set; }
+        public string PlanStartDate { get; set; }
+        public string PlanFinishDate { get; set; }
+        public string RootCause { get; set; }
+        public string Solution { get; set; }
+        public int WorkOrder_Id { get; set; }
+    }
+
+    public class ParameterJobDaily
+    {
+        public int id { get; set; }
+        public int JobDaily_Id { get; set; }
+        public int WorkOrder_Id { get; set; }
+        public string WorkOrder { get; set; }
+        public string DailyDate { get; set; }
+        public string TimeStart { get; set; }
+        public string TimeStop { get; set; }
+        public string WorkDetail { get; set; }
+        public string RootCause { get; set; }
+        public string Solution { get; set; }
+        public int Status { get; set; }
+        public int Progress { get; set; }
+    }
+
+    public class ParameterDailyReport
+    {
+        public string WorkOrder { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string AssignTo { get; set; }
+    }
+
+    public class ParameterTrackingJob
+    {
+        public int Id { get; set; }
+        public string WorkOrder { get; set; }
+        public string Reason { get; set; }
+    }
+
+    public class ParameterJobRework
+    {
+        public int Id { get; set; }
+        public string Reason { get; set; }
+        public int JobReqBody { get; set; }
+        public int WorkOrder_Id { get; set; }
+    }
+
+    [Table("JobReqHeader")]
+    public class JobReqHeader
+    {
+        [Key]
+        public int Id { get; set; }
+        public string WorkRequest { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string Requestor { get; set; }
+    }
+
+    [Table("JobReqBody")]
+    public class JobReqBody
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Equipment { get; set; }
+        public string Description { get; set; }
+        public string Symptom { get; set; }
+        public string Detail { get; set; }
+        public int Line { get; set; }
+        public DateTime RequireDate { get; set; }
+        public int Status { get; set; }
+        public string WorkRequest { get; set; }
+        public string Responsible { get; set; }
+        public string AssignTo { get; set; }
+    }
+
+    [Table("SolutionSuggestion")]
+    public class SolutionSuggestion
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Solution { get; set; }
+        public int JobReqBody_Id { get; set; }
+    }
+
+    [Table("JobPlanning")]
+    public class JobPlanning
+    {
+        [Key]
+        public int Id { get; set; }
+        public DateTime PlanStartDate { get; set; }
+        public DateTime PlanFinishDate { get; set; }
+        public string RootCause { get; set; }
+        public string Solution { get; set; }
+        public int JobReqBody_Id { get; set; }
+        public int WorkOrder_Id { get; set; }
+    }
+
+    [Table("WorkOrders")]
+    public class WorkOrders
+    {
+        [Key]
+        public int Id { get; set; }
+        public string WoNo { get; set; }
+        public DateTime CreateDate { get; set; }
+        public int JobReqBody_Id { get; set; }
+        public int Rework { get; set; }
+        public bool Status { get; set; }
+        public int Progress { get; set; }
+    }
+
+    [Table("JobDaily")]
+    public class JobDaily
+    {
+        [Key]
+        public int Id { get; set; }
+        public DateTime TimeStart { get; set; }
+        public DateTime TimeStop { get; set; }
+        public string WorkDetail { get; set; }
+        public int Status { get; set; }
+        public int WorkOrder_Id { get; set; }
+        public DateTime DailyDate { get; set; }
+    }
+
+    [Table("JobRework")]
+    public class JobRework
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Reason { get; set; }
+        public int WorkOrder_Id { get; set; }
+    }
+
+    [Table("JobUnAccept")]
+    public class JobUnAccept
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Reason { get; set; }
+        public int WorkOrder_Id { get; set; }
+    }
+
+    public class JobRequest
+    {
+        public int Id { get; set; }
+        public string WorkRequest { get; set; }
+        public string Requestor { get; set; }
+        public string RequestorName { get; set; }
+        public string Equipment { get; set; }
+        public string Description { get; set; }
+        public string Symptom { get; set; }
+        public string SymptomName_Th { get; set; }
+        public string Detail { get; set; }
+        public string Line { get; set; }
+        public string RequireDate { get; set; }
+        public int Status { get; set; }
+        public string DecisionType { get; set; }
+        public string SectionType { get; set; }
+        public int Score { get; set; }
+        public string SectionCode { get; set; }
+        public string Email { get; set; }
+        public string Responsible { get; set; }
+        public string Priority { get; set; }
+        public string ResponsibleName { get; set; }
+        public string Suggestion { get; set; }
+        public string AssignTo { get; set; }
+        public string AssignToName { get; set; }
+        public int WorkOrder_Id { get; set; }
+        public string WoNo { get; set; }
+        public string Solution { get; set; }
+        public bool StatusWorkOrder { get; set; }
+        public string Rework { get; set; }
+        public string CreateDate { get; set; }
+        public string PlanStartDate { get; set; }
+        public string PlanFinishDate { get; set; }
+        public string RootCause { get; set; }
+        public int Progress { get; set; }
+        public int JobDaily_Id { get; set; }
+        public string TimeStart { get; set; }
+        public string TimeStop { get; set; }
+        public string DailyDate { get; set; }
+        public string WorkDetail { get; set; }
+        public string StatusWorkOrderStr { get; set; }
+        public string Reason { get; set; }
+        public int CountStatus { get; set; }
+        public string StatusStr { get; set; }
+        public string ApproveBy { get; set; }
+        public string ApproveByName { get; set; }
+        public string ApproveDate { get; set; }
+    }
+
+    public class JobGradeScore
+    {
+        public int Id { get; set; }
+        public string GradeCode { get; set; }
+        public int Score { get; set; }
+        public string Requestor { get; set; }
+    }
+
+    public class JobSymptomScore
+    {
+        public int Id { get; set; }
+        public string Symptom { get; set; }
+        public int Score { get; set; }
+    }
+
+    public class PriorityScore
+    {
+        public int Id { get; set; }
+        public string Priority { get; set; }
+        public int Score { get; set; }
+    }
+
+    public class CalendarDaily
+    {
+        public string title { get; set; }
+        public string start { get; set; }
+        public string end { get; set; }
+        public string backgroundColor { get; set; }
+        public string borderColor { get; set; }
+    }
+
+    public class DailyReport
+    {
+        public int WorkOrder_Id { get; set; }
+        public string WoNo { get; set; }
+        public string Priority { get; set; }
+        public string Rework { get; set; }
+        public int Progress { get; set; }
+        public string WorkDetail { get; set; }
+        public string StatusWorkOrderStr { get; set; }
+        public string DailyDate { get; set; }
+        public string TimeStart { get; set; }
+        public string TimeStop { get; set; }
+        public string AssignToName { get; set; }
+        public string AssignTo { get; set; }
+        public int Status { get; set; }
+        public bool StatusWorkOrder { get; set; }
+    }
+
+    public class TableJobReqHeader
+    {
+        public List<JobReqHeader> data { get; set; }
+    }
+
+    public class TableJobRequest
+    {
+        public List<JobRequest> data { get; set; }
+    }
+
+    public class TableJobResponsible
+    {
+        public List<JobRequest> data { get; set; }
+    }
+
+    public class TableJobPlanning
+    {
+        public List<JobRequest> data { get; set; }
+    }
+
+    public class TableDailyReport
+    {
+        public List<DailyReport> data { get; set; }
+    }
+
+    public class QueryRequest
+    {
+        public static List<JobRequest> ListJobWorkRequest()
+        {
+            ITCContext _dbITC = new ITCContext();
+
+            List<JobRequest> query = (from jrh in _dbITC.JobReqHeader.ToList()
+                                      join jrb in _dbITC.JobReqBody.ToList()
+                                      on jrh.WorkRequest equals jrb.WorkRequest into joined
+                                      from j in joined.DefaultIfEmpty()
+                                      select new JobRequest
+                                      {
+                                          Id = (j == null) ? 0 : j.Id,
+                                          WorkRequest = jrh.WorkRequest,
+                                          Requestor = jrh.Requestor,
+                                          Equipment = (j == null) ? "" : j.Equipment,
+                                          Description = (j == null) ? "" : j.Description,
+                                          Symptom = (j == null) ? "" : j.Symptom,
+                                          Responsible = (j == null) ? "" : j.Responsible,
+                                          Detail = (j == null) ? "" : j.Detail,
+                                          RequireDate = (j == null) ? "" : j.RequireDate.ToString(),
+                                          Status = (j == null) ? 0 : j.Status,
+                                          AssignTo = (j == null) ? "" : j.AssignTo,
+                                          Line = (j == null) ? "0" : (j.Line.ToString().Length == 1) ? "0" + j.Line.ToString() : j.Line.ToString()
+                                      }).ToList();
+
+            return query;
+        }
+
+        public static List<JobRequest> ListJobWorkRequestInfo()
+        {
+            ITCContext _dbITC = new ITCContext();
+
+            List<JobRequest> query = (from jrh in _dbITC.JobReqHeader.ToList()
+                                      join jrb in _dbITC.JobReqBody.ToList()
+                                      on jrh.WorkRequest equals jrb.WorkRequest into joined
+                                      from j in joined.DefaultIfEmpty()
+                                      select new JobRequest
+                                      {
+                                          Id = (j == null) ? 0 : j.Id,
+                                          WorkRequest = jrh.WorkRequest,
+                                          Requestor = jrh.Requestor,
+                                          Equipment = (j == null) ? "" : j.Equipment,
+                                          Description = (j == null) ? "" : j.Description,
+                                          Symptom = (j == null) ? "" : j.Symptom,
+                                          Responsible = (j == null) ? "" : j.Responsible,
+                                          Detail = (j == null) ? "" : j.Detail,
+                                          RequireDate = (j == null) ? "" : j.RequireDate.ToString(),
+                                          Status = (j == null) ? 0 : j.Status,
+                                          AssignTo = (j == null) ? "" : j.AssignTo,
+                                          Line = (j == null) ? "0" : (j.Line.ToString().Length == 1) ? "0" + j.Line.ToString() : j.Line.ToString()
+                                      }).ToList();
+
+            query = query.ToList().Join(_dbITC.Symptom.ToList(),
+                jhb => jhb.Symptom,
+                sm => sm.SymptomName,
+                (jhb, sm) => new JobRequest
+                {
+                    Id = jhb.Id,
+                    WorkRequest = jhb.WorkRequest,
+                    Requestor = jhb.Requestor,
+                    Equipment = jhb.Equipment,
+                    Description = jhb.Description,
+                    Symptom = jhb.Symptom,
+                    SymptomName_Th = sm.SymptomName_Th,
+                    Responsible = jhb.Responsible,
+                    Detail = jhb.Detail,
+                    RequireDate = String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(jhb.RequireDate)),
+                    Status = jhb.Status,
+                    AssignTo = jhb.AssignTo,
+                    Line = jhb.Line
+                }).ToList();
+
+            return query;
+        }
+
+        public static List<JobRequest> ListJobRequest(string work_request)
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = _dbITC.JobReqHeader.Where(w => w.WorkRequest == work_request).ToList().Join(_dbITC.JobReqBody.ToList(),
+               jh => jh.WorkRequest,
+               jb => jb.WorkRequest,
+               (jh, jb) => new JobRequest
+               {
+                   Id = jb.Id,
+                   WorkRequest = jh.WorkRequest,
+                   Requestor = jh.Requestor,
+                   Equipment = jb.Equipment,
+                   Description = jb.Description,
+                   Symptom = jb.Symptom,
+                   Detail = jb.Detail,
+                   RequireDate = jb.RequireDate.ToString(),
+                   Status = jb.Status
+               }).Join(_dbITC.Symptom.ToList(),
+               jhb => jhb.Symptom,
+               sm => sm.SymptomName,
+               (jhb, sm) => new JobRequest
+               {
+                   Id = jhb.Id,
+                   WorkRequest = jhb.WorkRequest,
+                   Requestor = jhb.Requestor,
+                   Equipment = jhb.Equipment,
+                   Description = jhb.Description,
+                   Symptom = jhb.Symptom,
+                   SymptomName_Th = sm.SymptomName_Th,
+                   Detail = jhb.Detail,
+                   RequireDate = String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(jhb.RequireDate)),
+                   Status = jhb.Status
+               }).ToList();
+
+            return query;
+        }
+
+        public static List<JobRequest> ListJobRequest()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = _dbITC.JobReqHeader.ToList().Join(_dbITC.JobReqBody.ToList(),
+               jh => jh.WorkRequest,
+               jb => jb.WorkRequest,
+               (jh, jb) => new JobRequest
+               {
+                   Id = jb.Id,
+                   WorkRequest = jh.WorkRequest,
+                   Requestor = jh.Requestor,
+                   CreateDate = jh.CreateDate.ToString(),
+                   Responsible = jb.Responsible,
+                   Line = (jb.Line.ToString().Length == 1) ? "0" + jb.Line.ToString() : jb.Line.ToString(),
+                   AssignTo = jb.AssignTo,
+                   Equipment = jb.Equipment,
+                   Description = jb.Description,
+                   Symptom = jb.Symptom,
+                   Detail = jb.Detail,
+                   RequireDate = jb.RequireDate.ToString(),
+                   Status = jb.Status
+               }).Join(_dbITC.Symptom.ToList(),
+               jhb => jhb.Symptom,
+               sm => sm.SymptomName,
+               (jhb, sm) => new JobRequest
+               {
+                   Id = jhb.Id,
+                   WorkRequest = jhb.WorkRequest,
+                   Requestor = jhb.Requestor,
+                   CreateDate = jhb.CreateDate,
+                   Responsible = jhb.Responsible,
+                   Line = jhb.Line,
+                   AssignTo = jhb.AssignTo,
+                   Equipment = jhb.Equipment,
+                   Description = jhb.Description,
+                   Symptom = jhb.Symptom,
+                   SymptomName_Th = sm.SymptomName_Th,
+                   Detail = jhb.Detail,
+                   RequireDate = jhb.RequireDate,
+                   Status = jhb.Status,
+                   DecisionType = sm.DecisionType,
+                   SectionType = sm.SectionType,
+                   Score = sm.Score
+               }).ToList();
+
+            query = (from jhb in query.ToList()
+                     join ss in _dbITC.SolutionSuggestion.ToList()
+                     on jhb.Id equals ss.JobReqBody_Id into joined
+                     from j in joined.DefaultIfEmpty()
+                     select new JobRequest
+                     {
+                         Id = jhb.Id,
+                         WorkRequest = jhb.WorkRequest,
+                         Requestor = jhb.Requestor,
+                         CreateDate = String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(jhb.CreateDate)),
+                         Responsible = jhb.Responsible,
+                         Line = jhb.Line,
+                         AssignTo = jhb.AssignTo,
+                         Equipment = jhb.Equipment,
+                         Description = jhb.Description,
+                         Symptom = jhb.Symptom,
+                         SymptomName_Th = jhb.SymptomName_Th,
+                         Detail = jhb.Detail,
+                         RequireDate = String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(jhb.RequireDate)),
+                         Status = jhb.Status,
+                         DecisionType = jhb.DecisionType,
+                         SectionType = jhb.SectionType,
+                         Score = jhb.Score,
+                         Suggestion = (j == null) ? "" : j.Solution,
+                     }).ToList();
+
+            query = (from jhb in query.ToList()
+                     join jap in _dbITC.JobApprove.ToList()
+                     on jhb.Id equals jap.JobReqBody_Id into joined
+                     from j in joined.DefaultIfEmpty()
+                     select new JobRequest
+                     {
+                         Id = jhb.Id,
+                         WorkRequest = jhb.WorkRequest,
+                         Requestor = jhb.Requestor,
+                         CreateDate = jhb.CreateDate,
+                         Responsible = jhb.Responsible,
+                         Line = jhb.Line,
+                         AssignTo = jhb.AssignTo,
+                         Equipment = jhb.Equipment,
+                         Description = jhb.Description,
+                         Symptom = jhb.Symptom,
+                         SymptomName_Th = jhb.SymptomName_Th,
+                         Detail = jhb.Detail,
+                         RequireDate = jhb.RequireDate,
+                         Status = jhb.Status,
+                         DecisionType = jhb.DecisionType,
+                         SectionType = jhb.SectionType,
+                         Score = jhb.Score,
+                         Suggestion = jhb.Suggestion,
+                         ApproveBy = (j == null) ? "" : j.ApproveBy,
+                         ApproveDate = (j == null) ? "" : String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(j.CreateDate)),
+                     }).ToList();
+
+            return query;
+        }
+
+        public static List<JobRequest> ListJobReject()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = ListJobRequest().ToList().Join(_dbITC.RejectJobApprover.ToList(),
+                                    jr => jr.Id,
+                                    rja => rja.JobReqBody_Id,
+                                    (jr, rja) => new JobRequest
+                                    {
+                                        Id = jr.Id,
+                                        WorkRequest = jr.WorkRequest,
+                                        Requestor = jr.Requestor,
+                                        CreateDate = jr.CreateDate,
+                                        Responsible = jr.Responsible,
+                                        Line = jr.Line,
+                                        AssignTo = jr.AssignTo,
+                                        Equipment = jr.Equipment,
+                                        Description = jr.Description,
+                                        Symptom = jr.Symptom,
+                                        SymptomName_Th = jr.SymptomName_Th,
+                                        Detail = jr.Detail,
+                                        RequireDate = jr.RequireDate,
+                                        Status = jr.Status,
+                                        DecisionType = jr.DecisionType,
+                                        SectionType = jr.SectionType,
+                                        Score = jr.Score,
+                                        Suggestion = jr.Solution,
+                                        Reason = rja.Reason
+                                    }).ToList();
+            return query;
+        }
+
+        public static List<JobRequest> ListJobRework()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = ListJobRequest().ToList().Join(_dbITC.WorkOrders.ToList(),
+                                    jr => jr.Id,
+                                    wo => wo.JobReqBody_Id,
+                                    (jr, wo) => new JobRequest
+                                    {
+                                        Id = jr.Id,
+                                        WorkRequest = jr.WorkRequest,
+                                        Requestor = jr.Requestor,
+                                        CreateDate = jr.CreateDate,
+                                        Responsible = jr.Responsible,
+                                        Line = jr.Line,
+                                        AssignTo = jr.AssignTo,
+                                        Equipment = jr.Equipment,
+                                        Description = jr.Description,
+                                        Symptom = jr.Symptom,
+                                        SymptomName_Th = jr.SymptomName_Th,
+                                        Detail = jr.Detail,
+                                        RequireDate = jr.RequireDate,
+                                        Status = jr.Status,
+                                        DecisionType = jr.DecisionType,
+                                        SectionType = jr.SectionType,
+                                        Score = jr.Score,
+                                        Suggestion = jr.Solution,
+                                        WorkOrder_Id = wo.Id
+                                    }).ToList();
+
+            query = query.Join(_dbITC.JobRework.ToList(),
+                                    jr => jr.WorkOrder_Id,
+                                    rw => rw.WorkOrder_Id,
+                                    (jr, rw) => new JobRequest
+                                    {
+                                        Id = jr.Id,
+                                        WorkRequest = jr.WorkRequest,
+                                        Requestor = jr.Requestor,
+                                        CreateDate = jr.CreateDate,
+                                        Responsible = jr.Responsible,
+                                        Line = jr.Line,
+                                        AssignTo = jr.AssignTo,
+                                        Equipment = jr.Equipment,
+                                        Description = jr.Description,
+                                        Symptom = jr.Symptom,
+                                        SymptomName_Th = jr.SymptomName_Th,
+                                        Detail = jr.Detail,
+                                        RequireDate = jr.RequireDate,
+                                        Status = jr.Status,
+                                        DecisionType = jr.DecisionType,
+                                        SectionType = jr.SectionType,
+                                        Score = jr.Score,
+                                        Suggestion = jr.Solution,
+                                        WorkOrder_Id = jr.WorkOrder_Id,
+                                        Reason = rw.Reason
+                                    }).ToList();
+            return query;
+        }
+
+        public static List<JobRequest> ListJobRequestJoinSymptom()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = (from jr in ListJobRequest().ToList()
+                                      join emp in QueryPersonnel.ListEmployeeMeyer().ToList()
+                                      on jr.Requestor equals emp.EMPLOYEE_NO into joined
+                                      from j in joined.DefaultIfEmpty()
+                                      select new JobRequest
+                                      {
+                                          Id = jr.Id,
+                                          WorkRequest = jr.WorkRequest,
+                                          Equipment = jr.Equipment,
+                                          Description = jr.Description,
+                                          Line = jr.Line,
+                                          Symptom = jr.Symptom,
+                                          SymptomName_Th = jr.SymptomName_Th,
+                                          Detail = jr.Detail,
+                                          RequireDate = jr.RequireDate,
+                                          CreateDate = jr.CreateDate,
+                                          Status = jr.Status,
+                                          DecisionType = jr.DecisionType,
+                                          SectionType = jr.SectionType,
+                                          Score = jr.Score,
+                                          SectionCode = (j == null) ? "" : j.SECTION_CODE,
+                                          Suggestion = jr.Suggestion,
+                                          Requestor = jr.Requestor,
+                                          RequestorName = (j == null) ? "" : j.EMPLOYEE_NAME,
+                                          Responsible = jr.Responsible,
+                                          ResponsibleName = jr.ResponsibleName,
+                                          AssignTo = jr.AssignTo,
+                                          ApproveBy = jr.ApproveBy,
+                                          ApproveDate = jr.ApproveDate
+                                      }).ToList();
+
+            query = (from jr in query.ToList()
+                     join emp in QueryPersonnel.ListEmployeeMeyer().ToList()
+                     on jr.Responsible equals emp.EMPLOYEE_NO into joined
+                     from j in joined.DefaultIfEmpty()
+                     select new JobRequest
+                     {
+                         Id = jr.Id,
+                         WorkRequest = jr.WorkRequest,
+                         Equipment = jr.Equipment,
+                         Description = jr.Description,
+                         Line = jr.Line,
+                         Symptom = jr.Symptom,
+                         SymptomName_Th = jr.SymptomName_Th,
+                         Detail = jr.Detail,
+                         RequireDate = jr.RequireDate,
+                         CreateDate = jr.CreateDate,
+                         Status = jr.Status,
+                         DecisionType = jr.DecisionType,
+                         SectionType = jr.SectionType,
+                         Score = jr.Score,
+                         SectionCode = jr.SectionCode,
+                         Suggestion = jr.Suggestion,
+                         Requestor = jr.Requestor,
+                         RequestorName = jr.RequestorName,
+                         Responsible = jr.Responsible,
+                         ResponsibleName = (j == null) ? "" : j.EMPLOYEE_NAME,
+                         AssignTo = jr.AssignTo,
+                         ApproveBy = jr.ApproveBy,
+                         ApproveDate = jr.ApproveDate
+                     }).ToList();
+
+            query = (from jr in query.ToList()
+                     join emp in QueryPersonnel.ListEmployeeMeyer().ToList()
+                     on jr.AssignTo equals emp.EMPLOYEE_NO into joined
+                     from j in joined.DefaultIfEmpty()
+                     select new JobRequest
+                     {
+                         Id = jr.Id,
+                         WorkRequest = jr.WorkRequest,
+                         Equipment = jr.Equipment,
+                         Description = jr.Description,
+                         Line = jr.Line,
+                         Symptom = jr.Symptom,
+                         SymptomName_Th = jr.SymptomName_Th,
+                         Detail = jr.Detail,
+                         RequireDate = jr.RequireDate,
+                         CreateDate = jr.CreateDate,
+                         Status = jr.Status,
+                         DecisionType = jr.DecisionType,
+                         SectionType = jr.SectionType,
+                         Score = jr.Score,
+                         SectionCode = jr.SectionCode,
+                         Suggestion = jr.Suggestion,
+                         Requestor = jr.Requestor,
+                         RequestorName = jr.RequestorName,
+                         Responsible = jr.Responsible,
+                         ResponsibleName = jr.ResponsibleName,
+                         AssignTo = jr.AssignTo,
+                         ApproveBy = jr.ApproveBy,
+                         ApproveDate = jr.ApproveDate,
+                         AssignToName = (j == null) ? "" : j.EMPLOYEE_NAME,
+                     }).ToList();
+
+            query = (from jr in query.ToList()
+                     join emp in QueryPersonnel.ListEmployeeMeyer().ToList()
+                     on jr.ApproveBy equals emp.EMPLOYEE_NO into joined
+                     from j in joined.DefaultIfEmpty()
+                     select new JobRequest
+                     {
+                         Id = jr.Id,
+                         WorkRequest = jr.WorkRequest,
+                         Equipment = jr.Equipment,
+                         Description = jr.Description,
+                         Line = jr.Line,
+                         Symptom = jr.Symptom,
+                         SymptomName_Th = jr.SymptomName_Th,
+                         Detail = jr.Detail,
+                         RequireDate = jr.RequireDate,
+                         CreateDate = jr.CreateDate,
+                         Status = jr.Status,
+                         DecisionType = jr.DecisionType,
+                         SectionType = jr.SectionType,
+                         Score = jr.Score,
+                         SectionCode = jr.SectionCode,
+                         Suggestion = jr.Suggestion,
+                         Requestor = jr.Requestor,
+                         RequestorName = jr.RequestorName,
+                         Responsible = jr.Responsible,
+                         ResponsibleName = jr.ResponsibleName,
+                         AssignTo = jr.AssignTo,
+                         AssignToName = jr.AssignToName,
+                         ApproveBy = jr.ApproveBy,
+                         ApproveDate = jr.ApproveDate,
+                         ApproveByName = (j == null) ? "" : j.EMPLOYEE_NAME
+                     }).ToList();
+
+            return query;
+        }
+
+        public static List<JobRequest> ListJobReqReject()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = (from jr in ListJobRequestJoinSymptom().ToList()
+                                      join rj in _dbITC.RejectJobApprover.ToList()
+                                      on jr.Id equals rj.JobReqBody_Id into joined
+                                      from j in joined.DefaultIfEmpty()
+                                      select new JobRequest
+                                      {
+                                          Id = jr.Id,
+                                          WorkRequest = jr.WorkRequest,
+                                          Equipment = jr.Equipment,
+                                          Description = jr.Description,
+                                          Line = jr.Line,
+                                          Symptom = jr.Symptom,
+                                          SymptomName_Th = jr.SymptomName_Th,
+                                          Detail = jr.Detail,
+                                          RequireDate = jr.RequireDate,
+                                          CreateDate = jr.CreateDate,
+                                          Status = jr.Status,
+                                          DecisionType = jr.DecisionType,
+                                          SectionType = jr.SectionType,
+                                          Score = jr.Score,
+                                          SectionCode = jr.SectionCode,
+                                          Suggestion = jr.Suggestion,
+                                          Requestor = jr.Requestor,
+                                          RequestorName = jr.RequestorName,
+                                          Responsible = jr.Responsible,
+                                          ResponsibleName = jr.ResponsibleName,
+                                          AssignTo = jr.AssignTo,
+                                          AssignToName = jr.AssignToName,
+                                          ApproveBy = jr.ApproveBy,
+                                          ApproveDate = jr.ApproveDate,
+                                          ApproveByName = jr.ApproveByName,
+                                          Reason = (j == null) ? "" : j.Reason
+                                      }).ToList();
+            return query;
+        }
+
+        public static List<JobRequest> ListEmailApprover(int id)
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = QueryApprover.ListApprover().Join(QueryRequest.ListJobRequestJoinSymptom().Where(w => w.Id == id).ToList(),
+                ap => ap.SectionCode,
+                jr => jr.SectionCode,
+                (ap, jr) => new JobRequest
+                {
+                    Email = ap.Email
+                }).ToList();
+
+            return query;
+        }
+
+        public static List<MisFlowJoinEmployee> ListEmailManager()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<MisFlowJoinEmployee> query = QueryMisFlow.ListMisFlow().Where(w => w.JobType == "Manager").ToList();
+
+            return query;
+        }
+
+        public static string StrEmailPlanner(string emp_no)
+        {
+            List<MisFlowJoinEmployee> query = QueryMisFlow.ListMisFlow().Where(w => w.EmployeeNo == emp_no && w.JobType == "Staff").ToList();
+            List<MisFlowJoinEmployee> queryPlanner = QueryMisFlow.ListMisFlow().Where(w => w.Division == ((query[0].Division == "ISD") ? "IS" : (query[0].Division == "ISS") ? "IS" : "IT") && w.JobType == "Planner").ToList();
+
+            var email = "";
+            for (int i = 0; i < queryPlanner.Count(); i++)
+            {
+                email += ";" + queryPlanner[i].Email;
+            }
+            email = Regex.Replace(email, @"\s", "");
+            email = email.Substring(1, email.Length - 1);
+
+            return email;
+        }
+
+        public static string StrEmailPlannerAndStaff(string emp_no)
+        {
+            List<MisFlowJoinEmployee> query = QueryMisFlow.ListMisFlow().Where(w => w.EmployeeNo == emp_no && w.JobType == "Staff").ToList();
+            List<MisFlowJoinEmployee> queryPlanner = QueryMisFlow.ListMisFlow().Where((w => w.Division == ((query[0].Division == "ISD") ? "IS" : (query[0].Division == "ISS") ? "IS" : "IT") && (w.JobType == "Planner") || (w.EmployeeNo == emp_no && w.JobType == "Staff"))).ToList();
+
+            var email = "";
+            for (int i = 0; i < queryPlanner.Count(); i++)
+            {
+                email += ";" + queryPlanner[i].Email;
+            }
+            email = Regex.Replace(email, @"\s", "");
+            email = email.Substring(1, email.Length - 1);
+
+            return email;
+        }
+
+        public static string StrEmailApprover(int id)
+        {
+            var email = "";
+            List<JobRequest> queryEmailApprover = ListEmailApprover(id);
+            for (int i = 0; i < queryEmailApprover.Count(); i++)
+            {
+                email += ";" + queryEmailApprover[i].Email;
+            }
+            email = Regex.Replace(email, @"\s", "");
+            email = email.Substring(1, email.Length - 1);
+
+            return email;
+        }
+
+        public static string StrEmailManager()
+        {
+            var email = "";
+            List<MisFlowJoinEmployee> queryEmailManager = ListEmailManager();
+            for (int i = 0; i < queryEmailManager.Count(); i++)
+            {
+                email += ";" + queryEmailManager[i].Email;
+            }
+            email = Regex.Replace(email, @"\s", "");
+            email = email.Substring(1, email.Length - 1);
+
+            return email;
+        }
+
+        public static List<JobGradeScore> ListJobGradeScore()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobGradeScore> queryJobGradeScore = ListJobWorkRequest().Where(w => w.Status >= 2).ToList().Join(QueryPersonnel.ListEmployeeMeyer().ToList(),
+                jwr => jwr.Requestor,
+                emp => emp.EMPLOYEE_NO,
+                (jwr, emp) => new JobGradeScore
+                {
+                    Id = jwr.Id,
+                    GradeCode = emp.GRADE_CODE,
+                    Requestor = jwr.Requestor
+                }).Join(_dbITC.Grade.ToList(),
+                jwr => jwr.GradeCode,
+                gr => gr.GradeCode,
+                (jwr, gr) => new JobGradeScore
+                {
+                    Id = jwr.Id,
+                    Requestor = jwr.Requestor,
+                    Score = gr.Score
+                }).ToList();
+
+            return queryJobGradeScore;
+        }
+
+        public static List<JobSymptomScore> ListJobSymptomScore()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobSymptomScore> query = _dbITC.JobReqBody.Where(w => w.Status >= 2).ToList().Join(_dbITC.Symptom.ToList(),
+                jrb => jrb.Symptom,
+                sm => sm.SymptomName,
+                (jrb, sm) => new JobSymptomScore
+                {
+                    Id = jrb.Id,
+                    Symptom = jrb.Symptom,
+                    Score = sm.Score
+                }).ToList();
+
+            return query;
+        }
+
+        public static List<PriorityScore> ListPriorityScore()
+        {
+            List<PriorityScore> query = ListJobGradeScore().ToList().Join(ListJobSymptomScore().ToList(),
+            gs => gs.Id,
+            js => js.Id,
+            (gs, js) => new PriorityScore
+            {
+                Id = gs.Id,
+                Priority = (gs.Score + js.Score >= 14) ? "HIGH" : ((gs.Score + js.Score < 14) && (gs.Score + js.Score > 8)) ? "MID" : "LOW",
+                Score = gs.Score + js.Score
+            }).ToList();
+            return query;
+        }
+
+        public static List<JobRequest> ListAssignResponsible()
+        {
+            ITCContext _dbITC = new ITCContext();
+            //List<JobRequest> query = ListJobRequestJoinSymptom().Join(ListPriorityScore().ToList(),
+            //    jwr => jwr.Id,
+            //    ps => ps.Id,
+            //    (jwr, ps) => new JobRequest
+            //    {
+            //        Id = jwr.Id,
+            //        WorkRequest = jwr.WorkRequest,
+            //        Equipment = jwr.Equipment,
+            //        Description = jwr.Description,
+            //        Line = (jwr.Line.Length == 1) ? "0" + jwr.Line : jwr.Line,
+            //        Symptom = jwr.Symptom,
+            //        SymptomName_Th = jwr.SymptomName_Th,
+            //        RequireDate = jwr.RequireDate,
+            //        CreateDate = jwr.CreateDate,
+            //        Priority = ps.Priority,
+            //        Status = jwr.Status,
+            //        Detail = jwr.Detail,
+            //        DecisionType = jwr.DecisionType,
+            //        SectionType = jwr.SectionType,
+            //        Suggestion = jwr.Suggestion,
+            //        Requestor = jwr.Requestor,
+            //        RequestorName = jwr.RequestorName,
+            //        Responsible = jwr.Responsible,
+            //        ResponsibleName = jwr.ResponsibleName,
+            //        AssignTo = jwr.AssignTo,
+            //        AssignToName = jwr.AssignToName
+            //    }).ToList();
+
+            List<JobRequest> query = (from jwr in ListJobRequestJoinSymptom().ToList()
+                                      join ps in ListPriorityScore().ToList()
+                                      on jwr.Id equals ps.Id into joined
+                                      from j in joined.DefaultIfEmpty()
+                                      select new JobRequest
+                                      {
+                                          Id = jwr.Id,
+                                          WorkRequest = jwr.WorkRequest,
+                                          Equipment = jwr.Equipment,
+                                          Description = jwr.Description,
+                                          Line = (jwr.Line.Length == 1) ? "0" + jwr.Line : jwr.Line,
+                                          Symptom = jwr.Symptom,
+                                          SymptomName_Th = jwr.SymptomName_Th,
+                                          RequireDate = jwr.RequireDate,
+                                          CreateDate = jwr.CreateDate,
+                                          Priority = (j == null) ? "N/A" : j.Priority,
+                                          Status = jwr.Status,
+                                          Detail = jwr.Detail,
+                                          DecisionType = jwr.DecisionType,
+                                          SectionType = jwr.SectionType,
+                                          Suggestion = jwr.Suggestion,
+                                          Requestor = jwr.Requestor,
+                                          RequestorName = jwr.RequestorName,
+                                          Responsible = jwr.Responsible,
+                                          ResponsibleName = jwr.ResponsibleName,
+                                          AssignTo = jwr.AssignTo,
+                                          AssignToName = jwr.AssignToName
+                                      }).ToList();
+
+            query = (from jwr in query.ToList()
+                     join wo in _dbITC.WorkOrders.ToList()
+                     on jwr.Id equals wo.JobReqBody_Id into joined
+                     from j in joined.DefaultIfEmpty()
+                     select new JobRequest
+                     {
+                         Id = jwr.Id,
+                         WorkRequest = jwr.WorkRequest,
+                         Equipment = jwr.Equipment,
+                         Description = jwr.Description,
+                         Line = jwr.Line,
+                         Symptom = jwr.Symptom,
+                         SymptomName_Th = jwr.SymptomName_Th,
+                         RequireDate = jwr.RequireDate,
+                         CreateDate = jwr.CreateDate,
+                         Priority = jwr.Priority,
+                         Status = jwr.Status,
+                         Detail = jwr.Detail,
+                         DecisionType = jwr.DecisionType,
+                         SectionType = jwr.SectionType,
+                         Suggestion = jwr.Suggestion,
+                         Requestor = jwr.Requestor,
+                         RequestorName = jwr.RequestorName,
+                         Responsible = jwr.Responsible,
+                         ResponsibleName = jwr.ResponsibleName,
+                         AssignTo = jwr.AssignTo,
+                         AssignToName = jwr.AssignToName,
+                         WorkOrder_Id = (j == null) ? 0 : j.Id,
+                         WoNo = (j == null) ? "" : j.WoNo,
+                         StatusWorkOrder = (j == null) ? false : j.Status,
+                         Rework = (j == null) ? "0" : (j.Rework.ToString().Length == 1) ? "0" + j.Rework.ToString() : j.Rework.ToString(),
+                         Progress = (j == null) ? 0 : j.Progress
+                     }).ToList();
+
+            return query;
+        }
+
+        public static List<JobRequest> ListJobPlanning()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = (from jwr in ListAssignResponsible().ToList()
+                                      join jp in _dbITC.JobPlanning.ToList()
+                                      on jwr.WorkOrder_Id equals jp.WorkOrder_Id into joined
+                                      from j in joined.DefaultIfEmpty()
+                                      select new JobRequest
+                                      {
+                                          Id = jwr.Id,
+                                          WorkRequest = jwr.WorkRequest,
+                                          Equipment = jwr.Equipment,
+                                          Description = jwr.Description,
+                                          Line = jwr.Line,
+                                          Symptom = jwr.Symptom,
+                                          SymptomName_Th = jwr.SymptomName_Th,
+                                          RequireDate = jwr.RequireDate,
+                                          CreateDate = jwr.CreateDate,
+                                          Priority = jwr.Priority,
+                                          Status = jwr.Status,
+                                          Detail = jwr.Detail,
+                                          DecisionType = jwr.DecisionType,
+                                          SectionType = jwr.SectionType,
+                                          Suggestion = (jwr.Suggestion == "") ? "N/A" : jwr.Suggestion,
+                                          Requestor = jwr.Requestor,
+                                          RequestorName = jwr.RequestorName,
+                                          Responsible = jwr.Responsible,
+                                          ResponsibleName = jwr.ResponsibleName,
+                                          AssignTo = jwr.AssignTo,
+                                          AssignToName = jwr.AssignToName,
+                                          WorkOrder_Id = jwr.WorkOrder_Id,
+                                          WoNo = jwr.WoNo,
+                                          StatusWorkOrder = jwr.StatusWorkOrder,
+                                          Rework = jwr.Rework,
+                                          Progress = jwr.Progress,
+                                          PlanStartDate = (j == null) ? "" : String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(j.PlanStartDate)),
+                                          PlanFinishDate = (j == null) ? "" : String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(j.PlanFinishDate)),
+                                          RootCause = (j == null) ? "" : j.RootCause,
+                                          Solution = (j == null) ? "" : j.Solution
+                                      }).ToList();
+
+            return query;
+        }
+
+        public static List<JobRequest> ListJobDaily()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = ListJobPlanning().ToList().Join(_dbITC.JobDaily.ToList(),
+                jp => jp.WorkOrder_Id,
+                jd => jd.WorkOrder_Id,
+                (jp, jd) => new JobRequest
+                {
+                    Id = jp.Id,
+                    WorkRequest = jp.WorkRequest,
+                    Equipment = jp.Equipment,
+                    Description = jp.Description,
+                    Line = jp.Line,
+                    Symptom = jp.Symptom,
+                    SymptomName_Th = jp.SymptomName_Th,
+                    RequireDate = jp.RequireDate,
+                    CreateDate = jp.CreateDate,
+                    Priority = jp.Priority,
+                    Status = jp.Status,
+                    Detail = jp.Detail,
+                    DecisionType = jp.DecisionType,
+                    SectionType = jp.SectionType,
+                    Suggestion = jp.Suggestion,
+                    Requestor = jp.Requestor,
+                    RequestorName = jp.RequestorName,
+                    Responsible = jp.Responsible,
+                    ResponsibleName = jp.ResponsibleName,
+                    AssignTo = jp.AssignTo,
+                    AssignToName = jp.AssignToName,
+                    WorkOrder_Id = jp.WorkOrder_Id,
+                    WoNo = jp.WoNo,
+                    StatusWorkOrder = jp.StatusWorkOrder,
+                    Rework = jp.Rework,
+                    Progress = jp.Progress,
+                    PlanStartDate = jp.PlanStartDate,
+                    PlanFinishDate = jp.PlanFinishDate,
+                    RootCause = jp.RootCause,
+                    Solution = jp.Solution,
+                    JobDaily_Id = jd.Id,
+                    TimeStart = Convert.ToDateTime(jd.TimeStart).ToString("hh:mm tt"),
+                    TimeStop = Convert.ToDateTime(jd.TimeStop).ToString("hh:mm tt"),
+                    DailyDate = String.Format("{0:dd-MMM-yyyy}", Convert.ToDateTime(jd.TimeStop))
+                }).ToList();
+
+            return query;
+        }
+
+        public static List<CalendarDaily> ListCalendarDaily(string emp_no)
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<CalendarDaily> query = new List<CalendarDaily>();
+
+            if (emp_no == "")
+            {
+                query = new List<CalendarDaily>();
+            }
+            else
+            {
+                query = ListJobPlanning().Where(w => w.AssignTo.EndsWith(emp_no)).ToList().Join(_dbITC.JobDaily.ToList(),
+                   jp => jp.WorkOrder_Id,
+                   jd => jd.WorkOrder_Id,
+                   (jp, jd) => new CalendarDaily
+                   {
+                       title = "\n" + jp.WoNo + "-" + jp.Rework + "\n" + "DURATION : " + jd.TimeStop.Subtract(jd.TimeStart).ToString().Substring(0, 5),
+                       start = jd.TimeStart.ToString("yyyy-MM-ddTHH:mm:ss"),
+                       end = jd.TimeStop.ToString("yyyy-MM-ddTHH:mm:ss"),
+                       backgroundColor = (jd.Status == 1) ? "#00b5ad" : (jd.Status == 2) ? "#6c757d" : "#28a745",
+                       borderColor = (jd.Status == 1) ? "#00b5ad" : (jd.Status == 2) ? "#6c757d" : "#28a745"
+                   }).ToList();
+            }
+
+
+            return query;
+        }
+
+        public static List<CalendarDaily> ListSchedulePlan(string emp_no)
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<CalendarDaily> ObjList = new List<CalendarDaily>();
+            if (emp_no == "")
+            {
+                ObjList = new List<CalendarDaily>();
+            }
+            else
+            {
+                string[] delimiters = new string[] { "," };
+                string[] arrEmployeeNo = emp_no.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                string[] arrColor = new string[] { "#cc99ff", "#33ccff", "#0066ff", "#009933", "#cccc00", "#ff9900", "#ff0000", "#cccc00", "#666633", "#009999", "#ff0066" };
+                for (int i = 0; i < arrEmployeeNo.Length; i++)
+                {
+                    CalendarDaily obj = new CalendarDaily();
+                    var item = arrEmployeeNo[i];
+                    List<CalendarDaily> query = ListJobPlanning().Where(w => w.AssignTo == item).ToList()
+                        .Select(s => new CalendarDaily
+                        {
+                            title = "\n" + s.WoNo + "-" + s.Rework + "\n" + "ASSIGN TO : " + s.AssignToName,
+                            start = Convert.ToDateTime(s.PlanStartDate).ToString("yyyy-MM-dd"),
+                            end = Convert.ToDateTime(s.PlanFinishDate).ToString("yyyy-MM-dd"),
+                            backgroundColor = arrColor[i],
+                            borderColor = arrColor[i],
+                        }).ToList();
+
+                    if (query.Count > 0)
+                    {
+                        obj.title = query[0].title;
+                        obj.start = query[0].start;
+                        obj.end = query[0].end;
+                        obj.backgroundColor = query[0].backgroundColor;
+                        obj.borderColor = query[0].borderColor;
+
+                        ObjList.Add(obj);
+                    }
+                }
+            }
+
+            return ObjList;
+        }
+
+        public static List<DailyReport> ListDailyReport()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<DailyReport> query = _dbITC.WorkOrders.ToList().Join(_dbITC.JobDaily.ToList(),
+                wo => wo.Id,
+                jd => jd.WorkOrder_Id,
+                (wo, jd) => new DailyReport
+                {
+                    WorkOrder_Id = wo.Id,
+                    WoNo = wo.WoNo,
+                    WorkDetail = jd.WorkDetail.Replace("\n", Environment.NewLine),
+                    DailyDate = String.Format("{0:dd-MMM-yyyy}", jd.DailyDate),
+                    Rework = (wo.Rework.ToString().Length == 1) ? "0" + wo.Rework.ToString() : wo.Rework.ToString(),
+                    StatusWorkOrderStr = (jd.Status == 1) ? "Doing" : (jd.Status == 2) ? "PM" : "Complete",
+                    TimeStart = Convert.ToDateTime(jd.TimeStart).ToString("hh:mm tt"),
+                    TimeStop = Convert.ToDateTime(jd.TimeStop).ToString("hh:mm tt")
+                }).ToList();
+
+            return query;
+        }
+    }
+}

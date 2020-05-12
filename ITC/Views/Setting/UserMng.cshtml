@@ -1,0 +1,44 @@
+﻿<div class="card m-2 p-1" style="background-color: #00b5ad;">
+    <h3 class="card-header font-weight-bold" style="background-color: #009991;"><i class="fas fa-users fa-lg"></i>&nbsp;Users</h3>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3 p-1">
+                <div id="divDataTable" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnDataTable" href="#">
+                            <i class="fas fa-table fa-4x"></i><br />
+                        </a>
+                        Data Table
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divCreateUser" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnCreateUser" href="#">
+                            <i class="fas fa-plus fa-4x"></i><br />
+                        </a>
+                        Create User
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#btnDataTable').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divDataTable').css('background-color', '#ccfffd');
+        $('#divCreateUser').css('background-color', '#ffffff');
+        $('.PartialSubSetting').empty().load('./UserDataTable');
+    });
+
+    $('#btnCreateUser').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divDataTable').css('background-color', '#ffffff');
+        $('#divCreateUser').css('background-color', '#ccfffd');
+        $('.PartialSubSetting').empty().load('./CreateUser');
+    });
+</script>

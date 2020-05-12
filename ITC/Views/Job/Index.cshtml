@@ -1,0 +1,1062 @@
+﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+
+<style>
+    :not(.input-group) > .bootstrap-select.form-control:not([class*=col-]) {
+        width: 100%;
+    }
+
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold" style="background-color:#ffffff;">
+                <center>WORK REQUEST</center>
+                <button id="btnCreateWR" type="button" class="btn btn-success btn-sm btn-block font-weight-bold mt-1"><i class="fas fa-plus"></i>&nbsp;CREATE</button>
+                <div class="mt-1">
+                    <select id="ddlWR" class="form-control form-control-sm font-weight-bold">
+                        <option class="font-weight-bold" value="0">SELECT</option>
+                        @foreach (var i in ViewBag.BindDDLWorkRequest)
+                        {
+                            <option class="font-weight-bold" value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold" style="background-color:#ffffff;">
+                <center>HW ON HAND</center>
+                <div class="row">
+                    <div class="col-sm-9" style="padding-right:1px;">
+                        <select id="ddlEquipHw" class="form-control form-control-sm selectpicker mt-1" data-live-search="true">
+                            <option class="font-weight-bold" value="0">SELECT</option>
+                            @foreach (var i in ViewBag.BindDDLHwOnHand)
+                            {
+                                <option class="font-weight-bold" value="@i.EQNUM">@i.EQNUM (@i.DESCRIPTION)</option>
+                            }
+                            <option class="font-weight-bold" value="OtherHW">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3" style="padding-left:1px;">
+                        <button id="btnEquipHw" type="button" class="btn btn-success btn-sm btn-block font-weight-bold mt-1" onclick="EquipHw()"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold" style="background-color:#ffffff;">
+                <center>SW ON HAND</center>
+                <div class="row">
+                    <div class="col-sm-9" style="padding-right:1px;">
+                        <select id="ddlEquipSw" class="form-control form-control-sm selectpicker mt-1" data-live-search="true">
+                            <option class="font-weight-bold" value="0">SELECT</option>
+                            @foreach (var i in ViewBag.BindDDLSwOnHand)
+                            {
+                                <option class="font-weight-bold" value="@i.Equipment">@i.Equipment (@i.SoftwareName)</option>
+                            }
+                            <option class="font-weight-bold" value="OtherSW">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3" style="padding-left:1px;">
+                        <button id="btnEquipSw" type="button" class="btn btn-success btn-sm btn-block font-weight-bold mt-1" onclick="EquipSw()"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold" style="background-color:#ffffff;">
+                <center>ANOTHER HW OR SW</center>
+                <div class="row">
+                    <div class="col-sm-9" style="padding-right:1px;">
+                        <select id="ddlEquipAnother" class="form-control form-control-sm selectpicker mt-1" data-live-search="true">
+                            <option class="font-weight-bold" value="0">SELECT</option>
+                            @foreach (var i in ViewBag.BindDDLAnother)
+                            {
+                                <option class="font-weight-bold" value="@i.Equipment">@i.Equipment (@i.Description) - @i.Owner</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-3" style="padding-left:1px;">
+                        <button id="btnEquipAnother" type="button" class="btn btn-success btn-sm btn-block font-weight-bold mt-1" onclick="EquipAnother()"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left"><i class="fas fa-chart-pie"></i>&nbsp;WORK STATUS @DateTime.Now.ToString("yyyy")</div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleChartdiv" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleChartdiv">
+                <div id="chartdivPie" style="width:100%;height:400px;"></div>
+            </div>
+        </div>
+        <div class="col-sm-9" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    WORK OPENING
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkOpening" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleWorkOpening">
+                <table id="dtJobRequest" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:13%;">EQUIPMENT</th>
+                            <th style="width:26%">DESCRIPTION</th>
+                            <th style="width:23%">SYMPTOM</th>
+                            <th style="width:19%">REQUIRE DATE</th>
+                            <th style="width:19%">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    WORK STATUS
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkStatus" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleWorkStatus">
+                <table id="dtJobStatus" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:16%;">WORK REQUEST</th>
+                            <th style="width:16%">WORK ORDER</th>
+                            <th style="width:11%">EQUIPMENT</th>
+                            <th style="width:23%">DESCRIPTION</th>
+                            <th style="width:16%">PLAN FINISH DATE</th>
+                            <th style="width:18%">STATUS</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-pencil-alt fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequest"></label> : <label id="lbEquipDesc"></label> (<label id="lbEquip"></label>)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row font-weight-bold">
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Symptom
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <select id="ddlSymptom" class="form-control form-control-sm font-weight-bold mt-1"></select>
+                        </div>
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Request Detail
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <textarea class="form-control" id="txtRequestDetail" rows="3"></textarea>
+                        </div>
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Require Date
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <div class="form-group">
+                                <div class="input-group date" id="dateRequireDate" data-target-input="nearest">
+                                    <input id="txtRequireDate" type="text" class="form-control form-control-sm datetimepicker-input" data-target="#dateRequireDate" />
+                                    <div class="input-group-append" data-target="#dateRequireDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-sm font-weight-bold" data-dismiss="modal" onclick="SetJob('./SetJobReqBody')">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalRequestDetail" tabindex="-1" role="dialog" aria-labelledby="ModalRequestDetailTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestInfo"></label> : <label id="lbEquipment"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Symptom :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbSymptom"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Require Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequireDate"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Request Detail :</h6>
+                                <p class="card-text" id="lbRequestDetail"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalJobStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestJS"></label> : <label id="lbEquipmentJS"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtIdJOH" hidden />
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Work Order :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbWorkOrderJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Equipment :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbEquipmentJS2"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Description :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbDescriptionJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Symptom :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbSymptomJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Require Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequireDateJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Plan Start Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPlanStartDateJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Plan Finish Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPlanFinishDateJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Requestor :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequestorJS"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Support By :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbSupportByJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Request Detail :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbRequestDetailJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution Suggestion :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbSuggestionJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Root Cause :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbRootCauseJS"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbSolutionJS"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalReasonJobReject" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestRJR"></label> : <label id="lbEquipmentRJR"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="reason-job-reject"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalReasonJobRework" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestRW"></label> : <label id="lbEquipmentRW"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="reason-job-rework"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script>
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+            icons: {
+                time: 'far fa-clock',
+                up: 'fas fa-sort-up',
+                down: 'fas fa-sort-down',
+                previous: 'fas fa-caret-left',
+                next: 'fas fa-caret-right'
+            }
+        });
+
+        $('#ddlEquipHw,#ddlEquipSw,#ddlEquipAnother').selectpicker();
+
+        $('#dateRequireDate').datetimepicker({
+            format: 'DD-MMM-YYYY LT'
+        });
+
+        $('#btnCreateWR').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $.ajax({
+                url: './CreateWorkRequest',
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    if (data.success == true) {
+                        swal({
+                            title: data.message,
+                            icon: "success",
+                            buttons: "DONE"
+                        });
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            icon: "warning",
+                            buttons: "DONE",
+                            dangerMode: true
+                        });
+                    }
+                    $('#ddlWR').empty();
+                    for (var i = 0; i < data.obj.length; i++) {
+                        $('#ddlWR').append('<option class="font-weight-bold" value="' + data.obj[i] + '">' + data.obj[i] + '</option>');
+                    }
+                    loadDataTable();
+                },
+                error: (err) => {
+                    window.location.href = '../Home/SignOut';
+                }
+            });
+        });
+
+        var dataTable;
+
+        $(document).ready(() => {
+            loadDataTable();
+            loadDataTableJobStatus();
+            ChartStatus();
+        });
+
+        $('#ddlWR').on('change', (e) => {
+            e.stopImmediatePropagation();
+            loadDataTable();
+        });
+
+        function loadDataTable() {
+            dataTable = $('#dtJobRequest').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 170,
+                ajax: {
+                    url: "./GetJobRequest?work_request=" + $('#ddlWR').val(),
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+                    {
+                        data: "Equipment",
+                        render: function (data) {
+                            return `<i class="far fa-file-alt"></i> ` + data;
+                        }
+                    },
+                    { data: "Description" },
+                    {
+                        data: "Symptom",
+                        render: function (data, type, row) {
+                            return `${data} (${row.SymptomName_Th})`;
+                        },
+                    },
+                    { data: "RequireDate" },
+                    {
+                        data: "Id",
+                        render: function (data, type, row) {
+                            if (row.Status == 0) {
+                                return `<button class="btn btn-danger btn-sm font-weight-bold" onclick=Delete("./DeleteJobRequest?id=${data}")><i class="fas fa-trash"></i></button>
+                                                                                                                <button class="btn btn-primary btn-sm font-weight-bold" onclick=Info("./GetJobReqDetail?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                <button class="btn btn-success btn-sm font-weight-bold" onclick=Send("./SendJobRequest?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                            } else {
+                                return `<button class="btn btn-primary btn-sm font-weight-bold" onclick=Info("./GetJobReqDetail?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                    <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
+                            }
+                        }
+                    }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function loadDataTableJobStatus() {
+            $('#dtJobStatus').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 170,
+                ajax: {
+                    url: "./GetJobStatus",
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+                    {
+                        data: "WorkRequest",
+                        render: function (data, type, row) {
+                            return `<i class="far fa-file-alt"></i> ${data}-${row.Line}`;
+                        }
+                    },
+                    {
+                        data: "WoNo",
+                        render: function (data, type, row) {
+                            if (data == '') {
+                                return 'N/A'
+                            } else {
+                                return `${data}-${row.Rework}`;
+                            }
+                        }
+                    },
+                    { data: "Equipment" },
+                    { data: "Description" },
+                    {
+                        data: "PlanFinishDate",
+                        render: function (data, type, row) {
+                            if (data == '') {
+                                return 'N/A'
+                            } else {
+                                return `${data}`;
+                            }
+                        }
+                    },
+                    {
+                        data: "Id",
+                        render: function (data, type, row) {
+                            if (row.Status == 0 || row.Status == 1 || row.Status == 2 || row.Status == 3) {
+                                return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-warning btn-sm font-weight-bold">PROCEED</button>`;
+                            }
+                            else if (row.Status == 7) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-success btn-sm font-weight-bold" onclick="AcceptJob('./SetAcceptJob?id=${data}')">ACCEPT</button>
+                                                                                                                        <button class="btn btn-danger btn-sm font-weight-bold" onclick="NotAcceptJob('./SetNotAcceptJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')">NOT ACCEPT</button>`;
+                                } else {
+                                    return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                }
+                            } else if (row.Status == 9) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-success btn-sm font-weight-bold"><i class="fas fa-check"></i> COMPLETED</button>`;
+                                } else {
+                                    return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                }
+                            }
+                            else if (row.Status == 10) {
+                                return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-danger btn-sm font-weight-bold" onclick="Reason('./GetReasonJobReject?id=${data}')">REJECTED</button>`;
+                            }
+                            else if (row.Status == 11) {
+                                return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-danger btn-sm font-weight-bold" onclick="ReasonMIS('./GetReasonJobReject?id=${data}')">REJECTED</button>`;
+                            }
+                            else if (row.Status == 12 || row.Status == 13) {
+                                return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                            }
+                            else {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-warning btn-sm font-weight-bold">PROCEED</button>`;
+                                } else {
+                                    return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                        <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                }
+                            }
+                        }
+                    }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function EquipHw() {
+            $('#ddlSymptom').val('0');
+            $('#txtRequestDetail').val('');
+            $('#txtRequireDate').val('');
+
+            if ($('#ddlWR').val() != '0' && $("#ddlEquipHw").val() != '0') {
+                $('#lbEquip').text($("#ddlEquipHw").val());
+                $('#lbWorkRequest').text($("#ddlWR").val());
+                $.ajax({
+                    url: './GetEquipment',
+                    data: JSON.stringify({
+                        Equipment: $('#ddlEquipHw').val()
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: (data) => {
+                        $('#ddlSymptom').empty();
+                        for (var i = 0; i < data.obj.length; i++) {
+                            $('#ddlSymptom').append(`<option class="font-weight-bold" value="${data.obj[i].SymptomName}">${data.obj[i].SymptomName} (${data.obj[i].SymptomName_Th})</option>`);
+                        }
+                        $('#lbEquipDesc').text(data.val);
+                        $('#exampleModalCenter').modal('toggle');
+                    }
+                });
+            } else {
+                swal({
+                    title: "Warning",
+                    text: "Please select some equipment",
+                    icon: "warning",
+                    buttons: "DONE",
+                    dangerMode: true
+                });
+            }
+        }
+
+        function EquipSw() {
+            $('#ddlSymptom').val('0');
+            $('#txtRequestDetail').val('');
+            $('#txtRequireDate').val('');
+
+            if ($('#ddlWR').val() != '0' && $("#ddlEquipSw").val() != '0') {
+                $('#lbEquip').text($("#ddlEquipSw").val());
+                $('#lbWorkRequest').text($("#ddlWR").val());
+                $.ajax({
+                    url: './GetEquipment',
+                    data: JSON.stringify({
+                        Equipment: $('#ddlEquipSw').val()
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: (data) => {
+                        $('#ddlSymptom').empty();
+                        for (var i = 0; i < data.obj.length; i++) {
+                            $('#ddlSymptom').append(`<option class="font-weight-bold" value="${data.obj[i].SymptomName}">${data.obj[i].SymptomName} (${data.obj[i].SymptomName_Th})</option>`);
+                        }
+                        $('#lbEquipDesc').text(data.val);
+                        $('#exampleModalCenter').modal('toggle');
+                    }
+                });
+            } else {
+                swal({
+                    title: "Warning",
+                    text: "Please select some equipment",
+                    icon: "warning",
+                    buttons: "DONE",
+                    dangerMode: true
+                });
+            }
+        }
+
+        function EquipAnother() {
+            $('#ddlSymptom').val('0');
+            $('#txtRequestDetail').val('');
+            $('#txtRequireDate').val('');
+
+            if ($('#ddlWR').val() != '0' && $("#ddlEquipAnother").val() != '0') {
+                $('#lbEquip').text($("#ddlEquipAnother").val());
+                $('#lbWorkRequest').text($("#ddlWR").val());
+                $.ajax({
+                    url: './GetEquipment',
+                    data: JSON.stringify({
+                        Equipment: $('#ddlEquipAnother').val()
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: (data) => {
+                        $('#ddlSymptom').empty();
+                        for (var i = 0; i < data.obj.length; i++) {
+                            $('#ddlSymptom').append(`<option class="font-weight-bold" value="${data.obj[i].SymptomName}">${data.obj[i].SymptomName} (${data.obj[i].SymptomName_Th})</option>`);
+                        }
+                        $('#lbEquipDesc').text(data.val);
+                        $('#exampleModalCenter').modal('toggle');
+                    }
+                });
+            } else {
+                swal({
+                    title: "Warning",
+                    text: "Please select some equipment",
+                    icon: "warning",
+                    buttons: "DONE",
+                    dangerMode: true
+                });
+            }
+        }
+
+        function SetJob() {
+            $.ajax({
+                url: './SetJobReqBody',
+                data: JSON.stringify({
+                    Equipment: $('#lbEquip').text(),
+                    Description: $('#lbEquipDesc').text(),
+                    Symptom: $('#ddlSymptom').val(),
+                    Detail: $('#txtRequestDetail').val().replace(/\n/g, '\n'),
+                    RequireDate: $('#txtRequireDate').val(),
+                    WorkRequest: $('#lbWorkRequest').text()
+                }),
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    if (data.success === true) {
+                        swal({
+                            title: data.message,
+                            icon: "success",
+                            buttons: "DONE"
+                        }).then((willDone) => {
+                            loadDataTable();
+                            loadDataTableJobStatus();
+                        });
+
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            icon: "warning",
+                            buttons: "DONE",
+                            dangerMode: true
+                        });
+                    }
+                }
+            });
+        }
+
+        function Delete(url) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted,you will not be able to recover",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: url,
+                        success: (data) => {
+                            if (data.success) {
+                                toastr.success(data.message);
+                                dataTable.ajax.reload();
+                            } else {
+                                toastr.error(data.message);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function Info(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('#lbEquipment').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestInfo').text(data[0].WorkRequest + '-' + data[0].Line);
+                    $('#lbRequireDate').text(data[0].RequireDate);
+                    $('#lbSymptom').text(data[0].Symptom + ' (' + data[0].SymptomName_Th + ')');
+                    var htmlDetail = $('#lbRequestDetail').text(data[0].Detail);
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    $('#ModalRequestDetail').modal('toggle');
+                }
+            });
+        }
+
+        function Send(url) {
+            swal({
+                title: "Are you sure?",
+                text: "Submit a job request for approval",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willSend) => {
+                if (willSend) {
+                    $.ajax({
+                        url: url,
+                        type: 'PUT',
+                        dataType: 'JSON',
+                        success: (data) => {
+                            if (data.success === true) {
+                                swal({
+                                    title: data.message,
+                                    icon: "success",
+                                    buttons: "DONE"
+                                }).then((willDone) => {
+                                    loadDataTable();
+                                    loadDataTableJobStatus();
+                                });
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    icon: "warning",
+                                    buttons: "DONE",
+                                    dangerMode: true
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function InfoJobStatus(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    var htmlDetail = $('#lbRequestDetailJS').text(data[0].Detail);
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    var htmlSuggestion = $('#lbSuggestionJS').text((data[0].Suggestion == '') ? 'N/A' : data[0].Suggestion);
+                    htmlSuggestion.html(htmlSuggestion.html().replace(/\n/g, '<br/>'));
+                    var htmlRootCause = $('#lbRootCauseJS').text((data[0].RootCause == '') ? 'N/A' : data[0].RootCause);
+                    htmlRootCause.html(htmlRootCause.html().replace(/\n/g, '<br/>'));
+                    var htmlSolution = $('#lbSolutionJS').text((data[0].Solution == '') ? 'N/A' : data[0].Solution);
+                    htmlSolution.html(htmlSolution.html().replace(/\n/g, '<br/>'));
+
+                    var WoNo = (data[0].WoNo == '') ? 'N/A' : data[0].WoNo + '-' + data[0].Rework;
+                    var PlanStartDate = (data[0].PlanStartDate == '') ? 'N/A' : data[0].PlanStartDate;
+                    var PlanFinishDate = (data[0].PlanFinishDate == '') ? 'N/A' : data[0].PlanFinishDate;
+
+                    $('#txtIdJS').val(data[0].Id);
+                    $('#lbEquipmentJS').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestJS').text(data[0].WorkRequest + '-' + data[0].Line);
+                    $('#lbWorkOrderJS').text(WoNo);
+                    $('#lbEquipmentJS2').text(data[0].Equipment);
+                    $('#lbDescriptionJS').text(data[0].Description);
+                    $('#lbSymptomJS').text(data[0].Symptom + ' (' + data[0].SymptomName_Th + ')');
+                    $('#lbPlanStartDateJS').text(PlanStartDate);
+                    $('#lbPlanFinishDateJS').text(PlanFinishDate);
+                    $('#lbRequireDateJS').text(data[0].RequireDate);
+                    $('#lbRequestorJS').text(data[0].RequestorName);
+                    $('#lbSupportByJS').text(data[0].AssignToName);
+                    $('#ModalJobStatus').modal('toggle');
+                }
+            });
+        }
+
+        function AcceptJob(url) {
+            swal({
+                title: "Are you sure?",
+                text: "Accept this job",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willSend) => {
+                if (willSend) {
+                    $.ajax({
+                        url: url,
+                        type: 'PUT',
+                        dataType: 'JSON',
+                        success: (data) => {
+                            if (data.success === true) {
+                                swal({
+                                    title: data.message,
+                                    icon: "success",
+                                    buttons: "DONE"
+                                }).then((willDone) => {
+                                    loadDataTableJobStatus();
+                                    ChartStatus();
+                                });
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    icon: "warning",
+                                    buttons: "DONE",
+                                    dangerMode: true
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function NotAcceptJob(url) {
+            var id = getUrlVars(url)["id"];
+            var WorkOrder_Id = getUrlVars(url)["WorkOrder_Id"];
+            swal({
+                title: "Are you sure?",
+                text: "Unaccept this job",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willSend) => {
+                if (willSend) {
+                    swal({
+                        title: "Reasons Requestor Reject",
+                        text: "Write something here",
+                        content: "input",
+                        closeOnClickOutside: false,
+                        allowOutsideClick: false,
+                        button: {
+                            text: "SAVE",
+                            closeModal: false,
+                        }
+                    }).then(reason => {
+                        $.ajax({
+                            url: './SetNotAcceptJob',
+                            data: {
+                                Id: id,
+                                WorkOrder_Id: WorkOrder_Id,
+                                Reason: reason
+                            },
+                            type: 'POST',
+                            dataType: 'JSON',
+                            success: (data) => {
+                                if (data.success === true) {
+                                    swal({
+                                        title: data.message,
+                                        icon: "success",
+                                        buttons: "DONE"
+                                    }).then((willDone) => {
+                                        loadDataTableJobStatus();
+                                    });
+                                } else {
+                                    swal({
+                                        title: "Warning",
+                                        text: data.message,
+                                        icon: "warning",
+                                        buttons: "DONE",
+                                        dangerMode: true
+                                    });
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        function Reason(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.reason-job-reject').empty();
+                    for (i in data) {
+                        var item = data[i];
+                        $('.reason-job-reject').append(
+                            `<div class="d-flex w-100 justify-content-between">
+                                                                                                                        <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                    </div>
+                                                                                                                    <small>Reject by user manager</small>`
+                        );
+                    }
+                    $('#lbEquipmentRJR').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestRJR').text(data[0].WorkRequest + '-' + data[0].Line);
+
+                    $('#ModalReasonJobReject').modal('toggle');
+                }
+            });
+        }
+
+        function ReasonRework(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.reason-job-rework').empty();
+                    for (i in data) {
+                        var item = data[i];
+                        $('.reason-job-rework').append(
+                            `<div class="d-flex w-100 justify-content-between">
+                                                                                                                        <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                    </div>
+                                                                                                                    <small>Rework by MIS</small>`
+                        );
+                    }
+                    $('#lbEquipmentRW').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestRW').text(data[0].WorkRequest + '-' + data[0].Line);
+
+                    $('#ModalReasonJobRework').modal('toggle');
+                }
+            });
+        }
+
+        function ReasonMIS(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.reason-job-reject').empty();
+                    for (i in data) {
+                        var item = data[i];
+                        $('.reason-job-reject').append(
+                            `<div class="d-flex w-100 justify-content-between">
+                                                                                                                        <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                    </div>
+                                                                                                                    <small>Reject by MIS</small>`
+                        );
+                    }
+                    $('#lbEquipmentRJR').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestRJR').text(data[0].WorkRequest + '-' + data[0].Line);
+
+                    $('#ModalReasonJobReject').modal('toggle');
+                }
+            });
+        }
+
+        function ChartStatus() {
+            $.ajax({
+                url: './ChartStatus',
+                type: 'POST',
+                dataType: 'json',
+                success: (data) => {
+                    var taskData = '';
+                    var taskColor = '';
+                    for (i in data.obj) {
+                        var item = data.obj[i];
+                        taskData += '{"category" : "' + item.Status + '",' +
+                            '"value" : "' + item.CountStatus + '"},';
+                        taskColor += '"' + item.Color + '",';
+                    };
+
+                    taskData = taskData.substr(0, taskData.lastIndexOf(","));
+                    taskColor = taskColor.substr(0, taskColor.lastIndexOf(","));
+
+                    var taskDataArr = JSON.parse('[' + taskData + ']');
+                    var taskColorArr = JSON.parse('[' + taskColor + ']');
+
+                    am4core.ready(function () {
+                        am4core.useTheme(am4themes_animated);
+                        var colorSet = new am4core.ColorSet();
+                        colorSet.list = taskColorArr.map(function (color) {
+                            return new am4core.color(color);
+                        });
+
+                        var chart = am4core.create("chartdivPie", am4charts.PieChart);
+                        chart.hiddenState.properties.opacity = 0;
+                        chart.legend = new am4charts.Legend();
+                        chart.data = taskDataArr;
+                        chart.innerRadius = am4core.percent(30);
+                        chart.responsive.enabled = true;
+
+                        var series = chart.series.push(new am4charts.PieSeries());
+                        series.dataFields.value = "value";
+                        series.dataFields.category = "category";
+                        series.colors = colorSet;
+                        series.ticks.template.disabled = true;
+                        series.alignLabels = false;
+                        series.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+                        series.labels.template.radius = am4core.percent(-40);
+                        series.labels.template.fill = am4core.color("white");
+                        series.slices.template.stroke = am4core.color("#fff");
+                        series.slices.template.strokeWidth = 2;
+                        series.slices.template.strokeOpacity = 1;
+                        series.slices.template
+                            .cursorOverStyle = [
+                                {
+                                    "property": "cursor",
+                                    "value": "pointer"
+                                }
+                            ];
+                        series.labels.template.bent = true;
+                        series.labels.template.padding(0, 0, 0, 0);
+
+                        var shadow = series.slices.template.filters.push(new am4core.DropShadowFilter);
+                        shadow.opacity = 0;
+                        var hoverState = series.slices.template.states.getKey("hover");
+                        var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
+                        hoverShadow.opacity = 0.7;
+                        hoverShadow.blur = 5;
+                    });
+
+                    ////////////////////////////////////////////////
+                }
+            });
+        }
+
+        function getUrlVars(url) {
+            var vars = [], hash;
+            var hashes = url.slice(url.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+    </script>
+}

@@ -1,0 +1,220 @@
+﻿<style>
+    #dtMis_filter > label {
+        font-weight: bold;
+    }
+
+    #dtMis_info {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="fab fa-microsoft fa-lg"></i>&nbsp;MIS</h3>
+            <div class="card-body">
+                <button id="btnCreateMis" type="button" class="btn btn-success font-weight-bold"><i class="fas fa-plus fa-lg"></i>&nbsp;Create MIS Roles</button>
+                <br /><br />
+                <table id="dtMis" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:17%;">EMPLOYEE NO</th>
+                            <th style="width:29%;">EMPLOYEE NAME</th>
+                            <th style="width:17%;">SECTION</th>
+                            <th style="width:20%;">JOB TYPE</th>
+                            <th style="width:18%;">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-pencil-alt fa-lg"></i>&nbsp;&nbsp;<label id="lbEmployee"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtId" hidden />
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row font-weight-bold">
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Employee No
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <select id="ddlEmployeeNo" class="form-control font-weight-bold">
+                                <option class="font-weight-bold" value="0">Select</option>
+                                @foreach (var i in ViewBag.BindDDlEmployeeNo)
+                                {
+                                    <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME (@i.EmployeeNo)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Division
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <select id="ddlDivision" class="form-control font-weight-bold">
+                                <option class="font-weight-bold" value="0">Select</option>
+                                <option class="font-weight-bold" value="IS">IS</option>
+                                <option class="font-weight-bold" value="ISD">ISD</option>
+                                <option class="font-weight-bold" value="ISS">ISS</option>
+                                <option class="font-weight-bold" value="IT">IT</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Job Type
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <select id="ddlJobType" class="form-control font-weight-bold">
+                                <option class="font-weight-bold" value="0">Select</option>
+                                <option class="font-weight-bold" value="Staff">Staff</option>
+                                <option class="font-weight-bold" value="Planner">Planner</option>
+                                <option class="font-weight-bold" value="Manager">Manager</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-sm font-weight-bold" data-dismiss="modal" onclick="Save('./UpdateMis')">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btnCreateMis').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('.PartialSubSetting').empty().load('./CreateMis');
+    });
+
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+    });
+
+    function loadDataTable() {
+        dataTable = $('#dtMis').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetMis/",
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                { data: "EmployeeNo" },
+                { data: "EMPLOYEE_NAME" },
+                { data: "Division" },
+                { data: "JobType" },
+                {
+                    data: "Id",
+                    render: function (data) {
+                        return `<button class="btn btn-info btn-sm font-weight-bold" data-toggle="modal" data-target="#exampleModalCenter" onclick=Modify("./ModifyMis?id=${data}") >
+                            Modify
+                        </button>
+                        &nbsp;
+                        <button class="btn btn-danger btn-sm font-weight-bold"
+                            onclick=Delete("./DeleteMis?id=${data}") >
+                                Delete
+                        </button>`;
+                    }
+                }
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    function Delete(url) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            dataTable.ajax.reload();
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function Modify(url) {
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: (data) => {
+                $('#lbEmployee').text(data[0].EMPLOYEE_NAME + ' (' + data[0].EmployeeNo + ')');
+                $('#txtId').val(data[0].Id);
+                $('#ddlEmployeeNo').val(data[0].EmployeeNo);
+                $('#ddlDivision').val(data[0].Division);
+                $('#ddlJobType').val(data[0].JobType);
+            }
+        });
+    }
+
+    function Save(url) {
+        $.ajax({
+            url: url,
+            data: JSON.stringify({
+                Id: $('#txtId').val(),
+                EmployeeNo: $('#ddlEmployeeNo').val(),
+                Division: $('#ddlDivision').val(),
+                JobType: $('#ddlJobType').val()
+            }),
+            contentType: 'application/json; charset=utf-8',
+            type: 'PUT',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success === true) {
+                    swal({
+                        title: data.message,
+                        icon: "success",
+                        buttons: "DONE"
+                    }).then((willUpdate) => {
+                        if (willUpdate) {
+                            dataTable.ajax.reload();
+                        }
+                    });
+                } else {
+                    swal({
+                        title: "Warning",
+                        text: data.message,
+                        icon: "warning",
+                        buttons: "DONE",
+                        dangerMode: true
+                    });
+                }
+            }
+        });
+    }
+</script>

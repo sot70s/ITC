@@ -1,0 +1,63 @@
+﻿<div class="card m-2 p-1" style="background-color: #00b5ad;">
+    <h3 class="card-header font-weight-bold" style="background-color: #009991;"><i class="fas fa-sitemap fa-lg"></i>&nbsp;Team Foundation</h3>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3 p-1">
+                <div id="divApprover" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnApprover" href="#">
+                            <i class="fas fa-users fa-4x"></i><br />
+                        </a>
+                        Approver
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divCoordinator" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnCoordinator" href="#">
+                            <i class="fas fa-user-friends fa-4x"></i><br />
+                        </a>
+                        Coordinator
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divMis" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnMis" href="#">
+                            <i class="fab fa-microsoft fa-4x"></i><br />
+                        </a>
+                        MIS
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btnApprover').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divApprover').css('background-color', '#ccfffd');
+        $('#divMis').css('background-color', '#ffffff');
+        $('#divCoordinator').css('background-color', '#ffffff');
+        $('.PartialSubSetting').empty().load('./Approver');
+    });
+
+    $('#btnCoordinator').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divApprover').css('background-color', '#ffffff');
+        $('#divMis').css('background-color', '#ffffff');
+        $('#divCoordinator').css('background-color', '#ccfffd');
+        $('.PartialSubSetting').empty().load('./Coordinator');
+    });
+
+    $('#btnMis').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divApprover').css('background-color', '#ffffff');
+        $('#divMis').css('background-color', '#ccfffd');
+        $('#divCoordinator').css('background-color', '#ffffff');
+        $('.PartialSubSetting').empty().load('./Mis');
+    });
+</script>

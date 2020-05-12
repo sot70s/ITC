@@ -1,0 +1,30 @@
+﻿<div id='calendarSchedule'></div>
+<input id="txtEmployeeNoSchedule" value="@ViewBag.BindEmployeeNo" hidden />
+
+<script>
+    $(document).ready(() => {
+        CalendarSchedule($('#txtEmployeeNoSchedule').val());
+    });
+
+    function CalendarSchedule(emp_no) {
+        $.ajax({
+            url: './GetSchedulePlan?emp_no=' + emp_no,
+            type: 'GET',
+            dataType: 'JSON',
+            success: (data) => {
+                calendarSchedule = new FullCalendar.Calendar(document.getElementById('calendarSchedule'), {
+                    plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
+                    themeSystem: 'bootstrap',
+                    fixedWeekCount: false,
+                    height: 550,
+                    header: {
+                        left: 'prevYear,dayGridMonth,dayGridWeek,dayGridDay',
+                        center: 'title',
+                        right: 'prev,next,today,nextYear'
+                    },
+                    events: data
+                }).render();
+            }
+        });
+    }
+</script>

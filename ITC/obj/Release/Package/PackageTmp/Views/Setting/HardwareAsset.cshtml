@@ -1,0 +1,310 @@
+﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+<style>
+
+    .button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: .25rem;
+    }
+
+    .label {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #ffffff;
+        text-align: left;
+        background-color: #0094ff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        width: 170px;
+    }
+
+    #more {
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12" style="padding:10px;">
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="far fa-hdd"></i> Hardware</h2>
+            </div>
+            <div class="card-body">
+                <button id="btnCreateHardwareAsset" type="button" class="btn btn-info ">
+                    <i class="fas fa-plus-circle" style="margin-right: 5px;"></i>
+                    Hardware Asset
+                </button>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#ModalUpdate">
+                    <i class="fas fa-cloud-upload-alt" style="margin-right: 5px;"></i>
+                    Upload Hardware Asset
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="ModalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    <i class="fas fa-cloud-upload-alt" style="margin-right: 5px;"></i>
+                                    Upload Hardware Asset
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                                        <label class="custom-file-label" for="inputGroupFile04">Choose file excel</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+                                <button type="submit" class="btn btn-info">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <div class="row m-5">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Equipment</label>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Equipment Type</label>
+                                    </div>
+                                    <select id="" class="form-control selectpicker select2" witdh="100%" data-live-search="true">
+                                        <option>Choose</option>
+                                        <option value="1">a</option>
+                                        <option value="2">b</option>
+                                        <option value="3">c</option>
+                                        <option value="4">d</option>
+                                        <option value="5">e</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="row m-5">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Owner</label>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Responsible</label>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="dots"></span>
+                    <div id="more">
+                        <div class="row">
+                            <div class="col-md-6 ">
+                                <div class="row m-5">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="label" id="inputGroup-sizing-default">Serial Number</span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Model</label>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Status</label>
+                                        </div>
+                                        <select id="dd2" class="form-control selectpicker">
+                                            <option>Choose</option>
+                                            <option value="1">Select All</option>
+                                            <option value="2">Service</option>
+                                            <option value="3">Inservice</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Telephone Number</label>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Location</label>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Section</label>
+                                        </div>
+                                        <select id="dd3" class="form-control selectpicker ">
+                                            <option>Choose</option>
+                                            <option>Mustard</option>
+                                            <option>Ketchup</option>
+                                            <option>Relish</option>
+                                            <option>Plain</option>
+                                            <option>Steamed</option>
+                                            <option>Toasted</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Department</label>
+                                        </div>
+                                        <select id="dd4" class="form-control selectpicker">
+                                            <option>Choose</option>
+                                            <option>Mustard</option>
+                                            <option>Ketchup</option>
+                                            <option>Relish</option>
+                                            <option>Plain</option>
+                                            <option>Steamed</option>
+                                            <option>Toasted</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="row m-5">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Previous Owner</label>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Previous Location</label>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="">
+                                    </div>
+
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Equipment Aging</label>
+                                        </div>
+                                        <select id="tb5" class="form-control selectpicker">
+                                            <option>Choose</option>
+                                            <option value="1">Day</option>
+                                            <option value="2">Month</option>
+                                            <option value="3">Year</option>
+                                        </select>
+                                        <input type="text" placeholder="Amount" aria-label="" aria-describedby="">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Purchase Date</label>
+                                        </div>
+                                        <input id="startdatepickerp" width="270" />
+                                        <input id="stopdatepickerp" width="270" />
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Service Date</label>
+                                        </div>
+                                        <input id="startdatepickers" width="270" />
+                                        <input id="stopdatepickers" width="270" />
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Warranty Date</label>
+                                        </div>
+                                        <input id="startdatepickerw" width="270" />
+                                        <input id="stopdatepickerw" width="270" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a style="margin-left:2%" onclick="myFunction()" id="myBtn">Read more</a>
+            <center>
+                <button id="btnSearchHardwareAsset" type="button" class="btn btn-info" style="width: 100px; margin-bottom: 30px;">Search</button>
+            </center>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+<script>function myFunction() {
+        var dots = document.getElementById("dots");
+        var moreText = document.getElementById("more");
+        var btnText = document.getElementById("myBtn");
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            btnText.innerHTML = "Add more";
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            btnText.innerHTML = "Add less";
+            moreText.style.display = "inline";
+        }
+    }
+
+    //$('.select2').select2();
+    //วิธีเช็คค่าใน console
+    $('#submit').on('click', () => {
+        console.log($('#tu').val());
+    });
+
+    $('.select2').selectpicker();
+
+    //$('#startdatepickerp').datepicker({
+    //    uiLibrary: 'bootstrap4'
+    //});
+
+    //$('#stopdatepickerp').datepicker({
+    //    uiLibrary: 'bootstrap4'
+    //});
+
+    //$('#startdatepickers').datepicker({
+    //    uiLibrary: 'bootstrap4'
+    //});
+
+    //$('#stopdatepickers').datepicker({
+    //    uiLibrary: 'bootstrap4'
+    //});
+
+    //$('#startdatepickerw').datepicker({
+    //    uiLibrary: 'bootstrap4'
+    //});
+
+    //$('#stopdatepickerw').datepicker({
+    //    uiLibrary: 'bootstrap4'
+    //});
+
+    $('#btnCreateHardwareAsset').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('.PartialSubSetting').empty().load('./CreateHardwareAsset');
+    });</script>
+

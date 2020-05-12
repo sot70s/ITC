@@ -1,0 +1,1020 @@
+﻿<link href="~/lib/fullcalendar/core/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/daygrid/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/timegrid/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/bootstrap/main.css" rel="stylesheet" />
+
+<script src="~/lib/fullcalendar/core/main.js"></script>
+<script src="~/lib/fullcalendar/interaction/main.js"></script>
+<script src="~/lib/fullcalendar/daygrid/main.js"></script>
+<script src="~/lib/fullcalendar/timegrid/main.js"></script>
+<script src="~/lib/fullcalendar/moment/main.js"></script>
+<script src="~/lib/fullcalendar/bootstrap/main.js"></script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    WORK PLANNING
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkPlanning" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="ml-2 mr-2 mt-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleWorkPlanning">
+                <table id="dtJobPlanning" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:13%;">WORK REQUEST</th>
+                            <th style="width:13%;">WORK ORDER</th>
+                            <th style="width:12%;">EQUIPMENT</th>
+                            <th style="width:21%">DESCRIPTION</th>
+                            <th style="width:21%">SYMPTOM</th>
+                            <th style="width:9%">PRIORITY</th>
+                            <th style="width:11%">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    WORK ON HAND
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkOnHand" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleWorkOnHand">
+                <table id="dtJobOnHand" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">WORK ORDER</th>
+                            <th style="width:30%;">PLAN START DATE</th>
+                            <th style="width:30%;">PLAN FINISH DATE</th>
+                            <th style="width:15%">INFO</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    DAILY REPORT
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleDailyReport" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleDailyReport">
+                <div class="row">
+                    <div class="col-sm-2 p-3 font-weight-bold" style="text-align:right;">
+                        Work Order
+                    </div>
+                    <div class="col-sm-5 pt-3 pb-3" style="padding-right:1px;">
+                        <select id="ddlWorkOrderDR" class="form-control form-control-sm font-weight-bold">
+                            <option class="font-weight-bold" value="0">SELECT ALL</option>
+                            @foreach (var i in ViewBag.BindDDlWorkOrderDR)
+                            {
+                                <option class="font-weight-bold" value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-5 pt-3 pb-3" style="padding-left:1px;">
+                        <button id="btnSearch" type="button" class="btn btn-sm btn-primary font-weight-bold" onclick="Search()"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                </div>
+                <table id="dtDailyReport" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:28%;">WORK ORDER</th>
+                            <th style="width:19%;">PRIORITY</th>
+                            <th style="width:25%;">PROGRESS</th>
+                            <th style="width:28%;">INFO</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    DAILY PROGRESS
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleDailyProgress" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleDailyProgress">
+                <div class="PartialCalendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalJobPlanning" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-pencil-alt fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequest"></label> : <label id="lbEquipment"></label> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtId" hidden />
+                <input id="txtWorkOrderId" hidden />
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Require Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequireDate"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Requestor :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequestor"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Responsible :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbResponsible"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Request Detail :</h6>
+                                <p class="card-text" id="lbRequestDetail"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution Suggestion :</h6>
+                                <p class="card-text" id="lbSuggestion"></p>
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Plan Start Date :</h6>
+                                <div class="form-group">
+                                    <div class="input-group date" id="dateStartDate" data-target-input="nearest">
+                                        <input id="txtStartDate" type="text" class="form-control form-control-sm datetimepicker-input" data-target="#dateStartDate" />
+                                        <div class="input-group-append" data-target="#dateStartDate" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <h6 class="card-title font-weight-bold">Plan Finish Date :</h6>
+                                <div class="form-group">
+                                    <div class="input-group date" id="dateFinishDate" data-target-input="nearest">
+                                        <input id="txtFinishDate" type="text" class="form-control form-control-sm datetimepicker-input" data-target="#dateFinishDate" />
+                                        <div class="input-group-append" data-target="#dateFinishDate" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <h6 class="card-title font-weight-bold">Root Cause :</h6>
+                                <textarea class="form-control form-control" id="txtRootCause" rows="3"></textarea>
+                                <br />
+                                <h6 class="card-title font-weight-bold">Solution :</h6>
+                                <textarea class="form-control form-control" id="txtSolution" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-sm font-weight-bold" data-dismiss="modal" onclick="Planning('./SetJobPlanning')">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalJobOnHand" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestJOH"></label> : <label id="lbEquipmentJOH"></label> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtIdJOH" hidden />
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Work Order :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbWorkOrderJOH2"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Equipment :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbEquipmentJOH2"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Description :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbDescriptionJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Symptom :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbSymptomJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Priority :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPriorityJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Require Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequireDateJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Plan Start Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPlanStartDateJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Plan Finish Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPlanFinishDateJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Requestor :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequestorJOH"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Responsible :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbResponsibleJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Assign To :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbAssignToJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Request Detail :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbRequestDetailJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution Suggestion :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbSuggestionJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Root Cause :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbRootCauseJOH"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbSolutionJOH"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+@*<div class="modal fade" id="ModalUpdateDaily" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                    <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-pencil-alt fa-lg"></i>&nbsp;&nbsp;Update Daily : <label id="lbDailyDate"></label></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h6 class="card-title font-weight-bold">Work Order :</h6>
+                                    <select id="ddlWorkOrder" class="form-control form-control-sm font-weight-bold">
+                                        <option class="font-weight-bold" value="0">SELECT</option>
+                                        @foreach (var i in ViewBag.BindDDlWorkOrder)
+                                        {
+                                            <option class="font-weight-bold" value="@i.WorkOrder_Id">@i.WoNo-@i.Rework</option>
+                                        }
+                                    </select>
+                                    <br />
+                                    <h6 class="card-title font-weight-bold">Root Cause :</h6>
+                                    <textarea class="form-control form-control" id="txtRootCauseDL" rows="3"></textarea>
+                                    <br />
+                                    <h6 class="card-title font-weight-bold">Solution :</h6>
+                                    <textarea class="form-control form-control" id="txtSolutionDL" rows="3"></textarea>
+                                    <br />
+                                    <h6 class="card-title font-weight-bold">Time Start :</h6>
+                                    <div class="input-group date" id="dateTimeStart" data-target-input="nearest">
+                                        <input id="txtTimeStart" type="text" class="form-control form-control-sm datetimepicker-input font-weight-bold" data-target="#dateTimeStart" />
+                                        <div class="input-group-append" data-target="#dateTimeStart" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <h6 class="card-title font-weight-bold">Time Stop :</h6>
+                                    <div class="input-group date" id="dateTimeStop" data-target-input="nearest">
+                                        <input id="txtTimeStop" type="text" class="form-control form-control-sm datetimepicker-input font-weight-bold" data-target="#dateTimeStop" />
+                                        <div class="input-group-append" data-target="#dateTimeStop" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h6 class="card-title font-weight-bold">Work Detail :</h6>
+                                    <textarea class="form-control" id="txtWorkDetail" rows="3"></textarea>
+                                    <br />
+                                    <h6 class="card-title font-weight-bold">Status :</h6>
+                                    <select id="ddlStatus" class="form-control form-control-sm font-weight-bold">
+                                        <option class="font-weight-bold" value="0">SELECT</option>
+                                        <option class="font-weight-bold" value="1">DOING</option>
+                                        <option class="font-weight-bold" value="2">PM</option>
+                                        <option class="font-weight-bold" value="3">COMPLETE</option>
+                                    </select>
+                                    <br />
+                                    <h6 class="card-title font-weight-bold">Progress :</h6>
+                                    <div class="progress">
+                                        <div id="divProgress" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0"></div>
+                                    </div>
+                                    <br />
+                                    <button id="btnDecresase" type="button" class="btn btn-outline-danger btn-sm font-weight-bold"><i class="fas fa-minus"></i></button>
+                                    <button id="btnIncrease" type="button" class="btn btn-outline-success btn-sm font-weight-bold"><i class="fas fa-plus"></i></button>
+                                    <hr />
+                                    <h5 class="card-title font-weight-bold"><i class="fas fa-trash"></i> #Remove Daily Job</h5>
+                                    <br />
+
+                                    <h6 class="card-title font-weight-bold">Work Order / Period :</h6>
+                                    <div class="row">
+                                        <div class="col-md-9" style="padding-right:1px;">
+                                            <select id="ddlWorkOrderPeriod" class="form-control form-control-sm font-weight-bold">
+                                                <option class="font-weight-bold" value="0">SELECT</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3" style="padding-left:1px;">
+                                            <button type="button" class="btn btn-danger btn-sm font-weight-bold" data-dismiss="modal" onclick="Del('./DelJobDaily')">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm font-weight-bold" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success btn-sm font-weight-bold" data-dismiss="modal" onclick="Daily('./SetJobDaily')">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalDailyReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkOrderDR"></label>&nbsp;/&nbsp;Total Working Time : <label id="lbTotalWorkingTime"></label></h5></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row row-daily">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalReasonJobRework" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestRW"></label> : <label id="lbEquipmentRW"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="reason-job-rework"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var dataTable;
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+            icons: {
+                time: 'far fa-clock',
+                up: 'fas fa-sort-up',
+                down: 'fas fa-sort-down',
+                previous: 'fas fa-caret-left',
+                next: 'fas fa-caret-right'
+            }
+        });
+
+        $('#dateStartDate,#dateFinishDate').datetimepicker({
+            format: 'DD-MMM-YYYY LT'
+        });
+
+        //$('#dateTimeStart,#dateTimeStop').datetimepicker({
+        //    format: 'LT'
+        //});
+
+        $('#dateFromDate,#dateToDate').datetimepicker({
+            format: 'DD-MMM-YYYY'
+        });
+
+        $(document).ready(() => {
+            loadDataTable();
+            loadDataTableJobOnHand();
+            loadDataTableDailyReport();
+            $('.PartialCalendar').empty().load('./JobDaily');
+        });
+
+        function FormatDate(daily) {
+            var date = new Date(daily);
+            var month_names = ["Jan", "Feb", "Mar",
+                "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep",
+                "Oct", "Nov", "Dec"];
+
+            var day = date.getDate();
+            var month_index = date.getMonth();
+            var year = date.getFullYear();
+
+            return "" + day + "-" + month_names[month_index] + "-" + year;
+        }
+
+        function loadDataTable() {
+            dataTable = $('#dtJobPlanning').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 170,
+                ajax: {
+                    url: "./GetJobPlanning",
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+                    {
+                        data: "WorkRequest",
+                        render: function (data, type, row) {
+                            return `<i class="far fa-file-alt"></i> ${data}-${row.Line}`;
+                        }
+                    },
+                    {
+                        data: "WoNo",
+                        render: function (data, type, row) {
+                            return `${data}-${row.Rework}`;
+                        }
+                    },
+                    { data: "Equipment" },
+                    { data: "Description" },
+                    {
+                        data: "Symptom",
+                        render: function (data, type, row) {
+                            return `${data} (${row.SymptomName_Th})`;
+                        }
+                    },
+                    { data: "Priority" },
+                    {
+                        data: "Id",
+                        render: function (data, type, row) {
+                            if (row.RootCause == "") {
+                                return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Info("./GetJobPlanningInfo?id=${row.WorkOrder_Id}")><i class="fas fa-edit"></i></button>
+                                                                                                   <button class="btn btn-danger btn-sm font-weight-bold")><i class="fas fa-exclamation-triangle"></i></button>`;
+                            } else {
+                                return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Info("./GetJobPlanningInfo?id=${row.WorkOrder_Id}")><i class="fas fa-edit"></i></button>
+                                                                                                    <button class="btn btn-success btn-sm font-weight-bold" onclick=Send("./SendJobPlanning?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                            }
+
+                        }
+                    }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function Info(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('#txtId').val(data[0].Id);
+                    $('#txtWorkOrderId').val(data[0].WorkOrder_Id);
+                    $('#lbEquipment').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequest').text(data[0].WorkRequest + '-' + data[0].Line);
+                    var htmlDetail = $('#lbRequestDetail').text(data[0].Detail);
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    var htmlSuggestion = $('#lbSuggestion').text(data[0].Suggestion);
+                    htmlSuggestion.html(htmlSuggestion.html().replace(/\n/g, '<br/>'));
+                    $('#lbRequireDate').text(data[0].RequireDate);
+                    $('#lbRequestor').text(data[0].RequestorName);
+                    $('#lbResponsible').text(data[0].ResponsibleName);
+                    $('#txtStartDate').val(data[0].PlanStartDate)
+                    $('#txtFinishDate').val(data[0].PlanFinishDate)
+                    $('#txtRootCause').val(data[0].RootCause)
+                    $('#txtSolution').val(data[0].Solution)
+                    $('#ModalJobPlanning').modal('toggle');
+                }
+            });
+        }
+
+        function Planning(url) {
+            $.ajax({
+                url: url,
+                data: JSON.stringify({
+                    Id: $('#txtId').val(),
+                    WorkOrder_Id: $('#txtWorkOrderId').val(),
+                    PlanStartDate: $('#txtStartDate').val(),
+                    PlanFinishDate: $('#txtFinishDate').val(),
+                    RootCause: $('#txtRootCause').val(),
+                    Solution: $('#txtSolution').val()
+                }),
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    if (data.success === true) {
+                        swal({
+                            title: data.message,
+                            icon: "success",
+                            buttons: "DONE"
+                        }).then((willDone) => {
+                            loadDataTable();
+                        });
+
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            icon: "warning",
+                            buttons: "DONE",
+                            dangerMode: true
+                        });
+                    }
+                }
+            });
+        }
+
+        function Send(url) {
+            swal({
+                title: "Are you sure?",
+                text: "Submit your planning",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willSend) => {
+                if (willSend) {
+                    $.ajax({
+                        url: url,
+                        contentType: 'application/json; charset=utf-8',
+                        type: 'PUT',
+                        dataType: 'JSON',
+                        success: (data) => {
+                            if (data.success === true) {
+                                swal({
+                                    title: data.message,
+                                    icon: "success",
+                                    buttons: "DONE"
+                                }).then((willDone) => {
+                                    loadDataTable();
+                                    loadDataTableJobOnHand();
+                                    $('.PartialCalendar').empty().load('./JobDaily');
+                                });
+
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    icon: "warning",
+                                    buttons: "DONE",
+                                    dangerMode: true
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function loadDataTableJobOnHand() {
+            $('#dtJobOnHand').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 170,
+                ajax: {
+                    url: "./GetJobOnHand",
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+                    {
+                        data: "WoNo",
+                        render: function (data, type, row) {
+                            return `<i class="far fa-file-alt"></i> ${data}-${row.Rework}`
+                        }
+                    },
+                    { data: "PlanStartDate" },
+                    { data: "PlanFinishDate" },
+                    {
+                        data: "WorkOrder_Id",
+                        render: function (data, type, row) {
+                            return `<button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>`;
+                        }
+                    }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function InfoJobOnHand(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    var htmlDetail = $('#lbRequestDetailJOH').text(data[0].Detail);
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    var htmlSuggestion = $('#lbSuggestionJOH').text(data[0].Suggestion);
+                    htmlSuggestion.html(htmlSuggestion.html().replace(/\n/g, '<br/>'));
+                    var htmlRootCause = $('#lbRootCauseJOH').text(data[0].RootCause);
+                    htmlRootCause.html(htmlRootCause.html().replace(/\n/g, '<br/>'));
+                    var htmlSolution = $('#lbSolutionJOH').text(data[0].Solution);
+                    htmlSolution.html(htmlSolution.html().replace(/\n/g, '<br/>'));
+
+                    $('#txtIdJOH').val(data[0].Id);
+                    $('#lbEquipmentJOH').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestJOH').text(data[0].WorkRequest + '-' + data[0].Line);
+                    $('#lbWorkOrderJOH2').text(data[0].WoNo + '-' + data[0].Rework);
+                    $('#lbEquipmentJOH2').text(data[0].Equipment);
+                    $('#lbDescriptionJOH').text(data[0].Description);
+                    $('#lbSymptomJOH').text(data[0].Symptom + ' (' + data[0].SymptomName_Th + ')');
+                    $('#lbPriorityJOH').text(data[0].Priority);
+                    $('#lbPlanStartDateJOH').text(data[0].PlanStartDate);
+                    $('#lbPlanFinishDateJOH').text(data[0].PlanFinishDate);
+                    $('#lbRequireDateJOH').text(data[0].RequireDate);
+                    $('#lbRequestorJOH').text(data[0].RequestorName);
+                    $('#lbResponsibleJOH').text(data[0].ResponsibleName);
+                    $('#lbAssignToJOH').text(data[0].AssignToName);
+                    $('#ModalJobOnHand').modal('toggle');
+                }
+            });
+        }
+
+        //$('#ddlWorkOrder').on('change', (e) => {
+        //    e.stopImmediatePropagation();
+        //    $.ajax({
+        //        url: './GetJobDaily',
+        //        data: JSON.stringify({
+        //            WorkOrder_Id: $('#ddlWorkOrder').val(),
+        //            DailyDate: $('#lbDailyDate').text()
+        //        }),
+        //        contentType: 'application/json; charset=utf-8',
+        //        type: 'POST',
+        //        dataType: 'JSON',
+        //        success: (data) => {
+        //            $('#txtRootCauseDL').val(data.objPlanning[0].RootCause);
+        //            $('#txtSolutionDL').val(data.objPlanning[0].Solution);
+        //            $('#ddlWorkOrderPeriod').empty();
+        //            for (i in data.objDaily) {
+        //                var item = data.objDaily[i];
+        //                $('#ddlWorkOrderPeriod').append(`<option class="font-weight-bold" value="${item.JobDaily_Id}">${item.WoNo}-${item.Rework} / ${item.TimeStart} - ${item.TimeStop}</option>`)
+        //            }
+
+        //            switch (data.objPlanning[0].Progress) {
+        //                case 0:
+        //                    $('#divProgress').attr('aria-valuenow', '0').css('width', '0%').removeClass('bg-danger');
+        //                    break;
+        //                case 25:
+        //                    $('#divProgress').attr('aria-valuenow', '25').css('width', '25%').addClass('bg-danger').removeClass('bg-danger');
+        //                    break;
+        //                case 50:
+        //                    $('#divProgress').attr('aria-valuenow', '50').css('width', '50%').addClass('bg-warning').removeClass('bg-danger');
+        //                    break;
+        //                case 75:
+        //                    $('#divProgress').attr('aria-valuenow', '75').css('width', '75%').addClass('bg-warning').removeClass('bg-danger');
+        //                    break;
+        //                case 100:
+        //                    $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-danger');
+        //                    break;
+        //            }
+        //        }
+        //    });
+        //});
+
+        //$('#ddlStatus').on('change', (e) => {
+        //    e.stopImmediatePropagation();
+        //    if ($('#ddlStatus').val() == 3) {
+        //        $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-warning').removeClass('bg-danger');
+        //    }
+        //});
+
+        //$('#btnDecresase').on('click', (e) => {
+        //    e.stopImmediatePropagation();
+        //    switch ($('#divProgress').attr('aria-valuenow')) {
+        //        case '25':
+        //            $('#divProgress').attr('aria-valuenow', '0').css('width', '0%');
+        //            break;
+        //        case '50':
+        //            $('#divProgress').attr('aria-valuenow', '25').css('width', '25%').addClass('bg-danger').removeClass('bg-warning');
+        //            break;
+        //        case '75':
+        //            $('#divProgress').attr('aria-valuenow', '50').css('width', '50%');
+        //            break;
+        //        case '100':
+        //            $('#divProgress').attr('aria-valuenow', '75').css('width', '75%').addClass('bg-warning').removeClass('bg-success');
+        //            break;
+        //    }
+        //});
+
+        //$('#btnIncrease').on('click', (e) => {
+        //    e.stopImmediatePropagation();
+        //    switch ($('#divProgress').attr('aria-valuenow')) {
+        //        case '0':
+        //            $('#divProgress').attr('aria-valuenow', '25').css('width', '25%').addClass('bg-danger');
+        //            break;
+        //        case '25':
+        //            $('#divProgress').attr('aria-valuenow', '50').css('width', '50%').addClass('bg-warning').removeClass('bg-danger');
+        //            break;
+        //        case '50':
+        //            $('#divProgress').attr('aria-valuenow', '75').css('width', '75%');
+        //            break;
+        //        case '75':
+        //            $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-warning');
+        //            break;
+        //    }
+        //});
+
+        //function Daily(url) {
+        //    $.ajax({
+        //        url: url,
+        //        data: JSON.stringify({
+        //            WorkOrder_Id: $('#ddlWorkOrder').val(),
+        //            DailyDate: $('#lbDailyDate').text(),
+        //            TimeStart: $('#txtTimeStart').val(),
+        //            TimeStop: $('#txtTimeStop').val(),
+        //            WorkDetail: $('#txtWorkDetail').val(),
+        //            RootCause: $('#txtRootCauseDL').val(),
+        //            Solution: $('#txtSolutionDL').val(),
+        //            Status: $('#ddlStatus').val(),
+        //            Progress: $('#divProgress').attr('aria-valuenow')
+        //        }),
+        //        contentType: 'application/json; charset=utf-8',
+        //        type: 'POST',
+        //        dataType: 'JSON',
+        //        success: (data) => {
+        //            if (data.success === true) {
+        //                swal({
+        //                    title: data.message,
+        //                    icon: "success",
+        //                    buttons: "DONE"
+        //                }).then((willDone) => {
+        //                    loadDataTableJobOnHand();
+        //                    loadDataTableDailyReport();
+        //                    $('.PartialCalendar').empty().load('./JobDaily');
+        //                });
+        //            } else {
+        //                swal({
+        //                    title: "Warning",
+        //                    text: data.message,
+        //                    icon: "warning",
+        //                    buttons: "DONE",
+        //                    dangerMode: true
+        //                });
+        //            }
+        //        }
+        //    });
+        //}
+
+        //function Del(url) {
+        //    swal({
+        //        title: "Are you sure?",
+        //        text: "Are you sure delete this job?",
+        //        icon: "warning",
+        //        buttons: true,
+        //        dangerMode: true
+        //    }).then((willSend) => {
+        //        if (willSend) {
+        //            $.ajax({
+        //                url: url,
+        //                data: JSON.stringify({
+        //                    JobDaily_Id: $('#ddlWorkOrderPeriod').val()
+        //                }),
+        //                contentType: 'application/json; charset=utf-8',
+        //                type: 'DELETE',
+        //                dataType: 'JSON',
+        //                success: (data) => {
+        //                    if (data.success === true) {
+        //                        swal({
+        //                            title: data.message,
+        //                            icon: "success",
+        //                            buttons: "DONE"
+        //                        }).then((willDone) => {
+        //                            $('.PartialCalendar').empty().load('./JobDaily');
+        //                        });
+        //                    } else {
+        //                        swal({
+        //                            title: "Warning",
+        //                            text: data.message,
+        //                            icon: "warning",
+        //                            buttons: "DONE",
+        //                            dangerMode: true
+        //                        });
+        //                    }
+        //                }
+        //            });
+        //        }
+        //    });
+        //}
+
+        function loadDataTableDailyReport() {
+            $('#dtDailyReport').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 170,
+                ajax: {
+                    url: "./GetDailyReport",
+                    data: {
+                        WorkOrder: $('#ddlWorkOrderDR').val()
+                    },
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+
+                    {
+                        data: "WoNo",
+                        render: function (data, type, row) {
+                            return `<i class="far fa-file-alt"></i> ${data}-${row.Rework}`
+                        }
+                    },
+                    { data: "Priority" },
+                    {
+                        data: "Progress",
+                        render: function (data) {
+                            if (data < 35) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                            } else if (data >= 35 && data < 70) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                            } else if (data >= 70 && data <= 99) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                            } else if (data >= 100) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                            }
+                        }
+                    },
+                    {
+                        data: "WorkOrder_Id",
+                        render: function (data, type, row) {
+                            if (row.Status == 5) {
+                                return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>`;
+                            } else if (row.Status == 6 || row.Status == 7 || row.Status == 8) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                    <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                    <button class="btn btn-warning btn-sm font-weight-bold">PENDING</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+                                }
+                            } else if (row.Status == 9) {
+                                return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?idid${data}")><i class="far fa-calendar-alt"></i></button>
+                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                               <button class="btn btn-success btn-sm font-weight-bold"><i class="fas fa-check"></i> COMPLETED</button>`;
+                            } else if (row.Status == 12 || row.Status == 13) {
+                                return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                    <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                    <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+                            }
+                            else {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                    <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                    <button class="btn btn-warning btn-sm font-weight-bold">PENDING</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                    <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                    <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+                                }
+                            }
+                        }
+                    }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function Search() {
+            loadDataTableDailyReport();
+        }
+
+        function InfoDailyReport(url) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.row-daily').empty();
+                    $('#lbWorkOrderDR').text(data.obj[0].WoNo + '-' + data.obj[0].Rework);
+                    $('#lbTotalWorkingTime').text(data.working);
+                    for (i in data.obj) {
+                        var item = data.obj[i];
+
+                        $('.row-daily').append(() => {
+                            switch (item.StatusWorkOrderStr) {
+                                case 'Doing':
+                                    return `<div class="col-md-3">
+                                                                        <div class="card text-white bg-info mb-3">
+                                                                            <div class="card-header">
+                                                                                ${item.DailyDate}<br>
+                                                                                (${item.TimeStart} - ${item.TimeStop})
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`;
+                                    break;
+                                case 'PM':
+                                    return `<div class="col-md-3">
+                                                                        <div class="card text-white bg-secondary mb-3">
+                                                                            <div class="card-header">
+                                                                                ${item.DailyDate}<br>
+                                                                                (${item.TimeStart} - ${item.TimeStop})
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`;
+                                    break;
+                                case 'Complete':
+                                    return `<div class="col-md-3">
+                                                                        <div class="card text-white bg-success mb-3">
+                                                                            <div class="card-header">
+                                                                                ${item.DailyDate}<br>
+                                                                                (${item.TimeStart} - ${item.TimeStop})
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>`;
+                                    break;
+                            }
+                        });
+                    }
+
+                    $('#ModalDailyReport').modal('toggle');
+                }
+            });
+        }
+
+        function ReasonRework(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.reason-job-rework').empty();
+                    for (i in data) {
+                        var item = data[i];
+                        $('.reason-job-rework').append(
+                            `<div class="d-flex w-100 justify-content-between">
+                                                                                        <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                    </div>
+                                                                                    <small>Rework by MIS</small>`
+                        );
+                    }
+                    $('#lbEquipmentRW').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestRW').text(data[0].WorkRequest + '-' + data[0].Line);
+
+                    $('#ModalReasonJobRework').modal('toggle');
+                }
+            });
+        }
+    </script>
+}

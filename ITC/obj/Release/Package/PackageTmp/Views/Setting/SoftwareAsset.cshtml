@@ -1,0 +1,445 @@
+﻿<style>
+    #dtSoftwareAsset_filter > label {
+        font-weight: bold;
+    }
+
+    #dtSoftwareAsset_info {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="far fa-file-code fa-lg"></i>&nbsp;Software Master</h3>
+            <div class="card-body">
+                <button id="btnCreateSoftwareAsset" type="button" class="btn btn-success font-weight-bold"><i class="fas fa-plus fa-lg"></i>&nbsp;Create Software</button>
+                <br /><br />
+                <table id="dtSoftwareAsset" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:12%;">EQUIPMENT</th>
+                            <th style="width:18%;">SOFTWARE NAME</th>
+                            <th style="width:12%;">RESPONSIBLE</th>
+                            <th style="width:16%;">START DATE</th>
+                            <th style="width:16%;">OBSOLATE DATE</th>
+                            <th style="width:10%;">STATUS</th>
+                            <th style="width:16%;">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-pencil-alt fa-lg"></i>&nbsp;&nbsp;<label id="lbEquipment"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtId" hidden />
+                <input id="txtEquipment" hidden />
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row font-weight-bold">
+                        <div class="col-md-6 p-3">
+                            <div class="row">
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Software Name
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <div class="input-group">
+                                        <input class="form-control form-control" id="txtSoftwareName">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-white" id="basic-addon1"><i class="fab fa-slack-hash" style="color:red;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Core Function
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <input class="form-control form-control" id="txtCoreFunction">
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Responsible
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <input class="form-control form-control" id="txtResponsible">
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Description
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <textarea class="form-control form-control" id="txtDescription" rows="3"></textarea>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Remark
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <textarea class="form-control form-control" id="txtRemark" rows="3"></textarea>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Location
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <input class="form-control" id="txtLocation">
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Cost
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <input class="form-control" id="txtCost" type="number" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 p-3">
+                            <div class="row">
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    License Type
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <div class="input-group">
+                                        <select id="ddlLicenseType" class="form-control font-weight-bold">
+                                            <option class="font-weight-bold" value="">Select</option>
+                                            <option class="font-weight-bold" value="Concurrent">Concurrent</option>
+                                            <option class="font-weight-bold" value="Name">Name</option>
+                                            <option class="font-weight-bold" value="Leasing">Leasing</option>
+                                            <option class="font-weight-bold" value="Free">Free</option>
+                                        </select>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-white" id="basic-addon1"><i class="fab fa-slack-hash" style="color:red;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    License Qty
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <input class="form-control" id="txtLicenseQty" type="number" min="0">
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Start Date
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <div class="form-group">
+                                        <div class="input-group date" id="dateStartDate" data-target-input="nearest">
+                                            <input id="txtStartDate" type="text" class="form-control datetimepicker-input" data-target="#dateStartDate" />
+                                            <div class="input-group-append" data-target="#dateStartDate" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                            </div>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-white" id="basic-addon1"><i class="fab fa-slack-hash" style="color:red;"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Obsolate Date
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <div class="input-group date" id="dateObsolateDate" data-target-input="nearest">
+                                        <input id="txtObsolateDate" type="text" class="form-control datetimepicker-input" data-target="#dateObsolateDate" />
+                                        <div class="input-group-append" data-target="#dateObsolateDate" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Upload (PDF)
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <form id="FileUpload" action="" method="post" enctype="multipart/form-data">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="txtBrowse">
+                                            <label class="custom-file-label font-weight-bold" for="customFile">Choose file</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-4 p-3"></div>
+                                <div class="col-md-8 p-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="chkUserAccountNeed">
+                                        <label class="custom-control-label" for="chkUserAccountNeed">User Account Need</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 p-3"></div>
+                                <div class="col-md-8 p-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="chkTrainingNeed">
+                                        <label class="custom-control-label" for="chkTrainingNeed">Training Need</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Status
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <form class="was-validated">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="chkActive" name="radio-stacked" required checked>
+                                            <label class="custom-control-label" for="chkActive">Active</label>
+                                        </div>
+                                        <div class="custom-control custom-radio mb-3">
+                                            <input type="radio" class="custom-control-input" id="chkInactive" name="radio-stacked" required>
+                                            <label class="custom-control-label" for="chkInactive">Inactive</label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success btn-sm font-weight-bold" data-dismiss="modal" onclick="Save('./UpdateSoftwareAsset')">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btnCreateSoftwareAsset').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('.PartialSubSetting').empty().load('./CreateSoftwareAsset');
+    });
+
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        if ($('.custom-file-label').html().indexOf("pdf") < 0) {
+            swal({
+                title: "Warning",
+                text: "Invalid file type.",
+                icon: "warning",
+                buttons: "DONE",
+                dangerMode: true
+            }).then((willDone) => {
+                $(".custom-file-label").addClass("selected").html('Choose file');
+            });
+        }
+    });
+
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+    });
+
+    function loadDataTable() {
+        dataTable = $('#dtSoftwareAsset').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetSoftwareAsset/",
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                { data: "Equipment" },
+                { data: "SoftwareName" },
+                { data: "Responsible" },
+                { data: "StartDate" },
+                { data: "ObsolateDate" },
+                {
+                    data: "Status",
+                    render: function (data) {
+                        if (data === true) {
+                            return `<button class="btn btn-success btn-sm font-weight-bold">
+                            Active
+                        </button>`;
+                        } else {
+                            return `<button class="btn btn-danger btn-sm font-weight-bold">
+                            Inactive
+                        </button>`;
+                        }
+                    }
+                },
+                {
+                    data: "Equipment",
+                    render: function (data, type, row) {
+
+                        if (row.SoftwareFilePath == '') {
+                            return `<button class="btn btn-info btn-sm font-weight-bold" data-toggle="modal" data-target="#exampleModalCenter" onclick=Modify("./ModifySoftware?equipment=${data}") >
+                                        Modify
+                                    </button>
+                                    &nbsp;
+                                    <button class="btn btn-danger btn-sm font-weight-bold"
+                                        onclick=Delete("./DeleteSoftware?equipment=${data}")>
+                                            Delete
+                                    </button> `;
+                        } else {
+                            return `<button class="btn btn-info btn-sm font-weight-bold" data-toggle="modal" data-target="#exampleModalCenter" onclick=Modify("./ModifySoftware?equipment=${data}") >
+                                        Modify
+                                    </button>
+                                    &nbsp;
+                                    <button class="btn btn-danger btn-sm font-weight-bold"
+                                        onclick=Delete("./DeleteSoftware?equipment=${data}") >
+                                            Delete
+                                    </button>
+                                    &nbsp;
+                                    <button class="btn btn-warning btn-sm font-weight-bold"
+                                    onclick=Download("./DownloadSoftwareFile?equipment=${data}") >
+                                        <i class="far fa-file-pdf"></i> PDF
+                                    </button>`;
+                        }
+                    }
+                }
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    function Download(url) {
+        window.open(url);
+    }
+
+    function Delete(url) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            dataTable.ajax.reload();
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function Modify(url) {
+        $('#dateStartDate').datetimepicker({
+            format: 'DD-MMM-YYYY LT'
+        });
+
+        $('#dateObsolateDate').datetimepicker({
+            format: 'DD-MMM-YYYY LT'
+        });
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: (data) => {
+                $('#lbEquipment').text(data[0].SoftwareName + ' (' + data[0].Equipment + ')');
+                $('#txtId').val(data[0].Id);
+                $('#txtEquipment').val(data[0].Equipment);
+                $('#txtSoftwareName').val(data[0].SoftwareName);
+                $('#txtCoreFunction').val(data[0].CoreFunction);
+                $('#txtResponsible').val(data[0].Responsible);
+                $('#txtDescription').val(data[0].Description);
+                $('#txtRemark').val(data[0].Remark);
+                $('#txtLocation').val(data[0].Location);
+                $('#txtCost').val(data[0].Cost);
+                $('#ddlLicenseType').val(data[0].LicenseType);
+                $('#txtLicenseQty').val(data[0].LicenseQty);
+                $('#txtStartDate').val(data[0].StartDate);
+                $('#txtObsolateDate').val(data[0].ObsolateDate);
+                $('#chkUserAccountNeed').prop('checked', data[0].UserAccountNeed == true ? true : false);
+                $('#chkTrainingNeed').prop('checked', data[0].TrainingNeed == true ? true : false);
+                $('#chkActive').prop('checked', data[0].Status == true ? true : false);
+                $('#chkInactive').prop('checked', data[0].Status == true ? false : true);
+            }
+        });
+    }
+
+    function Save(url) {
+        var status = ($('#chkActive').is(':checked') === true) ? true : false;
+
+        $.ajax({
+            url: url,
+            data: JSON.stringify({
+                Id: $('#txtId').val(),
+                SoftwareName: $('#txtSoftwareName').val(),
+                CoreFunction: $('#txtCoreFunction').val(),
+                Responsible: $('#txtResponsible').val(),
+                Description: $('#txtDescription').val(),
+                Remark: $('#txtRemark').val(),
+                Location: $('#txtLocation').val(),
+                Cost: $('#txtCost').val(),
+                LicenseType: $('#ddlLicenseType').val(),
+                LicenseQty: $('#txtLicenseQty').val(),
+                StartDate: $('#txtStartDate').val(),
+                ObsolateDate: $('#txtObsolateDate').val(),
+                UserAccountNeed: $('#chkUserAccountNeed').is(':checked'),
+                TrainingNeed: $('#chkTrainingNeed').is(':checked'),
+                Status: status
+            }),
+            contentType: 'application/json; charset=utf-8',
+            type: 'PUT',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success === true) {
+                    var formData = new FormData();
+                    var file = document.getElementById("txtBrowse").files[0];
+                    formData.append("FileUpload", file);
+                    $.ajax({
+                        url: "./SetUploadFilePDF?equipment=" + $('#txtEquipment').val(),
+                        data: formData,
+                        type: "POST",
+                        dataType: "json",
+                        processData: false,
+                        contentType: false,
+                        success: (obj) => {
+                            if (obj.success == true) {
+                                swal({
+                                    title: data.message,
+                                    icon: "success",
+                                    buttons: "DONE"
+                                }).then((willUpdate) => {
+                                    if (willUpdate) {
+                                        dataTable.ajax.reload();
+                                    }
+                                });
+                            } else {
+                                swal({
+                                    title: data.message,
+                                    icon: "success",
+                                    buttons: "DONE"
+                                }).then((willUpdate) => {
+                                    if (willUpdate) {
+                                        dataTable.ajax.reload();
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    swal({
+                        title: "Warning",
+                        text: data.message,
+                        icon: "warning",
+                        buttons: "DONE",
+                        dangerMode: true
+                    });
+                }
+            }
+        });
+    }
+</script>
