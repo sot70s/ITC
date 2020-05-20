@@ -244,6 +244,7 @@ namespace ITC.Controllers
             List<DailyReport> ListDailyReport = QueryRequest.ListJobDaily().Where(w => w.AssignTo == emp_no && ((w.Status == 4 && w.StatusWorkOrder ==false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
                                    .GroupBy(g => new
                                    {
+                                       g.Id,
                                        g.WorkOrder_Id,
                                        g.WoNo,
                                        g.Rework,
@@ -253,6 +254,7 @@ namespace ITC.Controllers
                                        g.StatusWorkOrder
                                    }, (key, group) => new DailyReport
                                    {
+                                       Id = key.Id,
                                        WorkOrder_Id = key.WorkOrder_Id,
                                        WoNo = key.WoNo,
                                        Rework = key.Rework,
@@ -305,6 +307,146 @@ namespace ITC.Controllers
             }
 
             return Json(new { obj = _ListQueryRequest, working = total });
+        }
+
+        [HttpGet]
+        public JsonResult GetFeedJob(int id, int WorkOrder_Id)
+        {
+            List<JobRequest> ListJobRequest = new List<JobRequest>();
+            if (WorkOrder_Id == 0)
+            {
+                ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.Id == id).ToList();
+            }
+            else
+            {
+                ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.WorkOrder_Id == WorkOrder_Id).ToList();
+            }
+
+            return Json(ListJobRequest, JsonRequestBehavior.AllowGet);
+        }
+
+        public PartialViewResult FeedJob(int id)
+        {
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            var emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
+            ViewBag.BindData = QueryRequest.ListJobComments(id).ToList();
+            ViewBag.BindEmpNo = emp_no;
+            return PartialView();
+        }
+
+        [HttpPost]
+        public JsonResult SetFeed(ParameterSetFeed cc)
+        {
+            bool status = false;
+            string msg = string.Empty;
+            ITCContext _dbITC = new ITCContext();
+            ClaimsPrincipal identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            string emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
+            try
+            {
+                status = true;
+                switch (cc.TypeFeed)
+                {
+                    case 1:
+                        _dbITC.JobComment.Add(new JobComment
+                        {
+                            Title = cc.TitleComment,
+                            Comment = cc.Comment.Replace("\n", Environment.NewLine),
+                            JobReqBody_Id = cc.JobReqBody_Id,
+                            CreateBy = emp_no,
+                            CreateDate = DateTime.Now
+                        });
+                        break;
+                    case 2:
+                        _dbITC.JobReply.Add(new JobReply
+                        {
+                            Reply = cc.Comment.Replace("\n", Environment.NewLine),
+                            JobComment_Id = cc.TitleReply,
+                            JobReqBody_Id = cc.JobReqBody_Id,
+                            CreateBy = emp_no,
+                            CreateDate = DateTime.Now
+                        });
+                        break;
+                }
+                _dbITC.SaveChanges();
+
+                string titleEmail = "IT Connects Admin";
+                string subject = "";
+                string content = "";
+                string contentReply = "";
+                var head = "";
+                string email_to = "";
+                sentEmail sm = new sentEmail();
+
+                subject = "ITC-FEED JOB";
+
+                head = "<b>" + cc.WorkRequest + " : " + cc.Equipment + "</b>";
+
+                for (int i = 0; i < QueryRequest.ListJobComments(cc.Id).ToList().Count; i++)
+                {
+                    var item = QueryRequest.ListJobComments(cc.Id).ToList()[i];
+                    contentReply = "";
+                    for (int j = 0; j < item.ObjJobReply.Count; j++)
+                    {
+                        var itemReply = item.ObjJobReply[j];
+                        contentReply += "<div class='media mt-2' style='flex: 1;margin-top: .3rem!important;'>" +
+                                                   "<a class='mr-2' style='margin-right: .5rem!important;'></a>" +
+                                                        "<div class='media-body' style='flex: 1;margin-left:15px;'>" +
+                                                            "Reply => " + itemReply.Reply.Replace(Environment.NewLine, "<br />") + "<br/>" +
+                                                            "<label style='font-size:xx-small;'>BY " + itemReply.EmployeeName + " : " + itemReply.CreateDate + "</label>" +
+                                                        "</div>" +
+                                         "</div>";
+                    }
+                    content += "<div class='media mb-2' style='display: flex; align-items: flex-start;'>" +
+                                   "<div class='mr-2' style='margin-right: .5rem!important;font-weight:bold;'>##</div>" +
+                                   "<div class='media-body' style='flex: 1;'>" +
+                                       "<h5 class='mt-0' style='margin-top: 0!important;font-size: 1.00rem;margin-bottom: .5rem;font-weight: bold;line-height: 1.2;'>" + item.Title + "</h5>" +
+                                       "Comment => " + item.Comment.Replace(Environment.NewLine, "<br />") + "<br/>" +
+                                       "<label style='font-size:xx-small;'>BY " + item.EmployeeName + " : " + item.CreateDate + "</label>" +
+                                       contentReply +
+                                     "</div>" +
+                               "</div><hr><br>";
+                }
+                content = head + "<br><br>" + content;
+                email_to = QueryRequest.StrEmailRequestor(cc.JobReqBody_Id);
+                sm.SendEMailTo("swadmin@meyer-mil.com", titleEmail, email_to, "", "", subject, content, true, "");
+            }
+            catch (Exception ex)
+            {
+                status = false;
+                msg = ex.Message;
+            }
+
+            return Json(new { success = status, message = msg });
+        }
+
+        [HttpGet]
+        public JsonResult GetTitleFeed(int id)
+        {
+            ITCContext _dbITC = new ITCContext();
+            return Json(_dbITC.JobComment.Where(w => w.JobReqBody_Id == id).ToList().OrderBy(o => o.Id), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteFeed(int id, string type)
+        {
+            ITCContext _dbITC = new ITCContext();
+            var JobReqBody_Id = 0;
+            switch (type)
+            {
+                case "comment":
+                    JobComment qc = _dbITC.JobComment.FirstOrDefault(s => s.Id == id);
+                    _dbITC.JobComment.Remove(qc);
+                    JobReqBody_Id = qc.JobReqBody_Id;
+                    break;
+                case "reply":
+                    JobReply qr = _dbITC.JobReply.FirstOrDefault(s => s.Id == id);
+                    _dbITC.JobReply.Remove(qr);
+                    JobReqBody_Id = qr.JobReqBody_Id;
+                    break;
+            }
+            _dbITC.SaveChanges();
+            return Json(new { id = JobReqBody_Id, success = true, message = "Delete successful" });
         }
     }
 }

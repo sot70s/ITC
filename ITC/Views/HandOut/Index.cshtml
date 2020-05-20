@@ -242,7 +242,6 @@
     </div>
 </div>
 
-
 <!-- Modal -->
 <div class="modal fade" id="ModalRequestDetail" tabindex="-1" role="dialog" aria-labelledby="ModalRequestDetailTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
@@ -516,11 +515,11 @@
                                                                                                     <button class="btn btn-danger btn-sm font-weight-bold"><i class="fas fa-exclamation-triangle"></i></button>`;
                                 } else {
                                     return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Job("./GetAssignJob?id=${data}")><i class="fas fa-edit"></i></button>
-                                                                                                    <button class="btn btn-success btn-sm font-weight-bold" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                                                                                                    <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
                                 }
                             } else {
                                 return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Job("./GetAssignJob?id=${data}")><i class="fas fa-edit"></i></button>
-                                                                                                    <button class="btn btn-success btn-sm font-weight-bold" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                                                                                                    <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
                             }
                         }
                     }
@@ -666,11 +665,15 @@
                 dangerMode: true
             }).then((willSend) => {
                 if (willSend) {
+                    var id = getUrlVars(url)["id"];
                     $.ajax({
                         url: url,
                         contentType: 'application/json; charset=utf-8',
                         type: 'PUT',
                         dataType: 'JSON',
+                        beforeSend: () => {
+                            $(`.btn-send-${id}`).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+                        },
                         success: (data) => {
                             if (data.success === true) {
                                 swal({
@@ -753,8 +756,8 @@
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                                                                                                             <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                                            <button class="btn btn-success btn-sm font-weight-bold" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
-                                                                                                                            <button class="btn btn-danger btn-sm font-weight-bold" onclick=RejectJob("./SetRejectWorkOrder?id=${data}")>REJECT</button>`;
+                                                                                                                            <button class="btn btn-success btn-sm font-weight-bold btn-close-${data}" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
+                                                                                                                            <button class="btn btn-danger btn-sm font-weight-bold btn-reject-${data}" onclick=RejectJob("./SetRejectWorkOrder?id=${data}")>REJECT</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                                                                                            <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
@@ -777,8 +780,8 @@
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                                                                                            <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-success btn-sm font-weight-bold" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
-                                                                                                           <button class="btn btn-danger btn-sm font-weight-bold" onclick=ReworkJob("./SetReWorkJob?id=${data}")>REWORK</button>`;
+                                                                                                           <button class="btn btn-success btn-sm font-weight-bold btn-close-${data}" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
+                                                                                                           <button class="btn btn-danger btn-sm font-weight-bold  btn-rework-${data}" onclick=ReworkJob("./SetReWorkJob?id=${data}")>REWORK</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                                                                                            <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
@@ -936,7 +939,6 @@
         }
 
         function RejectJob(url) {
-            var id = getUrlVars(url)["id"];
             swal({
                 title: "Are you sure?",
                 text: "Reject this job",
@@ -1001,11 +1003,15 @@
                 dangerMode: true
             }).then((willSend) => {
                 if (willSend) {
+                    var id = getUrlVars(url)["id"];
                     $.ajax({
                         url: url,
                         contentType: 'application/json; charset=utf-8',
                         type: 'POST',
                         dataType: 'JSON',
+                        beforeSend: () => {
+                            $(`.btn-close-${id}`).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+                        },
                         success: (data) => {
                             if (data.success === true) {
                                 swal({
@@ -1034,7 +1040,6 @@
 
         function ReworkJob(url) {
             var WorkOrder_Id = getUrlVars(url)["id"];
-            alert(WorkOrder_Id)
             swal({
                 title: "Are you sure?",
                 text: "Rework this job",

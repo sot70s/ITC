@@ -18,13 +18,24 @@ namespace ITC.Controllers
             ITCContext _dbITC = new ITCContext();
             ClaimsPrincipal identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
             string emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
-            MisFlow query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").FirstOrDefault();
-            string division = query.Division;
-            ViewBag.BindDDLSymptom = _dbITC.Symptom.Where(w => w.SectionType.StartsWith(division)).ToList();
-            ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => w.Division == division && w.JobType == "Staff").ToList();
-            ViewBag.BindDDLWorkRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && (w.Status == 4 || w.Status == 5)).GroupBy(g => g.WorkRequest).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
-            ViewBag.BindDDlWorkOrder = QueryRequest.ListJobPlanning().Where(w => w.SectionType.StartsWith(query.Division) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).GroupBy(g => g.WoNo).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
-            ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => w.Division.StartsWith(query.Division) && w.JobType == "Staff").ToList();
+            List<MisFlow> query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").ToList();
+            if (query.Count > 1)
+            {
+                var _dvArr0 = query[0].Division;
+                var _dvArr1 = query[1].Division;
+                ViewBag.BindDDLSymptom = _dbITC.Symptom.Where(w => w.SectionType.StartsWith(_dvArr0) || w.SectionType.StartsWith(_dvArr1)).ToList();
+                ViewBag.BindDDLWorkRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && (w.Status == 4 || w.Status == 5)).GroupBy(g => g.WorkRequest).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
+                ViewBag.BindDDlWorkOrder = QueryRequest.ListJobPlanning().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).GroupBy(g => g.WoNo).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
+                ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => (w.Division.StartsWith(query[0].Division) || w.Division.StartsWith(query[1].Division)) && w.JobType == "Staff").ToList();
+            }
+            else
+            {
+                var _dvArr0 = query[0].Division;
+                ViewBag.BindDDLSymptom = _dbITC.Symptom.Where(w => w.SectionType.StartsWith(_dvArr0)).ToList();
+                ViewBag.BindDDLWorkRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 4 || w.Status == 5)).GroupBy(g => g.WorkRequest).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
+                ViewBag.BindDDlWorkOrder = QueryRequest.ListJobPlanning().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).GroupBy(g => g.WoNo).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
+                ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => w.Division.StartsWith(query[0].Division) && w.JobType == "Staff").ToList();
+            }
 
             return View();
         }
@@ -35,12 +46,23 @@ namespace ITC.Controllers
             ClaimsPrincipal identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
             string emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
             ITCContext _dbITC = new ITCContext();
-            MisFlow query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").FirstOrDefault();
-
-            TableJobResponsible data = new TableJobResponsible()
+            List<MisFlow> query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").ToList();
+            TableJobResponsible data = new TableJobResponsible();
+            if (query.Count() > 1)
             {
-                data = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && (w.Status == 2 || w.Status == 3 || w.Status == 12)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ToList()
-            };
+                data = new TableJobResponsible()
+                {
+                    data = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && (w.Status == 2 || w.Status == 3 || w.Status == 12)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ToList()
+                };
+            }
+            else
+            {
+                data = new TableJobResponsible()
+                {
+                    data = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 2 || w.Status == 3 || w.Status == 12)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ToList()
+                };
+            }
+
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -417,31 +439,64 @@ namespace ITC.Controllers
             ClaimsPrincipal identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
             string emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
             ITCContext _dbITC = new ITCContext();
-            MisFlow query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").FirstOrDefault();
+            List<MisFlow> query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").ToList();
             List<JobRequest> ListQueryRequest = new List<JobRequest>();
-            if (cc.WorkRequest == "0" && cc.FieldsDate == "0")
+
+            if (query.Count > 1)
             {
-                ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList().ToList();
-            }
-            else
-            {
-                if (cc.FieldsDate == "0")
+                if (cc.WorkRequest == "0" && cc.FieldsDate == "0")
                 {
-                    ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList().ToList();
+                    ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList().ToList();
                 }
                 else
                 {
-                    if (cc.FieldsDate == "CD" && cc.FromDate != null && cc.ToDate != null)
+                    if (cc.FieldsDate == "0")
                     {
-                        ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.CreateDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.CreateDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList();
-                    }
-                    else if (cc.FieldsDate == "RD" && cc.FromDate != null && cc.ToDate != null)
-                    {
-                        ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.RequireDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.RequireDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList();
+                        ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList().ToList();
                     }
                     else
                     {
-                        ListQueryRequest = new List<JobRequest>();
+                        if (cc.FieldsDate == "CD" && cc.FromDate != null && cc.ToDate != null)
+                        {
+                            ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.CreateDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.CreateDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList();
+                        }
+                        else if (cc.FieldsDate == "RD" && cc.FromDate != null && cc.ToDate != null)
+                        {
+                            ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.RequireDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.RequireDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList();
+                        }
+                        else
+                        {
+                            ListQueryRequest = new List<JobRequest>();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (cc.WorkRequest == "0" && cc.FieldsDate == "0")
+                {
+                    ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList().ToList();
+                }
+                else
+                {
+                    if (cc.FieldsDate == "0")
+                    {
+                        ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList().ToList();
+                    }
+                    else
+                    {
+                        if (cc.FieldsDate == "CD" && cc.FromDate != null && cc.ToDate != null)
+                        {
+                            ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.CreateDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.CreateDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList();
+                        }
+                        else if (cc.FieldsDate == "RD" && cc.FromDate != null && cc.ToDate != null)
+                        {
+                            ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.RequireDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.RequireDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList();
+                        }
+                        else
+                        {
+                            ListQueryRequest = new List<JobRequest>();
+                        }
                     }
                 }
             }
@@ -523,31 +578,64 @@ namespace ITC.Controllers
             ClaimsPrincipal identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
             string emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
             ITCContext _dbITC = new ITCContext();
-            MisFlow query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").FirstOrDefault();
+            List<MisFlow> query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").ToList();
             List<JobRequest> ListQueryRequest = new List<JobRequest>();
-            if (cc.WorkRequest == "0" && cc.FieldsDate == "0")
+
+            if (query.Count > 1)
             {
-                ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && (w.Status == 4 || w.Status == 5 && w.StatusWorkOrder == true)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.WoNo).ToList();
-            }
-            else
-            {
-                if (cc.FieldsDate == "0")
+                if (cc.WorkRequest == "0" && cc.FieldsDate == "0")
                 {
-                    ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && (w.Status == 4 || w.Status == 5 && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.WoNo).ToList();
+                    ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList().ToList();
                 }
                 else
                 {
-                    if (cc.FieldsDate == "CD" && cc.FromDate != null && cc.ToDate != null)
+                    if (cc.FieldsDate == "0")
                     {
-                        ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && (w.Status == 4 || w.Status == 5 && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.CreateDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.CreateDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.WoNo).ToList();
-                    }
-                    else if (cc.FieldsDate == "RD" && cc.FromDate != null && cc.ToDate != null)
-                    {
-                        ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query.Division) && (w.Status == 4 || w.Status == 5 && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.RequireDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.RequireDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.WoNo).ToList();
+                        ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList().ToList();
                     }
                     else
                     {
-                        ListQueryRequest = new List<JobRequest>();
+                        if (cc.FieldsDate == "CD" && cc.FromDate != null && cc.ToDate != null)
+                        {
+                            ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.CreateDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.CreateDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList();
+                        }
+                        else if (cc.FieldsDate == "RD" && cc.FromDate != null && cc.ToDate != null)
+                        {
+                            ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 || w.Status == 5) && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.RequireDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.RequireDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t => t.Rework).ToList();
+                        }
+                        else
+                        {
+                            ListQueryRequest = new List<JobRequest>();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (cc.WorkRequest == "0" && cc.FieldsDate == "0")
+                {
+                    ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 4 || w.Status == 5 && w.StatusWorkOrder == true)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.WoNo).ToList();
+                }
+                else
+                {
+                    if (cc.FieldsDate == "0")
+                    {
+                        ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 4 || w.Status == 5 && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.WoNo).ToList();
+                    }
+                    else
+                    {
+                        if (cc.FieldsDate == "CD" && cc.FromDate != null && cc.ToDate != null)
+                        {
+                            ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 4 || w.Status == 5 && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.CreateDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.CreateDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.WoNo).ToList();
+                        }
+                        else if (cc.FieldsDate == "RD" && cc.FromDate != null && cc.ToDate != null)
+                        {
+                            ListQueryRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 4 || w.Status == 5 && w.StatusWorkOrder == true) && w.WorkRequest.Contains(cc.WorkRequest) && (Convert.ToDateTime(w.RequireDate) >= Convert.ToDateTime(cc.FromDate) && Convert.ToDateTime(w.RequireDate) <= Convert.ToDateTime(cc.ToDate))).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.WoNo).ToList();
+                        }
+                        else
+                        {
+                            ListQueryRequest = new List<JobRequest>();
+                        }
                     }
                 }
             }
@@ -609,8 +697,11 @@ namespace ITC.Controllers
             ClaimsPrincipal identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
             string emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
             ITCContext _dbITC = new ITCContext();
-            MisFlow query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").FirstOrDefault();
-            List<DailyReport> ListDailyReport = QueryRequest.ListJobDaily().Where(w => w.SectionType.StartsWith(query.Division) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
+            List<MisFlow> query = _dbITC.MisFlow.Where(w => w.EmployeeNo == emp_no && w.JobType == "Planner").ToList();
+            List<DailyReport> ListDailyReport = new List<DailyReport>();
+            if (query.Count > 1)
+            {
+                ListDailyReport = QueryRequest.ListJobDaily().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
                                                .GroupBy(g => new
                                                {
                                                    g.WorkOrder_Id,
@@ -634,6 +725,33 @@ namespace ITC.Controllers
                                                    Status = key.Status,
                                                    StatusWorkOrder = key.StatusWorkOrder
                                                }).OrderByDescending(o => o.WoNo).ThenByDescending(t => t.Rework).ToList();
+            }
+            else {
+                ListDailyReport = QueryRequest.ListJobDaily().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
+                               .GroupBy(g => new
+                               {
+                                   g.WorkOrder_Id,
+                                   g.WoNo,
+                                   g.Rework,
+                                   g.Progress,
+                                   g.Priority,
+                                   g.AssignToName,
+                                   g.AssignTo,
+                                   g.Status,
+                                   g.StatusWorkOrder
+                               }, (key, group) => new DailyReport
+                               {
+                                   WorkOrder_Id = key.WorkOrder_Id,
+                                   WoNo = key.WoNo,
+                                   Rework = key.Rework,
+                                   Progress = key.Progress,
+                                   Priority = key.Priority,
+                                   AssignToName = key.AssignToName,
+                                   AssignTo = key.AssignTo,
+                                   Status = key.Status,
+                                   StatusWorkOrder = key.StatusWorkOrder
+                               }).OrderByDescending(o => o.WoNo).ThenByDescending(t => t.Rework).ToList();
+            }
 
             if (cc.WorkOrder == "0" && cc.AssignTo == "0")
             {

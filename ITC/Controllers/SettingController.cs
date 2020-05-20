@@ -1294,6 +1294,16 @@ namespace ITC.Controllers
 
         public PartialViewResult HardwareAsset()
         {
+            ITCContext dbcon = new ITCContext();
+            ViewBag.BindEquipmentTypeH = QueryEquipmentType.ListEquipmentType().OrderByDescending(o => o.EquipmentType).ToList();
+            ViewBag.BindEquipmentTypeM = QueryEquipmentType.ListEquipmentType().OrderByDescending(o => o.EquipmentType).ToList();
+            return PartialView();
+        }
+
+        public PartialViewResult CreateHardwareAsset()
+        {
+            ITCContext dbcon = new ITCContext();
+            ViewBag.BindEquipmentType = QueryEquipmentType.ListEquipmentType().OrderByDescending(o => o.EquipmentType).ToList();
             return PartialView();
         }
 
@@ -1303,11 +1313,225 @@ namespace ITC.Controllers
 
             TableHardwareAsset data = new TableHardwareAsset()
             {
-                data = QueryHardwareAsset.ListHardwareAsset()
+                data = QueryHardwareAsset.ListHardwareAsset().OrderByDescending(o => o.Id).ToList()
             };
             return Json(data, JsonRequestBehavior.AllowGet);
 
         }
 
+        [HttpPost]
+        public JsonResult InsertHardwareAsset(ParameterHardwareAsset s)
+        {
+            ITCContext dbcon = new ITCContext();
+            var dbinsert = new HardwareAsset();
+            var msg = "";
+            bool status = false;
+
+            if (s.Equipment == null || s.EquipmentType == "Select" || s.Description == null || s.SerialNumber == null || s.Model == null || s.Owner == null || s.Location == null || s.TelephoneOwner == null || s.Responsible == null || s.Status == '0')
+            {
+                msg = "Insert error !!";
+                status = false;
+            }
+            else
+            {
+                dbcon.HardwareAssets.Add(new HardwareAsset
+                {
+                    Equipment = s.Equipment,
+                    EquipmentType = s.EquipmentType,
+                    Description = s.Description,
+                    SerialNumber = s.SerialNumber,
+                    Model = s.Model,
+                    Owner = s.Owner,
+                    Location = s.Location,
+                    TelephoneOwner = s.TelephoneOwner,
+                    Responsible = s.Responsible,
+                    Status = s.Status,
+                    PreviousOwner = s.PreviousOwner,
+                    PreviousLocation = s.PreviousLocation,
+                    ServiceVendor = s.ServiceVendor,
+                    Company = s.Company,
+                    EquipmentGroup = s.EquipmentGroup,
+                    PurchaseDate = s.PurchaseDate,
+                    ReceiveDate = s.ReceiveDate,
+                    ServiceDate = s.ServiceDate,
+                    WarrantyType = s.WarrantyType,
+                    WarrantyNum = s.WarrantyNum,
+                    SafetyNote = s.SafetyNote,
+                });
+
+                dbcon.SaveChanges();
+                msg = "Insert success !!";
+                status = true;
+            }
+
+            return Json(new { success = status, message = msg });
+        }
+
+        [HttpGet]
+        public JsonResult InfoHardwareAsset(int Id)
+        {
+            List<Parameter> query = QueryHardwareAssetList.HardwareAssetList().Where(s => s.Id == Id).ToList();
+            return Json(query, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpGet]
+        public JsonResult ModifyHardwareAsset(int Id)
+        {
+            List<Parameter> query = QueryHardwareAssetList.HardwareAssetList().Where(s => s.Id == Id).ToList();
+            return Json(query, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
+        public JsonResult UpdateHardwareAsset(Parameter cc)
+        {
+            ITCContext dbcon = new ITCContext();
+            HardwareAsset query = dbcon.HardwareAssets.FirstOrDefault(s => s.Id == cc.Id);
+
+            query.Id = cc.Id;
+            query.EquipmentType = cc.EquipmentType;
+            query.Description = cc.Description;
+            query.SerialNumber = cc.SerialNumber;
+            query.Status = cc.Status;
+            query.Responsible = cc.Responsible;
+            query.Model = cc.Model;
+            query.Owner = cc.Owner;
+            query.Location = cc.Location;
+            query.ServiceVendor = cc.ServiceVendor;
+            query.PreviousOwner = cc.PreviousOwner;
+            query.PreviousLocation = cc.PreviousLocation;
+            query.PurchaseDate = Convert.ToDateTime(cc.PurchaseDate);
+            query.ReceiveDate = Convert.ToDateTime(cc.ReceiveDate);
+            query.ServiceDate = Convert.ToDateTime(cc.ServiceDate);
+            query.WarrantyType = cc.WarrantyType;
+            query.WarrantyNum = cc.WarrantyNum;
+            query.SafetyNote = cc.SafetyNote;
+
+
+
+            dbcon.SaveChanges();
+
+            return Json(new { success = true, message = "Modify success !!" });
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteHardwareAsset(int Id)
+        {
+            ITCContext dbcon = new ITCContext();
+            HardwareAsset query = dbcon.HardwareAssets.FirstOrDefault(s => s.Id == Id);
+
+            dbcon.HardwareAssets.Remove(query);
+            dbcon.SaveChanges();
+            return Json(new { message = "Delete success !!" });
+        }
+
+        [HttpPost]
+        public JsonResult GetEquipmentLest(HardwareAsset cc)
+        {
+
+            HardwareAsset query = QueryEquipmentLast.ListEquipmentLast().LastOrDefault(w => w.EquipmentType == cc.EquipmentType);
+            string e = "";
+
+            if (query == null)
+            {
+                e = cc.EquipmentType + "00001";
+            }
+            if (query != null && query.Equipment == null)
+            {
+                e = query.EquipmentType + "00001";
+            }
+            if (query != null)
+            {
+                e = query.Equipment;
+            }
+
+
+            return Json(new { success = e });
+        }
+
+        public PartialViewResult EquipmentType()
+        {
+            return PartialView();
+        }
+
+        public PartialViewResult CreateEquipmentType()
+        {
+            return PartialView();
+        }
+
+
+        [HttpGet]
+        public JsonResult GetEquipmentType(ParameterEquipmentType cc)
+        {
+            TableEquipmentType data = new TableEquipmentType()
+            {
+                data = QueryEquipmentType.ListEquipmentType().OrderByDescending(o => o.Id).ToList()
+            };
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult InsertEquipmentType(ParameterEquipmentType s)
+        {
+            ITCContext dbcon = new ITCContext();
+            var dbinsert = new Equipment_Type();
+            var msg = "";
+            bool status = false;
+            if (s.EquipmentType == null || s.Description == null || s.Status == '0')
+            {
+                msg = "Insert error !!";
+                status = false;
+            }
+            else
+            {
+                dbcon.Equipment_Types.Add(new Equipment_Type
+                {
+
+                    EquipmentType = s.EquipmentType,
+                    Description = s.Description,
+                    Status = s.Status,
+
+                });
+
+                dbcon.SaveChanges();
+                msg = "Insert success !!";
+                status = true;
+            }
+
+            return Json(new { success = status, message = msg });
+        }
+
+        [HttpGet]
+        public JsonResult ModifyEquipmentType(int Id)
+        {
+            List<Equipment_Type> query = QueryEquipmentType.ListEquipmentType().Where(s => s.Id == Id).ToList();
+            return Json(query, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
+        public JsonResult UpdateEquipmentType(ParameterEQ cc)
+        {
+            ITCContext dbcon = new ITCContext();
+            Equipment_Type query = dbcon.Equipment_Types.FirstOrDefault(s => s.Id == cc.Id);
+
+            query.Id = cc.Id;
+            query.Description = cc.Description;
+            query.Status = cc.Status;
+
+            dbcon.SaveChanges();
+
+            return Json(new { success = true, message = "Modify success !!" });
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteEquipmentType(int Id)
+        {
+            ITCContext dbcon = new ITCContext();
+            Equipment_Type query = dbcon.Equipment_Types.FirstOrDefault(s => s.Id == Id);
+
+            dbcon.Equipment_Types.Remove(query);
+            dbcon.SaveChanges();
+            return Json(new { message = "Delete success !!" });
+        }
     }
 }

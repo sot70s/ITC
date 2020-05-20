@@ -1,0 +1,59 @@
+﻿@foreach (var i in ViewBag.BindData)
+{
+    <div class="media mb-2">
+        <a class="mr-2"><i class="fas fa-user-circle fa-2x"></i></a>
+        <div class="media-body">
+            <h5 class="mt-0">@i.Title</h5>
+            @MvcHtmlString.Create(i.Comment.Replace(Environment.NewLine, "<br />")) <i class="far fa-comment-dots"></i><br />
+            <label style="font-size:xx-small;">BY @i.EmployeeName : @i.CreateDate</label>
+            @if (ViewBag.BindEmpNo == i.CreateBy)
+            {
+                <label style="font-size:xx-small;"> | </label>
+                <a href="#" onclick="DeleteFeed('./DeleteFeed?id=@i.Id&type=comment')" style="font-size:smaller;"><i class="fas fa-trash"></i></a>
+            }
+            @if (i.ObjJobReply.Count > 0)
+            {
+                <label style="font-size:xx-small;"> | </label> <button class="btn" data-toggle="collapse" data-target="#ToggleFeed-@i.Id" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+            }
+            <div id="ToggleFeed-@i.Id" class="collapse show">
+                @foreach (var j in i.ObjJobReply)
+                {
+                    <div class="media mt-2">
+                        <a class="mr-2"><i class="far fa-user-circle fa-2x"></i></a>
+                        <div class="media-body">
+                            @MvcHtmlString.Create(j.Reply.Replace(Environment.NewLine, "<br />")) <i class="fas fa-reply"></i><br />
+                            <label style="font-size:xx-small;">BY @i.EmployeeName : @i.CreateDate</label>
+                            @if (ViewBag.BindEmpNo == j.CreateBy)
+                            {
+                                <label style="font-size:xx-small;"> | </label>
+                                <a href="#" onclick="DeleteFeed('./DeleteFeed?id=@j.Id&type=reply')" style="font-size:smaller;"><i class="fas fa-trash"></i></a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function DeleteFeed(url) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        loadFeedJob(data.id);
+                    }
+                });
+            }
+        });
+    }
+</script>

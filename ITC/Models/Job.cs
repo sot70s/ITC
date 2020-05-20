@@ -75,6 +75,18 @@ namespace ITC.Models
         public int WorkOrder_Id { get; set; }
     }
 
+    public class ParameterSetFeed
+    {
+        public int JobReqBody_Id { get; set; }
+        public int TypeFeed { get; set; }
+        public string TitleComment { get; set; }
+        public int TitleReply { get; set; }
+        public string Comment { get; set; }
+        public int Id { get; set; }
+        public string WorkRequest { get; set; }
+        public string Equipment { get; set; }
+    }
+
     [Table("JobReqHeader")]
     public class JobReqHeader
     {
@@ -168,6 +180,57 @@ namespace ITC.Models
         public int WorkOrder_Id { get; set; }
     }
 
+    [Table("JobComment")]
+    public class JobComment
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Comment { get; set; }
+        public string CreateBy { get; set; }
+        public DateTime CreateDate { get; set; }
+        public int JobReqBody_Id { get; set; }
+    }
+
+    [Table("JobReply")]
+    public class JobReply
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Reply { get; set; }
+        public string CreateBy { get; set; }
+        public DateTime CreateDate { get; set; }
+        public int JobComment_Id { get; set; }
+        public int JobReqBody_Id { get; set; }
+    }
+
+    public class JobComments
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Comment { get; set; }
+        public string CreateBy { get; set; }
+        public string CreateDate { get; set; }
+        public int JobComment_Id { get; set; }
+        public string WorkRequest { get; set; }
+        public string Equipment { get; set; }
+        public string Description { get; set; }
+        public string EmployeeName { get; set; }
+        public int JobReqBody_Id { get; set; }
+        public List<JobReplies> ObjJobReply { get; set; }
+    }
+
+    public class JobReplies
+    {
+        public int Id { get; set; }
+        public string Reply { get; set; }
+        public string CreateBy { get; set; }
+        public string EmployeeName { get; set; }
+        public string CreateDate { get; set; }
+        public int JobComment_Id { get; set; }
+        public int JobReqBody_Id { get; set; }
+    }
+
     public class JobRequest
     {
         public int Id { get; set; }
@@ -250,6 +313,7 @@ namespace ITC.Models
 
     public class DailyReport
     {
+        public int Id { get; set; }
         public int WorkOrder_Id { get; set; }
         public string WoNo { get; set; }
         public string Priority { get; set; }
@@ -789,6 +853,75 @@ namespace ITC.Models
             return query;
         }
 
+        public static List<JobRequest> ListEmailResponsible(int id)
+        {
+            ITCContext _dbITC = new ITCContext();
+            MILAuthContext _dbMILAuth = new MILAuthContext();
+
+            List<JobRequest> query = _dbITC.JobReqBody.Where(w => w.Id == id).ToList().Join(_dbMILAuth.Accounts.ToList(),
+                                    jrb => jrb.AssignTo,
+                                    acc => acc.EmployeeNo,
+                                    (jrb, acc) => new JobRequest
+                                    {
+                                        Email = acc.Email
+                                    }).ToList();
+
+            return query;
+        }
+
+        public static List<JobRequest> ListEmailRequestor(int id)
+        {
+            ITCContext _dbITC = new ITCContext();
+            MILAuthContext _dbMILAuth = new MILAuthContext();
+
+            List<JobRequest> query = _dbITC.JobReqBody.Where(w => w.Id == id).ToList().Join(_dbITC.JobReqHeader.ToList(),
+                                    jrb => jrb.WorkRequest,
+                                    jrh => jrh.WorkRequest,
+                                    (jrb, jrh) => new JobRequest
+                                    {
+                                        WorkRequest = jrb.WorkRequest,
+                                        Requestor = jrh.Requestor
+                                    }).ToList();
+
+            query = query.ToList().Join(_dbMILAuth.Accounts.ToList(),
+                                    jrb => jrb.Requestor,
+                                    acc => acc.EmployeeNo,
+                                    (jrb, acc) => new JobRequest
+                                    {
+                                        Email = acc.Email
+                                    }).ToList();
+
+            return query;
+        }
+
+        public static string StrEmailRequestor(int id)
+        {
+            var email = "";
+            for (int i = 0; i < ListEmailRequestor(id).Count(); i++)
+            {
+                var item = ListEmailRequestor(id)[i];
+                email += ";" + item.Email;
+            }
+            email = Regex.Replace(email, @"\s", "");
+            email = email.Substring(1, email.Length - 1);
+
+            return email;
+        }
+
+        public static string StrEmailResponsible(int id)
+        {
+            var email = "";
+            for (int i = 0; i < ListEmailResponsible(id).Count(); i++)
+            {
+                var item = ListEmailResponsible(id)[i];
+                email += ";" + item.Email;
+            }
+            email = Regex.Replace(email, @"\s", "");
+            email = email.Substring(1, email.Length - 1);
+
+            return email;
+        }
+
         public static string StrEmailPlanner(string emp_no)
         {
             List<MisFlowJoinEmployee> query = QueryMisFlow.ListMisFlow().Where(w => w.EmployeeNo == emp_no && w.JobType == "Staff").ToList();
@@ -1179,6 +1312,95 @@ namespace ITC.Models
                     TimeStart = Convert.ToDateTime(jd.TimeStart).ToString("hh:mm tt"),
                     TimeStop = Convert.ToDateTime(jd.TimeStop).ToString("hh:mm tt")
                 }).ToList();
+
+            return query;
+        }
+
+        public static List<JobComments> ListJobComments(int id)
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobComments> query = _dbITC.JobComment.Where(w => w.JobReqBody_Id == id).ToList().Join(QueryPersonnel.ListEmployeeMeyer().ToList(),
+                    jc => jc.CreateBy,
+                    emp => emp.EMPLOYEE_NO,
+                    (jc, emp) => new JobComments
+                    {
+                        Id = jc.Id,
+                        Title = jc.Title,
+                        Comment = jc.Comment,
+                        CreateBy = jc.CreateBy,
+                        CreateDate = (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).TotalSeconds) < 60)
+                                     ? new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).Seconds + " seconds ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).TotalSeconds) < 120)
+                                     ? "a minute ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).TotalSeconds) < 2700)
+                                     ? new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).Minutes + " minutes ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).TotalSeconds) < 5400)
+                                     ? "an hour ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).TotalSeconds) < 86400)
+                                     ? new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).Hours + " hours ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).TotalSeconds) < 172800)
+                                     ? "yesterday"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).TotalSeconds) < 2592000)
+                                     ? new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).Days + " days ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).TotalSeconds) < 31104000)
+                                     ? Convert.ToInt32(Math.Floor((double)new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).Days / 30)) + " months ago"
+                                     : Convert.ToInt32(Math.Floor((double)new TimeSpan(DateTime.Now.Ticks - jc.CreateDate.Ticks).Days / 365)) + " years ago",
+                        EmployeeName = emp.EMPLOYEE_NAME,
+                        ObjJobReply = ListJobRepliesJoinComments(jc.Id, id)
+                    }).ToList();
+
+            return query;
+        }
+
+        public static List<JobReplies> ListJobReplies()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobReplies> query = _dbITC.JobReply.ToList().Join(QueryPersonnel.ListEmployeeMeyer().ToList(),
+                    jr => jr.CreateBy,
+                    emp => emp.EMPLOYEE_NO,
+                    (jr, emp) => new JobReplies
+                    {
+                        Id = jr.Id,
+                        Reply = jr.Reply,
+                        CreateBy = jr.CreateBy,
+                        CreateDate = (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).TotalSeconds) < 60)
+                                     ? new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).Seconds + " seconds ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).TotalSeconds) < 120)
+                                     ? "a minute ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).TotalSeconds) < 2700)
+                                     ? new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).Minutes + " minutes ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).TotalSeconds) < 5400)
+                                     ? "an hour ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).TotalSeconds) < 86400)
+                                     ? new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).Hours + " hours  ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).TotalSeconds) < 172800)
+                                     ? "yesterday"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).TotalSeconds) < 2592000)
+                                     ? new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).Days + " days ago"
+                                     : (Math.Abs(new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).TotalSeconds) < 31104000)
+                                     ? Convert.ToInt32(Math.Floor((double)new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).Days / 30)) + " months ago"
+                                     : Convert.ToInt32(Math.Floor((double)new TimeSpan(DateTime.Now.Ticks - jr.CreateDate.Ticks).Days / 365)) + " years ago",
+                        EmployeeName = emp.EMPLOYEE_NAME,
+                        JobComment_Id = jr.JobComment_Id
+                    }).ToList();
+
+            return query;
+        }
+
+        public static List<JobReplies> ListJobRepliesJoinComments(int JobComment_Id, int id)
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobReplies> query = ListJobReplies().Where(w => w.JobComment_Id == JobComment_Id).ToList().Join(_dbITC.JobComment.Where(w => w.JobReqBody_Id == id).ToList(),
+                    jr => jr.JobComment_Id,
+                    jc => jc.Id,
+                    (jr, jc) => new JobReplies
+                    {
+                        Id = jr.Id,
+                        Reply = jr.Reply,
+                        CreateBy = jr.CreateBy,
+                        CreateDate = jr.CreateDate,
+                        EmployeeName = jr.EmployeeName
+                    }).ToList();
 
             return query;
         }

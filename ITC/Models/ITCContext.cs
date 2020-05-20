@@ -30,5 +30,8 @@ namespace ITC.Models
         public DbSet<JobRework> JobRework { get; set; }
         public DbSet<JobUnAccept> JobUnAccept { get; set; }
         public DbSet<HardwareAsset> HardwareAssets { get; set; }
+        public DbSet<Equipment_Type> Equipment_Types { get; set; }
+        public DbSet<JobComment> JobComment { get; set; }
+        public DbSet<JobReply> JobReply { get; set; }
     }
 }

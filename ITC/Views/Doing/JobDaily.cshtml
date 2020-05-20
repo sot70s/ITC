@@ -190,7 +190,7 @@
     $('#ddlStatus').on('change', (e) => {
         e.stopImmediatePropagation();
         if ($('#ddlStatus').val() == 3) {
-            $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-warning').removeClass('bg-danger');
+            $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-info').removeClass('bg-warning').removeClass('bg-danger');
         }
     });
 

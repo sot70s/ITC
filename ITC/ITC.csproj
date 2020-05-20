@@ -217,6 +217,7 @@
     <Compile Include="Models\Approver.cs" />
     <Compile Include="Models\Chart.cs" />
     <Compile Include="Models\Equipment.cs" />
+    <Compile Include="Models\EquipmentType.cs" />
     <Compile Include="Models\GroupCoordinator.cs" />
     <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\HardwareAsset.cs" />
@@ -2591,6 +2592,11 @@
     <Content Include="Views\HandOut\SchedulePlan.cshtml" />
     <Content Include="Views\Inspector\SchedulePlan.cshtml" />
     <Content Include="Views\Setting\HardwareAsset.cshtml" />
+    <Content Include="Views\Setting\CreateHardwareAsset.cshtml" />
+    <Content Include="Views\Setting\EquipmentType.cshtml" />
+    <Content Include="Views\Setting\CreateEquipmentType.cshtml" />
+    <Content Include="Views\Job\FeedJob.cshtml" />
+    <Content Include="Views\Doing\FeedJob.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

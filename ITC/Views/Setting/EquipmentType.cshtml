@@ -1,0 +1,311 @@
+﻿﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+
+<style>
+
+
+    .button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: .25rem;
+    }
+
+    .label {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #ffffff;
+        text-align: left;
+        background-color: #0094ff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        width: 170px;
+        font-weight: bold;
+    }
+
+    #more {
+        display: none;
+    }
+
+    :not(.input-group) > .bootstrap-select.form-control:not([class*=col-]) {
+        width: 50%;
+    }
+
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+
+    .font {
+        font-weight: bold;
+        color: black;
+    }
+
+    .font-bold {
+        font-weight: bold;
+    }
+
+    #datepicker {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+        #datepicker > span:hover {
+            cursor: pointer;
+        }
+
+    #datepicker1 {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+        #datepicker1 > span:hover {
+            cursor: pointer;
+        }
+
+    #dtEquipmentType_filter > label {
+        font-weight: bold;
+    }
+
+    #dtEquipmentType_info {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="far fa-hdd fa-lg"></i>&nbsp;Equipment Type</h3>
+            <div class="card-body">
+                <button id="btnCreateEquipmentType" type="button" class="btn btn-info font-weight-bold">
+                    <i class="fas fa-plus-circle fa-lg" style="margin-right: 5px;"></i>
+                    Create Equipment Type
+                </button>
+
+
+                <!-- Table -->
+                <table id="dtEquipmentType" class="table table-hover font-weight-bold">
+                    <thead>
+                        <tr>
+                            <th>EQUIPMENT TYPE</th>
+                            <th>DESCRIPTION</th>
+                            <th>STATUS</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+                <!-- Modal Update -->
+                <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalScrollableTitle">
+                                    <i class="far fa-edit" style="background-color:#FFC107 ; width:50px ; height: 50px ; padding:10px ; border-radius: 5px;"></i>
+                                    &nbsp;&nbsp;<label id="toptitle"></label>
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <input id="txtId" hidden />
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="label" for="inputGroupSelect01">Descricption</label>
+                                                    </div>
+                                                    <textarea class="form-control font" id="txtDesEquipmentType" rows="3"></textarea>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="label" for="inputGroupSelect01">Status</label>
+                                                    </div>
+                                                    <select id="txtStatus" class="form-control font">
+                                                        <option class="font-bold">Select</option>
+                                                        <option class="font-bold" value="1">Service</option>
+                                                        <option class="font-bold" value="2">Inservice</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Close</button>
+                                        <button id="btnmodify" type="button" class="btn btn-primary font-bold" onclick="save('./UpdateEquipmentType')">Modify</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+<script>
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+    });
+
+    function loadDataTable() {
+        dataTable = $('#dtEquipmentType').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetEquipmentType",
+                type: "GET",
+                datatype: "json",
+            },
+            columns: [
+
+                { data: "EquipmentType" },
+                { data: "Description" },
+                {
+                    data: "Status",
+                    render: function (data, type, row) {
+                        if (data == '1') {
+                            return `<button class="btn btn-success btn-sm font-weight-bold">
+                            Service
+                        </button>`;
+                        }
+                        if (data == '2') {
+                            return `<button class="btn btn-danger btn-sm font-weight-bold">
+                            Inservice
+                        </button>`;
+                        }
+                    }
+                },
+                {
+                    data: "Id",
+                    render: function (data, type, row) {
+
+                        return ` <button type="button" class="btn btn-warning" id="btnupdate" style="margin-right: 20px" data-toggle="modal" data-target="#updateModal" value="Update"
+                                            onclick=ModifyEquipmentType("./ModifyEquipmentType?Id=${data}")><i class="far fa-edit"></i>
+                                     </button>
+                                     <button type="button" class="btn btn-danger" id="btnedetele" style="margin-right: 20px" data-toggle="modal" data-target="#deleteModal" value="Delete"
+                                            onclick=DeleteEquipmentType("./DeleteEquipmentType?Id=${data}")><i class="fas fa-trash-alt"></i>
+                                     </button>`;
+
+                    }
+                },
+
+            ]
+        });
+    }
+
+
+    function ModifyEquipmentType(url) {
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+
+                $('#toptitle').text(data[0].EquipmentType + ' (' + data[0].Description + ')');
+                $('#txtId').val(data[0].Id);
+                $('#txtDesEquipmentType').val(data[0].Description);
+                $('#txtStatus').val(data[0].Status);
+            }
+        });
+    }
+
+    function save(url) {
+
+        $.ajax({
+            url: url,
+            data: JSON.stringify({
+
+                Id: $('#txtId').val(),
+                Description: $('#txtDesEquipmentType').val(),
+                Status: $('#txtStatus').val(),
+            }),
+
+            contentType: "application/json; charset=utf-8",
+            type: "PUT",
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success == true) {
+                    swal({
+                        title: data.message,
+                        icon: "success",
+                        buttons: "DONE",
+                    });
+                }
+                dataTable.ajax.reload();
+            },
+            error: function () {
+                swal({
+                    title: "Warning",
+                    text: data.message,
+                    icon: "warning",
+                    buttons: "DONE",
+                    dangerMode: true
+                });
+            }
+        });
+
+    }
+
+    function DeleteEquipmentType(url) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        if (data) {
+                            (data.message);
+                            dataTable.ajax.reload();
+                        } else {
+                            (data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
+
+    $('#btnCreateEquipmentType').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('.PartialSubSetting').empty().load('./CreateEquipmentType');
+    });
+
+    $('#btnmodify').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('.PartialSubSetting').empty().load('./ModifyEquipmentType');
+    });
+
+</script>
