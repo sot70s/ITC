@@ -22,7 +22,7 @@
                         <a class="mr-2"><i class="far fa-user-circle fa-2x"></i></a>
                         <div class="media-body">
                             @MvcHtmlString.Create(j.Reply.Replace(Environment.NewLine, "<br />")) <i class="fas fa-reply"></i><br />
-                            <label style="font-size:xx-small;">BY @i.EmployeeName : @i.CreateDate</label>
+                            <label style="font-size:xx-small;">BY @j.EmployeeName : @j.CreateDate</label>
                             @if (ViewBag.BindEmpNo == j.CreateBy)
                             {
                                 <label style="font-size:xx-small;"> | </label>
@@ -42,8 +42,7 @@
             title: "Are you sure?",
             text: "Once deleted,you will not be able to recover",
             icon: "warning",
-            buttons: true,
-            dangerMode: true
+            buttons: true
         }).then((willDelete) => {
             if (willDelete) {
                 $.ajax({

@@ -83,7 +83,6 @@
         font-weight: bold;
     }
 </style>
-
 <div class="row">
     <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
         <div class="card m-2 p-1">
@@ -93,8 +92,6 @@
                     <i class="fas fa-plus-circle fa-lg" style="margin-right: 5px;"></i>
                     Create Equipment Type
                 </button>
-
-
                 <!-- Table -->
                 <table id="dtEquipmentType" class="table table-hover font-weight-bold">
                     <thead>
@@ -146,23 +143,26 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Close</button>
-                                        <button id="btnmodify" type="button" class="btn btn-primary font-bold" onclick="save('./UpdateEquipmentType')">Modify</button>
+                                        <button id="btnmodify" type="button" class="btn btn-primary font-bold" data-dismiss="modal" onclick="save('./UpdateEquipmentType')">Modify</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
 <script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
 <script>
-    var dataTable;
 
+    $('#btnCreateEquipmentType').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('.PartialSubSetting').empty().load('./CreateEquipmentType');
+    });
+
+    var dataTable;
     $(document).ready(() => {
         loadDataTable();
     });
@@ -213,7 +213,6 @@
 
                     }
                 },
-
             ]
         });
     }
@@ -225,7 +224,6 @@
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-
                 $('#toptitle').text(data[0].EquipmentType + ' (' + data[0].Description + ')');
                 $('#txtId').val(data[0].Id);
                 $('#txtDesEquipmentType').val(data[0].Description);
@@ -235,40 +233,31 @@
     }
 
     function save(url) {
-
         $.ajax({
             url: url,
             data: JSON.stringify({
-
                 Id: $('#txtId').val(),
                 Description: $('#txtDesEquipmentType').val(),
                 Status: $('#txtStatus').val(),
             }),
-
             contentType: "application/json; charset=utf-8",
             type: "PUT",
             dataType: "JSON",
             success: function (data) {
                 if (data.success == true) {
+
                     swal({
                         title: data.message,
                         icon: "success",
-                        buttons: "DONE",
+                        buttons: "DONE"
+                    }).then((willUpdate) => {
+                        if (willUpdate) {
+                            dataTable.ajax.reload();
+                        }
                     });
                 }
-                dataTable.ajax.reload();
-            },
-            error: function () {
-                swal({
-                    title: "Warning",
-                    text: data.message,
-                    icon: "warning",
-                    buttons: "DONE",
-                    dangerMode: true
-                });
             }
         });
-
     }
 
     function DeleteEquipmentType(url) {
@@ -285,27 +274,18 @@
                     url: url,
                     success: (data) => {
                         if (data) {
-                            (data.message);
+                            toastr.options = {
+                                "positionClass": "toast-bottom-left",
+                            };
+                            toastr.success(data.message);
                             dataTable.ajax.reload();
                         } else {
-                            (data.message);
+                            toastr.error(data.message);
                         }
                     }
                 });
             }
         });
     }
-
-
-
-    $('#btnCreateEquipmentType').on('click', (e) => {
-        e.stopImmediatePropagation();
-        $('.PartialSubSetting').empty().load('./CreateEquipmentType');
-    });
-
-    $('#btnmodify').on('click', (e) => {
-        e.stopImmediatePropagation();
-        $('.PartialSubSetting').empty().load('./ModifyEquipmentType');
-    });
 
 </script>

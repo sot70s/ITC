@@ -50,6 +50,7 @@ namespace ITC.Models
         public string Solution { get; set; }
         public int Status { get; set; }
         public int Progress { get; set; }
+        public string Note { get; set; }
     }
 
     public class ParameterDailyReport
@@ -134,6 +135,7 @@ namespace ITC.Models
         public string Solution { get; set; }
         public int JobReqBody_Id { get; set; }
         public int WorkOrder_Id { get; set; }
+        public string Note { get; set; }
     }
 
     [Table("WorkOrders")]
@@ -252,6 +254,7 @@ namespace ITC.Models
         public string Email { get; set; }
         public string Responsible { get; set; }
         public string Priority { get; set; }
+        public string PriorityNo { get; set; }
         public string ResponsibleName { get; set; }
         public string Suggestion { get; set; }
         public string AssignTo { get; set; }
@@ -278,6 +281,10 @@ namespace ITC.Models
         public string ApproveBy { get; set; }
         public string ApproveByName { get; set; }
         public string ApproveDate { get; set; }
+        public string Note { get; set; }
+        public int StandardDate { get; set; }
+        public int CriticalDate { get; set; }
+        public int CriticalPercent { get; set; }
     }
 
     public class JobGradeScore
@@ -299,6 +306,7 @@ namespace ITC.Models
     {
         public int Id { get; set; }
         public string Priority { get; set; }
+        public string PriorityNo { get; set; }
         public int Score { get; set; }
     }
 
@@ -328,6 +336,15 @@ namespace ITC.Models
         public string AssignTo { get; set; }
         public int Status { get; set; }
         public bool StatusWorkOrder { get; set; }
+        public int StandardDate { get; set; }
+        public int CriticalDate { get; set; }
+        public int CriticalPercent { get; set; }
+        public int LeadTime { get; set; }
+    }
+
+    public class Year
+    {
+        public string year { get; set; }
     }
 
     public class TableJobReqHeader
@@ -505,6 +522,9 @@ namespace ITC.Models
                    Description = jhb.Description,
                    Symptom = jhb.Symptom,
                    SymptomName_Th = sm.SymptomName_Th,
+                   StandardDate = sm.StandardDate,
+                   CriticalDate = sm.CriticalDate,
+                   CriticalPercent = sm.CriticalPercent,
                    Detail = jhb.Detail,
                    RequireDate = jhb.RequireDate,
                    Status = jhb.Status,
@@ -530,6 +550,9 @@ namespace ITC.Models
                          Description = jhb.Description,
                          Symptom = jhb.Symptom,
                          SymptomName_Th = jhb.SymptomName_Th,
+                         StandardDate = jhb.StandardDate,
+                         CriticalDate = jhb.CriticalDate,
+                         CriticalPercent = jhb.CriticalPercent,
                          Detail = jhb.Detail,
                          RequireDate = String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(jhb.RequireDate)),
                          Status = jhb.Status,
@@ -556,6 +579,9 @@ namespace ITC.Models
                          Description = jhb.Description,
                          Symptom = jhb.Symptom,
                          SymptomName_Th = jhb.SymptomName_Th,
+                         StandardDate = jhb.StandardDate,
+                         CriticalDate = jhb.CriticalDate,
+                         CriticalPercent = jhb.CriticalPercent,
                          Detail = jhb.Detail,
                          RequireDate = jhb.RequireDate,
                          Status = jhb.Status,
@@ -589,6 +615,9 @@ namespace ITC.Models
                                         Description = jr.Description,
                                         Symptom = jr.Symptom,
                                         SymptomName_Th = jr.SymptomName_Th,
+                                        StandardDate = jr.StandardDate,
+                                        CriticalDate = jr.CriticalDate,
+                                        CriticalPercent = jr.CriticalPercent,
                                         Detail = jr.Detail,
                                         RequireDate = jr.RequireDate,
                                         Status = jr.Status,
@@ -675,6 +704,9 @@ namespace ITC.Models
                                           Line = jr.Line,
                                           Symptom = jr.Symptom,
                                           SymptomName_Th = jr.SymptomName_Th,
+                                          StandardDate = jr.StandardDate,
+                                          CriticalDate = jr.CriticalDate,
+                                          CriticalPercent = jr.CriticalPercent,
                                           Detail = jr.Detail,
                                           RequireDate = jr.RequireDate,
                                           CreateDate = jr.CreateDate,
@@ -706,6 +738,9 @@ namespace ITC.Models
                          Line = jr.Line,
                          Symptom = jr.Symptom,
                          SymptomName_Th = jr.SymptomName_Th,
+                         StandardDate = jr.StandardDate,
+                         CriticalDate = jr.CriticalDate,
+                         CriticalPercent = jr.CriticalPercent,
                          Detail = jr.Detail,
                          RequireDate = jr.RequireDate,
                          CreateDate = jr.CreateDate,
@@ -737,6 +772,9 @@ namespace ITC.Models
                          Line = jr.Line,
                          Symptom = jr.Symptom,
                          SymptomName_Th = jr.SymptomName_Th,
+                         StandardDate = jr.StandardDate,
+                         CriticalDate = jr.CriticalDate,
+                         CriticalPercent = jr.CriticalPercent,
                          Detail = jr.Detail,
                          RequireDate = jr.RequireDate,
                          CreateDate = jr.CreateDate,
@@ -769,6 +807,9 @@ namespace ITC.Models
                          Line = jr.Line,
                          Symptom = jr.Symptom,
                          SymptomName_Th = jr.SymptomName_Th,
+                         StandardDate = jr.StandardDate,
+                         CriticalDate = jr.CriticalDate,
+                         CriticalPercent = jr.CriticalPercent,
                          Detail = jr.Detail,
                          RequireDate = jr.RequireDate,
                          CreateDate = jr.CreateDate,
@@ -1031,6 +1072,7 @@ namespace ITC.Models
             {
                 Id = gs.Id,
                 Priority = (gs.Score + js.Score >= 14) ? "HIGH" : ((gs.Score + js.Score < 14) && (gs.Score + js.Score > 8)) ? "MID" : "LOW",
+                PriorityNo = (gs.Score + js.Score >= 14) ? "3" : ((gs.Score + js.Score < 14) && (gs.Score + js.Score > 8)) ? "2" : "1",
                 Score = gs.Score + js.Score
             }).ToList();
             return query;
@@ -1080,9 +1122,13 @@ namespace ITC.Models
                                           Line = (jwr.Line.Length == 1) ? "0" + jwr.Line : jwr.Line,
                                           Symptom = jwr.Symptom,
                                           SymptomName_Th = jwr.SymptomName_Th,
+                                          StandardDate = jwr.StandardDate,
+                                          CriticalDate = jwr.CriticalDate,
+                                          CriticalPercent = jwr.CriticalPercent,
                                           RequireDate = jwr.RequireDate,
                                           CreateDate = jwr.CreateDate,
                                           Priority = (j == null) ? "N/A" : j.Priority,
+                                          PriorityNo = (j == null) ? "N/A" : j.PriorityNo,
                                           Status = jwr.Status,
                                           Detail = jwr.Detail,
                                           DecisionType = jwr.DecisionType,
@@ -1109,9 +1155,13 @@ namespace ITC.Models
                          Line = jwr.Line,
                          Symptom = jwr.Symptom,
                          SymptomName_Th = jwr.SymptomName_Th,
+                         StandardDate = jwr.StandardDate,
+                         CriticalDate = jwr.CriticalDate,
+                         CriticalPercent = jwr.CriticalPercent,
                          RequireDate = jwr.RequireDate,
                          CreateDate = jwr.CreateDate,
                          Priority = jwr.Priority,
+                         PriorityNo = jwr.PriorityNo,
                          Status = jwr.Status,
                          Detail = jwr.Detail,
                          DecisionType = jwr.DecisionType,
@@ -1149,9 +1199,13 @@ namespace ITC.Models
                                           Line = jwr.Line,
                                           Symptom = jwr.Symptom,
                                           SymptomName_Th = jwr.SymptomName_Th,
+                                          StandardDate = jwr.StandardDate,
+                                          CriticalDate = jwr.CriticalDate,
+                                          CriticalPercent = jwr.CriticalPercent,
                                           RequireDate = jwr.RequireDate,
                                           CreateDate = jwr.CreateDate,
                                           Priority = jwr.Priority,
+                                          PriorityNo = jwr.PriorityNo,
                                           Status = jwr.Status,
                                           Detail = jwr.Detail,
                                           DecisionType = jwr.DecisionType,
@@ -1171,7 +1225,8 @@ namespace ITC.Models
                                           PlanStartDate = (j == null) ? "" : String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(j.PlanStartDate)),
                                           PlanFinishDate = (j == null) ? "" : String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(j.PlanFinishDate)),
                                           RootCause = (j == null) ? "" : j.RootCause,
-                                          Solution = (j == null) ? "" : j.Solution
+                                          Solution = (j == null) ? "" : j.Solution,
+                                          Note = (j == null) ? "" : j.Note
                                       }).ToList();
 
             return query;
@@ -1192,6 +1247,9 @@ namespace ITC.Models
                     Line = jp.Line,
                     Symptom = jp.Symptom,
                     SymptomName_Th = jp.SymptomName_Th,
+                    StandardDate = jp.StandardDate,
+                    CriticalDate = jp.CriticalDate,
+                    CriticalPercent = jp.CriticalPercent,
                     RequireDate = jp.RequireDate,
                     CreateDate = jp.CreateDate,
                     Priority = jp.Priority,
@@ -1265,29 +1323,33 @@ namespace ITC.Models
                 string[] delimiters = new string[] { "," };
                 string[] arrEmployeeNo = emp_no.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
                 string[] arrColor = new string[] { "#cc99ff", "#33ccff", "#0066ff", "#009933", "#cccc00", "#ff9900", "#ff0000", "#cccc00", "#666633", "#009999", "#ff0066" };
+                CalendarDaily obj = new CalendarDaily(); 
                 for (int i = 0; i < arrEmployeeNo.Length; i++)
                 {
-                    CalendarDaily obj = new CalendarDaily();
                     var item = arrEmployeeNo[i];
-                    List<CalendarDaily> query = ListJobPlanning().Where(w => w.AssignTo == item).ToList()
+                    List<CalendarDaily> query = ListJobPlanning().Where(w => w.AssignTo == item && (w.Status == 4 || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).ToList()
                         .Select(s => new CalendarDaily
                         {
                             title = "\n" + s.WoNo + "-" + s.Rework + "\n" + "ASSIGN TO : " + s.AssignToName,
-                            start = Convert.ToDateTime(s.PlanStartDate).ToString("yyyy-MM-dd"),
-                            end = Convert.ToDateTime(s.PlanFinishDate).ToString("yyyy-MM-dd"),
+                            start = Convert.ToDateTime(s.PlanStartDate).ToString("yyyy-MM-ddTHH:mm:ss"),
+                            end = Convert.ToDateTime(s.PlanFinishDate).ToString("yyyy-MM-ddTHH:mm:ss"),
                             backgroundColor = arrColor[i],
                             borderColor = arrColor[i],
                         }).ToList();
 
-                    if (query.Count > 0)
+                    for (int j = 0; j < query.Count(); j++)
                     {
-                        obj.title = query[0].title;
-                        obj.start = query[0].start;
-                        obj.end = query[0].end;
-                        obj.backgroundColor = query[0].backgroundColor;
-                        obj.borderColor = query[0].borderColor;
+                        if (query.Count > 0)
+                        {
+                            obj = new CalendarDaily();
+                            obj.title = query[j].title;
+                            obj.start = query[j].start;
+                            obj.end = query[j].end;
+                            obj.backgroundColor = query[j].backgroundColor;
+                            obj.borderColor = query[j].borderColor;
 
-                        ObjList.Add(obj);
+                            ObjList.Add(obj);
+                        }
                     }
                 }
             }

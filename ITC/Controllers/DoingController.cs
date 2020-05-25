@@ -30,7 +30,7 @@ namespace ITC.Controllers
 
             TableJobPlanning data = new TableJobPlanning()
             {
-                data = QueryRequest.ListJobPlanning().Where(w => w.AssignTo == emp_no && w.Status == 4 && w.StatusWorkOrder == true).ToList()
+                data = QueryRequest.ListJobPlanning().Where(w => w.AssignTo == emp_no && w.Status == 4 && w.StatusWorkOrder == true).OrderByDescending(o => o.CreateDate).ThenByDescending(t => t.PriorityNo).ToList()
             };
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -161,7 +161,7 @@ namespace ITC.Controllers
             string msg = string.Empty;
             ITCContext _dbITC = new ITCContext();
 
-            if (cc.WorkOrder_Id == 0 || cc.Status == 0 || cc.TimeStart == null || cc.TimeStop == null || cc.WorkDetail == null || cc.RootCause == null || cc.Solution == null)
+            if (cc.WorkOrder_Id == 0 || cc.Status == 0 || cc.TimeStart == null || cc.TimeStop == null || cc.RootCause == null || cc.Solution == null)
             {
                 status = false;
                 msg = "One or more fields have _blank";
@@ -186,11 +186,11 @@ namespace ITC.Controllers
                     _WorkOrder.Progress = cc.Progress;
                     _JobPlanning.RootCause = cc.RootCause.Replace("\n", Environment.NewLine);
                     _JobPlanning.Solution = cc.Solution.Replace("\n", Environment.NewLine);
+                    _JobPlanning.Note = cc.Note.Replace("\n", Environment.NewLine);
                     _dbITC.JobDaily.Add(new JobDaily
                     {
                         TimeStart = Convert.ToDateTime(cc.DailyDate).AddHours(hourStart).AddMinutes(minuteStart),
                         TimeStop = Convert.ToDateTime(cc.DailyDate).AddHours(hourEnd).AddMinutes(minuteEnd),
-                        WorkDetail = cc.WorkDetail.Replace("\n", Environment.NewLine),
                         Status = cc.Status,
                         WorkOrder_Id = cc.WorkOrder_Id,
                         DailyDate = Convert.ToDateTime(cc.DailyDate)
@@ -241,7 +241,7 @@ namespace ITC.Controllers
         {
             ClaimsPrincipal identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
             string emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
-            List<DailyReport> ListDailyReport = QueryRequest.ListJobDaily().Where(w => w.AssignTo == emp_no && ((w.Status == 4 && w.StatusWorkOrder ==false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
+            List<DailyReport> ListDailyReport = QueryRequest.ListJobDaily().Where(w => w.AssignTo == emp_no && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
                                    .GroupBy(g => new
                                    {
                                        g.Id,
@@ -251,6 +251,9 @@ namespace ITC.Controllers
                                        g.Progress,
                                        g.Priority,
                                        g.Status,
+                                       g.PlanFinishDate,
+                                       g.CriticalDate,
+                                       g.CriticalPercent,
                                        g.StatusWorkOrder
                                    }, (key, group) => new DailyReport
                                    {
@@ -261,6 +264,9 @@ namespace ITC.Controllers
                                        Progress = key.Progress,
                                        Priority = key.Priority,
                                        Status = key.Status,
+                                       LeadTime = (DateTime.Now - Convert.ToDateTime(key.PlanFinishDate)).Days,
+                                       CriticalDate = key.CriticalDate,
+                                       CriticalPercent = key.CriticalPercent,
                                        StatusWorkOrder = key.StatusWorkOrder
                                    }).OrderByDescending(o => o.WoNo).ThenByDescending(t => t.Rework).ToList();
 
@@ -378,7 +384,7 @@ namespace ITC.Controllers
                 string email_to = "";
                 sentEmail sm = new sentEmail();
 
-                subject = "ITC-FEED JOB";
+                subject = "ITC-FEED JOB : " + cc.WorkRequest + " (" + cc.Equipment + ")";
 
                 head = "<b>" + cc.WorkRequest + " : " + cc.Equipment + "</b>";
 

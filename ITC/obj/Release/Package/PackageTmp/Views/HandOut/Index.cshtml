@@ -146,7 +146,7 @@
                                 }
                             </select>
                             <div class="input-group-append">
-                                <button class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="ScheduleTeam()"><i class="fas fa-search"></i> Search</button>
+                                <button id="btnScheduleTeam" class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="ScheduleTeam()"><i class="fas fa-search"></i> Search</button>
                             </div>
                         </div>
                     </div>
@@ -231,7 +231,7 @@
                                 }
                             </select>
                             <div class="input-group-append">
-                                <button class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="TeamSupport()"><i class="fas fa-search"></i> Search</button>
+                                <button id="btnTeamSupport" class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="TeamSupport()"><i class="fas fa-search"></i> Search</buttonid="btnTeamSupport">
                             </div>
                         </div>
                     </div>
@@ -507,19 +507,19 @@
                         render: function (data, type, row) {
                             if (row.Status == 3) {
                                 return `<button class="btn btn-primary btn-sm font-weight-bold" onclick=Info("./GetAssignJob?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                <button class="btn btn-warning btn-sm font-weight-bold")>PENDING</button>`;
+                                                                                                                    <button class="btn btn-sm font-weight-bold" style="background-color:#a333c8;border-color:#a333c8;color:#ffffff;")>PENDING</button>`;
                             }
                             else if (row.Status == 2) {
                                 if (row.Suggestion == "") {
                                     return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Job("./GetAssignJob?id=${data}")><i class="fas fa-edit"></i></button>
-                                                                                                    <button class="btn btn-danger btn-sm font-weight-bold"><i class="fas fa-exclamation-triangle"></i></button>`;
+                                                                                                                        <button class="btn btn-danger btn-sm font-weight-bold"><i class="fas fa-exclamation-triangle"></i></button>`;
                                 } else {
                                     return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Job("./GetAssignJob?id=${data}")><i class="fas fa-edit"></i></button>
-                                                                                                    <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                                                                                                                        <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
                                 }
                             } else {
                                 return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Job("./GetAssignJob?id=${data}")><i class="fas fa-edit"></i></button>
-                                                                                                    <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                                                                                                                        <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
                             }
                         }
                     }
@@ -662,7 +662,6 @@
                 text: "Submit a job request for approval",
                 icon: "warning",
                 buttons: true,
-                dangerMode: true
             }).then((willSend) => {
                 if (willSend) {
                     var id = getUrlVars(url)["id"];
@@ -739,13 +738,13 @@
                         data: "Progress",
                         render: function (data) {
                             if (data < 38) {
-                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
                             } else if (data >= 35 && data < 70) {
-                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
                             } else if (data >= 70 && data <= 99) {
-                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
                             } else if (data >= 100) {
-                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
                             }
                         }
                     },
@@ -755,66 +754,67 @@
                             if (row.Status == 6) {
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                                            <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                                            <button class="btn btn-success btn-sm font-weight-bold btn-close-${data}" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
-                                                                                                                            <button class="btn btn-danger btn-sm font-weight-bold btn-reject-${data}" onclick=RejectJob("./SetRejectWorkOrder?id=${data}")>REJECT</button>`;
+                                                                                                                                                <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                <button class="btn btn-success btn-sm font-weight-bold btn-close-${data}" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
+                                                                                                                                                <button class="btn btn-danger btn-sm font-weight-bold btn-reject-${data}" onclick=RejectJob("./SetRejectWorkOrder?id=${data}")>REJECT</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
                                 }
 
                             }
                             else if (row.Status == 7) {
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-warning btn-sm font-weight-bold")>PENDING</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-sm font-weight-bold" style="background-color:#a333c8;border-color:#a333c8;color:#ffffff;")>PENDING</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
                                 }
                             }
                             else if (row.Status == 8) {
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-success btn-sm font-weight-bold btn-close-${data}" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
-                                                                                                           <button class="btn btn-danger btn-sm font-weight-bold  btn-rework-${data}" onclick=ReworkJob("./SetReWorkJob?id=${data}")>REWORK</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-success btn-sm font-weight-bold btn-close-${data}" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
+                                                                                                                               <button class="btn btn-danger btn-sm font-weight-bold  btn-rework-${data}" onclick=ReworkJob("./SetReWorkJob?id=${data}")>REWORK</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
                                 }
 
                             }
                             else if (row.Status == 9) {
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-success btn-sm font-weight-bold")><i class="fas fa-check"></i> COMPLETED</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-success btn-sm font-weight-bold")><i class="fas fa-check"></i> COMPLETED</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
                                 }
 
                             }
                             else if (row.Status == 12 || row.Status == 13) {
                                 return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
 
                             }
                             else {
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                                                        <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>`;
+                                                                                                                                <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
-                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold") onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold") onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
                                 }
                             }
                         }
@@ -843,45 +843,42 @@
                             switch (item.StatusWorkOrderStr) {
                                 case 'Doing':
                                     return `<div class="col-md-3">
-                                                                                                                                                                <div class="card text-white bg-info mb-3">
-                                                                                                                                                                    <div class="card-header">
-                                                                                                                                                                        ${item.DailyDate}<br>
-                                                                                                                                                                        (${item.TimeStart} - ${item.TimeStop})
-                                                                                                                                                                    </div>
-                                                                                                                                                                    <div class="card-body">
-                                                                                                                                                                        <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
-                                                                                                                                                                        <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
-                                                                                                                                                                    </div>
-                                                                                                                                                                </div>
-                                                                                                                                                            </div>`;
+                                                                                                                                                                                    <div class="card text-white bg-info mb-3">
+                                                                                                                                                                                        <div class="card-header">
+                                                                                                                                                                                            ${item.DailyDate}<br>
+                                                                                                                                                                                            (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        <div class="card-body">
+                                                                                                                                                                                            <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>`;
                                     break;
                                 case 'PM':
                                     return `<div class="col-md-3">
-                                                                                                                                                                <div class="card text-white bg-secondary mb-3">
-                                                                                                                                                                    <div class="card-header">
-                                                                                                                                                                        ${item.DailyDate}<br>
-                                                                                                                                                                        (${item.TimeStart} - ${item.TimeStop})
-                                                                                                                                                                    </div>
-                                                                                                                                                                    <div class="card-body">
-                                                                                                                                                                        <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
-                                                                                                                                                                        <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
-                                                                                                                                                                    </div>
-                                                                                                                                                                </div>
-                                                                                                                                                            </div>`;
+                                                                                                                                                                                    <div class="card text-white bg-secondary mb-3">
+                                                                                                                                                                                        <div class="card-header">
+                                                                                                                                                                                            ${item.DailyDate}<br>
+                                                                                                                                                                                            (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        <div class="card-body">
+                                                                                                                                                                                            <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>`;
                                     break;
                                 case 'Complete':
                                     return `<div class="col-md-3">
-                                                                                                                                                                <div class="card text-white bg-success mb-3">
-                                                                                                                                                                    <div class="card-header">
-                                                                                                                                                                        ${item.DailyDate}<br>
-                                                                                                                                                                        (${item.TimeStart} - ${item.TimeStop})
-                                                                                                                                                                    </div>
-                                                                                                                                                                    <div class="card-body">
-                                                                                                                                                                        <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
-                                                                                                                                                                        <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
-                                                                                                                                                                    </div>
-                                                                                                                                                                </div>
-                                                                                                                                                            </div>`;
+                                                                                                                                                                                    <div class="card text-white bg-success mb-3">
+                                                                                                                                                                                        <div class="card-header">
+                                                                                                                                                                                            ${item.DailyDate}<br>
+                                                                                                                                                                                            (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        <div class="card-body">
+                                                                                                                                                                                            <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>`;
                                     break;
                             }
                         });
@@ -943,8 +940,7 @@
                 title: "Are you sure?",
                 text: "Reject this job",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true
+                buttons: true
             }).then((willSend) => {
                 if (willSend) {
                     swal({
@@ -999,8 +995,7 @@
                 title: "Are you sure?",
                 text: "Close this job",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true
+                buttons: true
             }).then((willSend) => {
                 if (willSend) {
                     var id = getUrlVars(url)["id"];
@@ -1044,8 +1039,7 @@
                 title: "Are you sure?",
                 text: "Rework this job",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true
+                buttons: true
             }).then((willSend) => {
                 if (willSend) {
                     swal({
@@ -1106,9 +1100,9 @@
                         var item = data[i];
                         $('.reason-job-reject').append(
                             ` <div class="d-flex w-100 justify-content-between">
-                                                                                                <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
-                                                                                            </div>
-                                                                                            <small>Reject by manager</small>`
+                                                                                                                    <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                </div>
+                                                                                                                <small>Reject by manager</small>`
                         );
                     }
                     $('#lbEquipmentRJR').text(data[0].Description + ' (' + data[0].Equipment + ')');
@@ -1130,9 +1124,9 @@
                         var item = data[i];
                         $('.reason-job-rework').append(
                             `<div class="d-flex w-100 justify-content-between">
-                                                                                                                <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
-                                                                                                            </div>
-                                                                                                            <small>Rework by MIS</small>`
+                                                                                                                                    <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                                </div>
+                                                                                                                                <small>Rework by MIS</small>`
                         );
                     }
                     $('#lbEquipmentRW').text(data[0].Description + ' (' + data[0].Equipment + ')');

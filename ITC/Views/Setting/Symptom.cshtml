@@ -63,7 +63,12 @@
                             Score
                         </div>
                         <div class="col-md-8 p-3">
-                            <input type="number" value="0" min="0" class="form-control form-control" id="txtScore">
+                            <div class="input-group">
+                                <input type="number" value="0" min="0" class="form-control form-control" id="txtScore">
+                                <div class="input-group-append">
+                                    <span class="input-group-text font-weight-bold">Max(10)</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-4 p-3" style="text-align:right;">
                             Section Type
@@ -87,6 +92,32 @@
                                 <option class="font-weight-bold" value="T">T (Ticket of helpdesk service)</option>
                             </select>
                         </div>
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Standard Lead Time
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <div class="input-group">
+                                <input type="number" value="0" min="0" class="form-control" id="txtStandardDate">
+                                <div class="input-group-append">
+                                    <span class="input-group-text font-weight-bold">Day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Critical Ratio
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <div class="input-group">
+                                <input type="number" value="0" min="0" class="form-control" id="txtCriticalDate">
+                                <div class="input-group-append">
+                                    <span class="input-group-text font-weight-bold">Day</span>
+                                </div>
+                                <input type="number" value="0" min="0" class="form-control" id="txtCriticalPercent">
+                                <div class="input-group-append">
+                                    <span class="input-group-text font-weight-bold">%</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,6 +139,17 @@
 
     $(document).ready(() => {
         loadDataTable();
+    });
+
+    $('#txtScore').on('keyup', (e) => {
+        e.stopImmediatePropagation();
+        if ($('#txtScore').val() > 10) {
+            $('#txtScore').val('10')
+        }
+
+        if ($('#txtScore').val() < 0) {
+            $('#txtScore').val('0')
+        }
     });
 
     function loadDataTable() {
@@ -187,6 +229,9 @@
                 $('#txtScore').val(data[0].Score);
                 $('#ddlSectionType').val(data[0].SectionType);
                 $('#ddlDecisionType').val(data[0].Decision);
+                $('#txtStandardDate').val(data[0].StandardDate);
+                $('#txtCriticalDate').val(data[0].CriticalDate);
+                $('#txtCriticalPercent').val(data[0].CriticalPercent);
             }
         });
     }
@@ -200,7 +245,10 @@
                 SymptomName_Th: $('#txtSymptomNameTh').val(),
                 Score: $('#txtScore').val(),
                 SectionType: $('#ddlSectionType').val(),
-                DecisionType: $('#ddlDecisionType').val()
+                DecisionType: $('#ddlDecisionType').val(),
+                StandardDate: $('#txtStandardDate').val(),
+                CriticalDate: $('#txtCriticalDate').val(),
+                CriticalPercent: $('#txtCriticalPercent').val()
             }),
             contentType: 'application/json; charset=utf-8',
             type: 'PUT',

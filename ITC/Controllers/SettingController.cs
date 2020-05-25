@@ -541,7 +541,8 @@ namespace ITC.Controllers
             EmployeeStore query = QueryPersonnel.ListEmployeeMeyer().FirstOrDefault(w => w.EMPLOYEE_NO == cc.EmployeeNo);
             var position = query.POSITION_DESCRIPTION;
             var section = query.SECTION_DESCRIPTION;
-            return Json(new {
+            return Json(new
+            {
                 position = position,
                 section = section
             });
@@ -953,7 +954,7 @@ namespace ITC.Controllers
             var msg = string.Empty;
             ITCContext _dbITC = new ITCContext();
 
-            if (cc.SymptomName == null || cc.SymptomName_Th == null || cc.Score == null || cc.SectionType == "0" || cc.DecisionType == "0")
+            if (cc.SymptomName == null || cc.SymptomName_Th == null || cc.Score == null || cc.SectionType == "0" || cc.DecisionType == "0" || cc.StandardDate == null || cc.CriticalDate == null || cc.CriticalPercent == null)
             {
                 status = false;
                 msg = "One or more fields have _blank";
@@ -970,7 +971,10 @@ namespace ITC.Controllers
                         SymptomName_Th = cc.SymptomName_Th,
                         Score = Convert.ToInt32(cc.Score),
                         SectionType = cc.SectionType,
-                        DecisionType = cc.DecisionType
+                        DecisionType = cc.DecisionType,
+                        StandardDate = Convert.ToInt32(cc.StandardDate),
+                        CriticalDate = Convert.ToInt32(cc.CriticalDate),
+                        CriticalPercent = Convert.ToInt32(cc.CriticalPercent)
                     });
                     _dbITC.SaveChanges();
                 }
@@ -1020,22 +1024,34 @@ namespace ITC.Controllers
             bool status = false;
             var msg = string.Empty;
             ITCContext _dbITC = new ITCContext();
-            try
-            {
-                status = true;
-                msg = "Successful";
-                Symptom query = _dbITC.Symptom.Where(w => w.Id == cc.Id).FirstOrDefault();
-                query.SymptomName = cc.SymptomName;
-                query.SymptomName_Th = cc.SymptomName_Th;
-                query.Score = Convert.ToInt32(cc.Score);
-                query.DecisionType = cc.DecisionType;
-                query.SectionType = cc.SectionType;
-                _dbITC.SaveChanges();
-            }
-            catch (Exception ex)
+
+            if (cc.SymptomName == null || cc.SymptomName_Th == null || cc.Score == null || cc.SectionType == "0" || cc.DecisionType == "0" || cc.StandardDate == null || cc.CriticalDate == null || cc.CriticalPercent == null)
             {
                 status = false;
-                msg = ex.Message;
+                msg = "One or more fields have _blank";
+            }
+            else
+            {
+                try
+                {
+                    status = true;
+                    msg = "Successful";
+                    Symptom query = _dbITC.Symptom.Where(w => w.Id == cc.Id).FirstOrDefault();
+                    query.SymptomName = cc.SymptomName;
+                    query.SymptomName_Th = cc.SymptomName_Th;
+                    query.Score = Convert.ToInt32(cc.Score);
+                    query.DecisionType = cc.DecisionType;
+                    query.SectionType = cc.SectionType;
+                    query.StandardDate = Convert.ToInt32(cc.StandardDate);
+                    query.CriticalDate = Convert.ToInt32(cc.CriticalDate);
+                    query.CriticalPercent = Convert.ToInt32(cc.CriticalPercent);
+                    _dbITC.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    status = false;
+                    msg = ex.Message;
+                }
             }
             return Json(new { success = status, message = msg });
         }
@@ -1295,8 +1311,8 @@ namespace ITC.Controllers
         public PartialViewResult HardwareAsset()
         {
             ITCContext dbcon = new ITCContext();
-            ViewBag.BindEquipmentTypeH = QueryEquipmentType.ListEquipmentType().OrderByDescending(o => o.EquipmentType).ToList();
-            ViewBag.BindEquipmentTypeM = QueryEquipmentType.ListEquipmentType().OrderByDescending(o => o.EquipmentType).ToList();
+            ViewBag.BindEQUIPTYPE = QueryEquipmentType.ListEquipmentType().OrderByDescending(o => o.EquipmentType).ToList();
+            ViewBag.BindEquipmentType = QueryEquipmentType.ListEquipmentType().OrderByDescending(o => o.EquipmentType).ToList();
             return PartialView();
         }
 
@@ -1322,9 +1338,8 @@ namespace ITC.Controllers
         [HttpPost]
         public JsonResult InsertHardwareAsset(ParameterHardwareAsset s)
         {
-            ITCContext dbcon = new ITCContext();
-            var dbinsert = new HardwareAsset();
             var msg = "";
+            var e = "";
             bool status = false;
 
             if (s.Equipment == null || s.EquipmentType == "Select" || s.Description == null || s.SerialNumber == null || s.Model == null || s.Owner == null || s.Location == null || s.TelephoneOwner == null || s.Responsible == null || s.Status == '0')
@@ -1334,34 +1349,88 @@ namespace ITC.Controllers
             }
             else
             {
-                dbcon.HardwareAssets.Add(new HardwareAsset
+                ITCContext dbcon = new ITCContext();
+                List<HardwareAsset> query = QueryEquipmentLast.ListEquipmentLast().Where(w => w.Equipment == s.Equipment).ToList();
+                if (query.Count > 0)
                 {
-                    Equipment = s.Equipment,
-                    EquipmentType = s.EquipmentType,
-                    Description = s.Description,
-                    SerialNumber = s.SerialNumber,
-                    Model = s.Model,
-                    Owner = s.Owner,
-                    Location = s.Location,
-                    TelephoneOwner = s.TelephoneOwner,
-                    Responsible = s.Responsible,
-                    Status = s.Status,
-                    PreviousOwner = s.PreviousOwner,
-                    PreviousLocation = s.PreviousLocation,
-                    ServiceVendor = s.ServiceVendor,
-                    Company = s.Company,
-                    EquipmentGroup = s.EquipmentGroup,
-                    PurchaseDate = s.PurchaseDate,
-                    ReceiveDate = s.ReceiveDate,
-                    ServiceDate = s.ServiceDate,
-                    WarrantyType = s.WarrantyType,
-                    WarrantyNum = s.WarrantyNum,
-                    SafetyNote = s.SafetyNote,
-                });
+                    switch ((Convert.ToInt32(query[0].Equipment.Substring(7)) + 1).ToString().Length)
+                    {
+                        case 1:
+                            e = query[0].EquipmentType + "0000" + (Convert.ToInt32(query[0].Equipment.ToString().Substring(7)) + 1).ToString();
+                            break;
+                        case 2:
+                            e = query[0].EquipmentType + "000" + (Convert.ToInt32(query[0].Equipment.ToString().Substring(7)) + 1).ToString();
+                            break;
+                        case 3:
+                            e = query[0].EquipmentType + "00" + (Convert.ToInt32(query[0].Equipment.ToString().Substring(7)) + 1).ToString();
+                            break;
+                        case 4:
+                            e = query[0].EquipmentType + "0" + (Convert.ToInt32(query[0].Equipment.ToString().Substring(7)) + 1).ToString();
+                            break;
+                        case 5:
+                            e = query[0].EquipmentType + (Convert.ToInt32(query[0].Equipment.ToString().Substring(7)) + 1).ToString();
+                            break;
+                    }
+                    dbcon.HardwareAssets.Add(new HardwareAsset
+                    {
+                        Equipment = e,
+                        EquipmentType = s.EquipmentType,
+                        Description = s.Description,
+                        SerialNumber = s.SerialNumber,
+                        Model = s.Model,
+                        Owner = s.Owner,
+                        Location = s.Location,
+                        TelephoneOwner = s.TelephoneOwner,
+                        Responsible = s.Responsible,
+                        Status = s.Status,
+                        PreviousOwner = s.PreviousOwner,
+                        PreviousLocation = s.PreviousLocation,
+                        ServiceVendor = s.ServiceVendor,
+                        Company = s.Company,
+                        EquipmentGroup = s.EquipmentGroup,
+                        PurchaseDate = s.PurchaseDate,
+                        ReceiveDate = s.ReceiveDate,
+                        ServiceDate = s.ServiceDate,
+                        WarrantyType = s.WarrantyType,
+                        WarrantyNum = s.WarrantyNum,
+                        SafetyNote = s.SafetyNote,
+                    });
 
-                dbcon.SaveChanges();
-                msg = "Insert success !!";
-                status = true;
+                    dbcon.SaveChanges();
+                    msg = "Insert success !!";
+                    status = true;
+                }
+                else
+                {
+                    dbcon.HardwareAssets.Add(new HardwareAsset
+                    {
+                        Equipment = s.Equipment,
+                        EquipmentType = s.EquipmentType,
+                        Description = s.Description,
+                        SerialNumber = s.SerialNumber,
+                        Model = s.Model,
+                        Owner = s.Owner,
+                        Location = s.Location,
+                        TelephoneOwner = s.TelephoneOwner,
+                        Responsible = s.Responsible,
+                        Status = s.Status,
+                        PreviousOwner = s.PreviousOwner,
+                        PreviousLocation = s.PreviousLocation,
+                        ServiceVendor = s.ServiceVendor,
+                        Company = s.Company,
+                        EquipmentGroup = s.EquipmentGroup,
+                        PurchaseDate = s.PurchaseDate,
+                        ReceiveDate = s.ReceiveDate,
+                        ServiceDate = s.ServiceDate,
+                        WarrantyType = s.WarrantyType,
+                        WarrantyNum = s.WarrantyNum,
+                        SafetyNote = s.SafetyNote,
+                    });
+
+                    dbcon.SaveChanges();
+                    msg = "Insert success !!";
+                    status = true;
+                }
             }
 
             return Json(new { success = status, message = msg });
@@ -1372,7 +1441,6 @@ namespace ITC.Controllers
         {
             List<Parameter> query = QueryHardwareAssetList.HardwareAssetList().Where(s => s.Id == Id).ToList();
             return Json(query, JsonRequestBehavior.AllowGet);
-
         }
 
         [HttpGet]
@@ -1406,9 +1474,6 @@ namespace ITC.Controllers
             query.WarrantyType = cc.WarrantyType;
             query.WarrantyNum = cc.WarrantyNum;
             query.SafetyNote = cc.SafetyNote;
-
-
-
             dbcon.SaveChanges();
 
             return Json(new { success = true, message = "Modify success !!" });
@@ -1428,23 +1493,38 @@ namespace ITC.Controllers
         [HttpPost]
         public JsonResult GetEquipmentLest(HardwareAsset cc)
         {
-
             HardwareAsset query = QueryEquipmentLast.ListEquipmentLast().LastOrDefault(w => w.EquipmentType == cc.EquipmentType);
             string e = "";
 
-            if (query == null)
+            if (query != null)
             {
-                e = cc.EquipmentType + "00001";
+                switch ((Convert.ToInt32(query.Equipment.Substring(7)) + 1).ToString().Length)
+                {
+                    case 1:
+                        e = query.EquipmentType + "0000" + (Convert.ToInt32(query.Equipment.ToString().Substring(7)) + 1).ToString();
+                        break;
+                    case 2:
+                        e = query.EquipmentType + "000" + (Convert.ToInt32(query.Equipment.ToString().Substring(7)) + 1).ToString();
+                        break;
+                    case 3:
+                        e = query.EquipmentType + "00" + (Convert.ToInt32(query.Equipment.ToString().Substring(7)) + 1).ToString();
+                        break;
+                    case 4:
+                        e = query.EquipmentType + "0" + (Convert.ToInt32(query.Equipment.ToString().Substring(7)) + 1).ToString();
+                        break;
+                    case 5:
+                        e = query.EquipmentType + (Convert.ToInt32(query.Equipment.ToString().Substring(7)) + 1).ToString();
+                        break;
+                }
             }
             if (query != null && query.Equipment == null)
             {
                 e = query.EquipmentType + "00001";
             }
-            if (query != null)
+            if (query == null)
             {
-                e = query.Equipment;
+                e = cc.EquipmentType + "00001";
             }
-
 
             return Json(new { success = e });
         }
@@ -1473,31 +1553,39 @@ namespace ITC.Controllers
         [HttpPost]
         public JsonResult InsertEquipmentType(ParameterEquipmentType s)
         {
-            ITCContext dbcon = new ITCContext();
-            var dbinsert = new Equipment_Type();
             var msg = "";
             bool status = false;
-            if (s.EquipmentType == null || s.Description == null || s.Status == '0')
+
+            if (s.EquipmentType == null || s.Description == null || s.Status == 0)
             {
                 msg = "Insert error !!";
                 status = false;
             }
             else
             {
-                dbcon.Equipment_Types.Add(new Equipment_Type
+                ITCContext dbcon = new ITCContext();
+                List<Equipment_Type> query = dbcon.Equipment_Types.Where(a => a.EquipmentType == s.EquipmentType).ToList();
+                if (query.Count > 0)
                 {
+                    msg = "Please re-input  Equipment Type again!!";
+                    status = false;
+                }
+                else
+                {
+                    dbcon.Equipment_Types.Add(new Equipment_Type
+                    {
 
-                    EquipmentType = s.EquipmentType,
-                    Description = s.Description,
-                    Status = s.Status,
+                        EquipmentType = s.EquipmentType,
+                        Description = s.Description,
+                        Status = s.Status,
 
-                });
+                    });
 
-                dbcon.SaveChanges();
-                msg = "Insert success !!";
-                status = true;
+                    dbcon.SaveChanges();
+                    msg = "Insert success !!";
+                    status = true;
+                }
             }
-
             return Json(new { success = status, message = msg });
         }
 
@@ -1512,7 +1600,7 @@ namespace ITC.Controllers
         public JsonResult UpdateEquipmentType(ParameterEQ cc)
         {
             ITCContext dbcon = new ITCContext();
-            Equipment_Type query = dbcon.Equipment_Types.FirstOrDefault(s => s.Id == cc.Id);
+            Equipment_Type query = dbcon.Equipment_Types.Where(s => s.Id == cc.Id).FirstOrDefault();
 
             query.Id = cc.Id;
             query.Description = cc.Description;

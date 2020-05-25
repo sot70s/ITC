@@ -17,6 +17,7 @@ namespace ITC.Controllers
         {
             ViewBag.BindDDlWorkOrder = QueryRequest.ListJobPlanning().Where(w => (w.SectionType.StartsWith("IS") || w.SectionType.StartsWith("IT")) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).GroupBy(g => g.WoNo).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
             ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => (w.Division.StartsWith("IS") || w.Division.StartsWith("IT")) && w.JobType == "Staff").ToList();
+            ViewBag.BindYear = QueryRequest.ListJobPlanning().Where(w => (w.Status > 2 && (w.Status != 10))).GroupBy(g => Convert.ToDateTime(g.CreateDate).ToString("yyyy")).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
             return View();
         }
 
@@ -153,18 +154,31 @@ namespace ITC.Controllers
         }
 
         [HttpPost]
-        public JsonResult ChartStatusOnHand()
+        public JsonResult ChartStatusOnHand(string year)
         {
             var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
             var emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
             List<JobStatusOnHandChart> objStatus = new List<JobStatusOnHandChart>();
             JobStatusOnHandChart itemStatus;
-            List<JobRequest> _ListJobRequest = QueryRequest.ListJobPlanning().Where(w => (w.Status > 2 && (w.Status != 10 && w.Status != 11)))
+            List<JobRequest> _ListJobRequest = new List<JobRequest>();
+
+            if (year != "0")
+            {
+                _ListJobRequest = QueryRequest.ListJobPlanning().Where(w => (w.Status > 2 && (w.Status != 10)) && Convert.ToDateTime(w.CreateDate).ToString("yyyy") == year)
                                 .Select(s => new JobRequest
                                 {
                                     AssignToName = s.AssignToName,
-                                    StatusStr = (s.Status == 9 && s.StatusWorkOrder == true) ? "COMPLETE" : (((s.Status == 6 || s.Status == 7 || s.Status == 9) && s.StatusWorkOrder == false) || s.Status == 12 || s.Status == 13) ? "REWORKED" : "PROCEED"
+                                    StatusStr = (s.Status == 9 && s.StatusWorkOrder == true) ? "COMPLETE" : (((s.Status == 6 || s.Status == 7 || s.Status == 9) && s.StatusWorkOrder == false) || s.Status == 12 || s.Status == 13) ? "REWORKED" : (s.Status == 11) ? "REJECTED" : "PROCEED"
                                 }).ToList();
+            }
+            else {
+                _ListJobRequest = QueryRequest.ListJobPlanning().Where(w => (w.Status > 2 && (w.Status != 10)))
+                .Select(s => new JobRequest
+                {
+                    AssignToName = s.AssignToName,
+                    StatusStr = (s.Status == 9 && s.StatusWorkOrder == true) ? "COMPLETE" : (((s.Status == 6 || s.Status == 7 || s.Status == 9) && s.StatusWorkOrder == false) || s.Status == 12 || s.Status == 13) ? "REWORKED" : (s.Status == 11) ? "REJECTED" : "PROCEED"
+                }).ToList();
+            }
 
             _ListJobRequest = _ListJobRequest.GroupBy(g => new
             {
@@ -183,6 +197,7 @@ namespace ITC.Controllers
                     .Select(s => new
                     {
                         AssignToName = s.Key,
+                        Rejected = s.Where(g => g.StatusStr == "REJECTED").Select(s2 => s2.CountStatus).FirstOrDefault(),
                         Reworked = s.Where(g => g.StatusStr == "REWORKED").Select(s2 => s2.CountStatus).FirstOrDefault(),
                         Proceed = s.Where(g => g.StatusStr == "PROCEED").Select(s2 => s2.CountStatus).FirstOrDefault(),
                         Complete = s.Where(g => g.StatusStr == "COMPLETE").Select(s2 => s2.CountStatus).FirstOrDefault()
@@ -192,6 +207,7 @@ namespace ITC.Controllers
             {
                 itemStatus = new JobStatusOnHandChart();
                 itemStatus.AssignToName = item[i].AssignToName;
+                itemStatus.Rejected = item[i].Rejected;
                 itemStatus.Reworked = item[i].Reworked;
                 itemStatus.Proceed = item[i].Proceed;
                 itemStatus.Complete = item[i].Complete;

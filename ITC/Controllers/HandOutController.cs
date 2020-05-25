@@ -52,14 +52,14 @@ namespace ITC.Controllers
             {
                 data = new TableJobResponsible()
                 {
-                    data = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && (w.Status == 2 || w.Status == 3 || w.Status == 12)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ToList()
+                    data = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && (w.Status == 2 || w.Status == 3 || w.Status == 12)).OrderByDescending(o => o.CreateDate).ThenByDescending(t => t.PriorityNo).ToList()
                 };
             }
             else
             {
                 data = new TableJobResponsible()
                 {
-                    data = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 2 || w.Status == 3 || w.Status == 12)).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ToList()
+                    data = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 2 || w.Status == 3 || w.Status == 12)).OrderByDescending(o => o.CreateDate).ThenByDescending(t => t.PriorityNo).ToList()
                 };
             }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace ITC.Models
         public string Score { get; set; }
         public string DecisionType { get; set; }
         public string SectionType { get; set; }
+        public string StandardDate { get; set; }
+        public string CriticalDate { get; set; }
+        public string CriticalPercent { get; set; }
     }
 
     [Table("Symptom")]
@@ -25,6 +29,9 @@ namespace ITC.Models
         public int Score { get; set; }
         public string DecisionType { get; set; }
         public string SectionType { get; set; }
+        public int StandardDate { get; set; }
+        public int CriticalDate { get; set; }
+        public int CriticalPercent { get; set; }
     }
 
     public class SymptomStore
@@ -36,6 +43,9 @@ namespace ITC.Models
         public string Decision { get; set; }
         public string DecisionType { get; set; }
         public string SectionType { get; set; }
+        public int StandardDate { get; set; }
+        public int CriticalDate { get; set; }
+        public int CriticalPercent { get; set; }
     }
 
     public class TableSymptom
@@ -57,7 +67,10 @@ namespace ITC.Models
                     Score = s.Score,
                     Decision = s.DecisionType,
                     DecisionType = (s.DecisionType == "A") ? "A (Need user manager approval)" : (s.DecisionType == "N") ? "N (Pass through to MIS)" : "T (Ticket of helpdesk service)",
-                    SectionType = s.SectionType
+                    SectionType = s.SectionType,
+                    StandardDate = s.StandardDate,
+                    CriticalDate = s.CriticalDate,
+                    CriticalPercent = s.CriticalPercent
                 }).ToList();
             return query;
         }

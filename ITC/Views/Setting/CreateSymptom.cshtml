@@ -21,7 +21,12 @@
                             Score
                         </div>
                         <div class="col-md-8 p-3">
-                            <input type="number" value="0" min="0" class="form-control form-control" id="txtScore">
+                            <div class="input-group">
+                                <input type="number" value="0" min="0" max="10" class="form-control form-control" id="txtScore">
+                                <div class="input-group-append">
+                                    <span class="input-group-text font-weight-bold">Max(10)</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-4 p-3" style="text-align:right;">
                             Section Type
@@ -45,6 +50,32 @@
                                 <option class="font-weight-bold" value="T">T (Ticket of helpdesk service)</option>
                             </select>
                         </div>
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Standard Lead Time
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <div class="input-group">
+                                <input type="number" value="0" min="0" class="form-control" id="txtStandardDate">
+                                <div class="input-group-append">
+                                    <span class="input-group-text font-weight-bold">Day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-3" style="text-align:right;">
+                            Critical Ratio
+                        </div>
+                        <div class="col-md-8 p-3">
+                            <div class="input-group">
+                                <input type="number" value="0" min="0" class="form-control" id="txtCriticalDate">
+                                <div class="input-group-append">
+                                    <span class="input-group-text font-weight-bold">Day</span>
+                                </div>
+                                <input type="number" value="0" min="0" class="form-control" id="txtCriticalPercent">
+                                <div class="input-group-append">
+                                    <span class="input-group-text font-weight-bold">%</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-4 p-3"></div>
                         <div class="col-md-8 p-3">
                             <button id="btnClear" type="button" class="btn btn-warning btn-sm font-weight-bold">Clear</button>
@@ -60,8 +91,19 @@
 <script>
     $('#btnClear').on('click', (e) => {
         e.stopImmediatePropagation();
-        $('#txtSymptomName,#txtSymptomNameTh,#txtScore').val('');
-        $('#ddlSectionType,#ddlDecisionType').val('0');
+        $('#txtSymptomName,#txtSymptomNameTh').val('');
+        $('#ddlSectionType,#ddlDecisionType,#txtScore,#txtStandardDate,#txtCriticalDate,#txtCriticalPercent').val('0');
+    });
+
+    $('#txtScore').on('keyup', (e) => {
+        e.stopImmediatePropagation();
+        if ($('#txtScore').val() > 10) {
+            $('#txtScore').val('10')
+        }
+
+        if ($('#txtScore').val() < 0) {
+            $('#txtScore').val('0')
+        }
     });
 
     $('#btnSubmit').on('click', (e) => {
@@ -73,7 +115,10 @@
                 SymptomName_Th: $('#txtSymptomNameTh').val(),
                 Score: $('#txtScore').val(),
                 SectionType: $('#ddlSectionType').val(),
-                DecisionType: $('#ddlDecisionType').val()
+                DecisionType: $('#ddlDecisionType').val(),
+                StandardDate: $('#txtStandardDate').val(),
+                CriticalDate: $('#txtCriticalDate').val(),
+                CriticalPercent: $('#txtCriticalPercent').val()
             }),
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
@@ -85,8 +130,8 @@
                         icon: "success",
                         buttons: "DONE"
                     }).then((willDone) => {
-                        $('#txtSymptomName,#txtSymptomNameTh,#txtScore').val('');
-                        $('#ddlSectionType,#ddlDecisionType').val('0');
+                        $('#txtSymptomName,#txtSymptomNameTh').val('');
+                        $('#ddlSectionType,#ddlDecisionType,#txtScore,#txtStandardDate,#txtCriticalDate,#txtCriticalPercent').val('0');
                     });
                 } else {
                     swal({

@@ -18,6 +18,7 @@ namespace ITC.Models
         public string Status { get; set; }
         public string Color { get; set; }
         public int CountStatus { get; set; }
+        public int Rejected { get; set; }
         public int Reworked { get; set; }
         public int Proceed { get; set; }
         public int Complete { get; set; }

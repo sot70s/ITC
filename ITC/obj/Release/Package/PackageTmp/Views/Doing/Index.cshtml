@@ -265,102 +265,6 @@
 </div>
 
 <!-- Modal -->
-@*<div class="modal fade" id="ModalUpdateDaily" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
-                    <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-pencil-alt fa-lg"></i>&nbsp;&nbsp;Update Daily : <label id="lbDailyDate"></label></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card-body">
-                                    <h6 class="card-title font-weight-bold">Work Order :</h6>
-                                    <select id="ddlWorkOrder" class="form-control form-control-sm font-weight-bold">
-                                        <option class="font-weight-bold" value="0">SELECT</option>
-                                        @foreach (var i in ViewBag.BindDDlWorkOrder)
-                                        {
-                                            <option class="font-weight-bold" value="@i.WorkOrder_Id">@i.WoNo-@i.Rework</option>
-                                        }
-                                    </select>
-                                    <br />
-                                    <h6 class="card-title font-weight-bold">Root Cause :</h6>
-                                    <textarea class="form-control form-control" id="txtRootCauseDL" rows="3"></textarea>
-                                    <br />
-                                    <h6 class="card-title font-weight-bold">Solution :</h6>
-                                    <textarea class="form-control form-control" id="txtSolutionDL" rows="3"></textarea>
-                                    <br />
-                                    <h6 class="card-title font-weight-bold">Time Start :</h6>
-                                    <div class="input-group date" id="dateTimeStart" data-target-input="nearest">
-                                        <input id="txtTimeStart" type="text" class="form-control form-control-sm datetimepicker-input font-weight-bold" data-target="#dateTimeStart" />
-                                        <div class="input-group-append" data-target="#dateTimeStart" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="far fa-clock"></i></div>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <h6 class="card-title font-weight-bold">Time Stop :</h6>
-                                    <div class="input-group date" id="dateTimeStop" data-target-input="nearest">
-                                        <input id="txtTimeStop" type="text" class="form-control form-control-sm datetimepicker-input font-weight-bold" data-target="#dateTimeStop" />
-                                        <div class="input-group-append" data-target="#dateTimeStop" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="far fa-clock"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card-body">
-                                    <h6 class="card-title font-weight-bold">Work Detail :</h6>
-                                    <textarea class="form-control" id="txtWorkDetail" rows="3"></textarea>
-                                    <br />
-                                    <h6 class="card-title font-weight-bold">Status :</h6>
-                                    <select id="ddlStatus" class="form-control form-control-sm font-weight-bold">
-                                        <option class="font-weight-bold" value="0">SELECT</option>
-                                        <option class="font-weight-bold" value="1">DOING</option>
-                                        <option class="font-weight-bold" value="2">PM</option>
-                                        <option class="font-weight-bold" value="3">COMPLETE</option>
-                                    </select>
-                                    <br />
-                                    <h6 class="card-title font-weight-bold">Progress :</h6>
-                                    <div class="progress">
-                                        <div id="divProgress" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0"></div>
-                                    </div>
-                                    <br />
-                                    <button id="btnDecresase" type="button" class="btn btn-outline-danger btn-sm font-weight-bold"><i class="fas fa-minus"></i></button>
-                                    <button id="btnIncrease" type="button" class="btn btn-outline-success btn-sm font-weight-bold"><i class="fas fa-plus"></i></button>
-                                    <hr />
-                                    <h5 class="card-title font-weight-bold"><i class="fas fa-trash"></i> #Remove Daily Job</h5>
-                                    <br />
-
-                                    <h6 class="card-title font-weight-bold">Work Order / Period :</h6>
-                                    <div class="row">
-                                        <div class="col-md-9" style="padding-right:1px;">
-                                            <select id="ddlWorkOrderPeriod" class="form-control form-control-sm font-weight-bold">
-                                                <option class="font-weight-bold" value="0">SELECT</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3" style="padding-left:1px;">
-                                            <button type="button" class="btn btn-danger btn-sm font-weight-bold" data-dismiss="modal" onclick="Del('./DelJobDaily')">Delete</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm font-weight-bold" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success btn-sm font-weight-bold" data-dismiss="modal" onclick="Daily('./SetJobDaily')">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-
-<!-- Modal -->
 <div class="modal fade" id="ModalDailyReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
@@ -653,8 +557,7 @@
                 title: "Are you sure?",
                 text: "Submit your planning",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true
+                buttons: true
             }).then((willSend) => {
                 if (willSend) {
                     var id = getUrlVars(url)["id"];
@@ -764,172 +667,6 @@
             });
         }
 
-        //$('#ddlWorkOrder').on('change', (e) => {
-        //    e.stopImmediatePropagation();
-        //    $.ajax({
-        //        url: './GetJobDaily',
-        //        data: JSON.stringify({
-        //            WorkOrder_Id: $('#ddlWorkOrder').val(),
-        //            DailyDate: $('#lbDailyDate').text()
-        //        }),
-        //        contentType: 'application/json; charset=utf-8',
-        //        type: 'POST',
-        //        dataType: 'JSON',
-        //        success: (data) => {
-        //            $('#txtRootCauseDL').val(data.objPlanning[0].RootCause);
-        //            $('#txtSolutionDL').val(data.objPlanning[0].Solution);
-        //            $('#ddlWorkOrderPeriod').empty();
-        //            for (i in data.objDaily) {
-        //                var item = data.objDaily[i];
-        //                $('#ddlWorkOrderPeriod').append(`<option class="font-weight-bold" value="${item.JobDaily_Id}">${item.WoNo}-${item.Rework} / ${item.TimeStart} - ${item.TimeStop}</option>`)
-        //            }
-
-        //            switch (data.objPlanning[0].Progress) {
-        //                case 0:
-        //                    $('#divProgress').attr('aria-valuenow', '0').css('width', '0%').removeClass('bg-danger');
-        //                    break;
-        //                case 25:
-        //                    $('#divProgress').attr('aria-valuenow', '25').css('width', '25%').addClass('bg-danger').removeClass('bg-danger');
-        //                    break;
-        //                case 50:
-        //                    $('#divProgress').attr('aria-valuenow', '50').css('width', '50%').addClass('bg-warning').removeClass('bg-danger');
-        //                    break;
-        //                case 75:
-        //                    $('#divProgress').attr('aria-valuenow', '75').css('width', '75%').addClass('bg-warning').removeClass('bg-danger');
-        //                    break;
-        //                case 100:
-        //                    $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-danger');
-        //                    break;
-        //            }
-        //        }
-        //    });
-        //});
-
-        //$('#ddlStatus').on('change', (e) => {
-        //    e.stopImmediatePropagation();
-        //    if ($('#ddlStatus').val() == 3) {
-        //        $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-warning').removeClass('bg-danger');
-        //    }
-        //});
-
-        //$('#btnDecresase').on('click', (e) => {
-        //    e.stopImmediatePropagation();
-        //    switch ($('#divProgress').attr('aria-valuenow')) {
-        //        case '25':
-        //            $('#divProgress').attr('aria-valuenow', '0').css('width', '0%');
-        //            break;
-        //        case '50':
-        //            $('#divProgress').attr('aria-valuenow', '25').css('width', '25%').addClass('bg-danger').removeClass('bg-warning');
-        //            break;
-        //        case '75':
-        //            $('#divProgress').attr('aria-valuenow', '50').css('width', '50%');
-        //            break;
-        //        case '100':
-        //            $('#divProgress').attr('aria-valuenow', '75').css('width', '75%').addClass('bg-warning').removeClass('bg-success');
-        //            break;
-        //    }
-        //});
-
-        //$('#btnIncrease').on('click', (e) => {
-        //    e.stopImmediatePropagation();
-        //    switch ($('#divProgress').attr('aria-valuenow')) {
-        //        case '0':
-        //            $('#divProgress').attr('aria-valuenow', '25').css('width', '25%').addClass('bg-danger');
-        //            break;
-        //        case '25':
-        //            $('#divProgress').attr('aria-valuenow', '50').css('width', '50%').addClass('bg-warning').removeClass('bg-danger');
-        //            break;
-        //        case '50':
-        //            $('#divProgress').attr('aria-valuenow', '75').css('width', '75%');
-        //            break;
-        //        case '75':
-        //            $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-warning');
-        //            break;
-        //    }
-        //});
-
-        //function Daily(url) {
-        //    $.ajax({
-        //        url: url,
-        //        data: JSON.stringify({
-        //            WorkOrder_Id: $('#ddlWorkOrder').val(),
-        //            DailyDate: $('#lbDailyDate').text(),
-        //            TimeStart: $('#txtTimeStart').val(),
-        //            TimeStop: $('#txtTimeStop').val(),
-        //            WorkDetail: $('#txtWorkDetail').val(),
-        //            RootCause: $('#txtRootCauseDL').val(),
-        //            Solution: $('#txtSolutionDL').val(),
-        //            Status: $('#ddlStatus').val(),
-        //            Progress: $('#divProgress').attr('aria-valuenow')
-        //        }),
-        //        contentType: 'application/json; charset=utf-8',
-        //        type: 'POST',
-        //        dataType: 'JSON',
-        //        success: (data) => {
-        //            if (data.success === true) {
-        //                swal({
-        //                    title: data.message,
-        //                    icon: "success",
-        //                    buttons: "DONE"
-        //                }).then((willDone) => {
-        //                    loadDataTableJobOnHand();
-        //                    loadDataTableDailyReport();
-        //                    $('.PartialCalendar').empty().load('./JobDaily');
-        //                });
-        //            } else {
-        //                swal({
-        //                    title: "Warning",
-        //                    text: data.message,
-        //                    icon: "warning",
-        //                    buttons: "DONE",
-        //                    dangerMode: true
-        //                });
-        //            }
-        //        }
-        //    });
-        //}
-
-        //function Del(url) {
-        //    swal({
-        //        title: "Are you sure?",
-        //        text: "Are you sure delete this job?",
-        //        icon: "warning",
-        //        buttons: true,
-        //        dangerMode: true
-        //    }).then((willSend) => {
-        //        if (willSend) {
-        //            $.ajax({
-        //                url: url,
-        //                data: JSON.stringify({
-        //                    JobDaily_Id: $('#ddlWorkOrderPeriod').val()
-        //                }),
-        //                contentType: 'application/json; charset=utf-8',
-        //                type: 'DELETE',
-        //                dataType: 'JSON',
-        //                success: (data) => {
-        //                    if (data.success === true) {
-        //                        swal({
-        //                            title: data.message,
-        //                            icon: "success",
-        //                            buttons: "DONE"
-        //                        }).then((willDone) => {
-        //                            $('.PartialCalendar').empty().load('./JobDaily');
-        //                        });
-        //                    } else {
-        //                        swal({
-        //                            title: "Warning",
-        //                            text: data.message,
-        //                            icon: "warning",
-        //                            buttons: "DONE",
-        //                            dangerMode: true
-        //                        });
-        //                    }
-        //                }
-        //            });
-        //        }
-        //    });
-        //}
-
         function loadDataTableDailyReport() {
             $('#dtDailyReport').DataTable({
                 destroy: true,
@@ -961,13 +698,13 @@
                         data: "Progress",
                         render: function (data) {
                             if (data < 35) {
-                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
                             } else if (data >= 35 && data < 70) {
-                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
                             } else if (data >= 70 && data <= 99) {
-                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
                             } else if (data >= 100) {
-                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%"></div></div>`;
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
                             }
                         }
                     },
@@ -1017,6 +754,11 @@
                         }
                     }
                 ],
+                createdRow: function (row, data, dataIndex) {
+                    if (data.LeadTime <= data.CriticalDate && data.Progress < data.CriticalPercent) {
+                        $(row).css('background-color', '#ffc107');
+                    }
+                },
                 language: {
                     "emptyTable": "no data found"
                 }
@@ -1050,7 +792,6 @@
                                                                                     </div>
                                                                                     <div class="card-body">
                                                                                         <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
-                                                                                        <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>`;
@@ -1064,7 +805,6 @@
                                                                                     </div>
                                                                                     <div class="card-body">
                                                                                         <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
-                                                                                        <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>`;
@@ -1078,7 +818,6 @@
                                                                                     </div>
                                                                                     <div class="card-body">
                                                                                         <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
-                                                                                        <p class="card-text">${item.WorkDetail.replace(/\n/g, '<br/>')}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>`;
@@ -1108,10 +847,6 @@
                     $('#txtTitleComment').removeAttr('hidden');
                     $('#ddlTitleComment').attr('hidden', 'hidden');
                     loadFeedJob($('#txtIdFJ').val())
-                    //$('.PartialFeedJob').empty().load('./FeedJob?id=' + $('#txtIdFJ').val());
-                    //setTimeout(() => {
-                    //    $('.loading').attr('hidden', 'hidden');
-                    //},1000);
                 }
             });
         }

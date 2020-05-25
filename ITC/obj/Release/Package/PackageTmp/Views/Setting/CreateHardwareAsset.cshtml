@@ -105,7 +105,7 @@
                                     <div class="input-group-prepend">
                                         <label class="label" style="width:210px;background-color:#0094ff; color:#ffffff" for="inputGroupSelect01">Equipment</label>
                                     </div>
-                                    <input type="text" id="txtEquipment" class="form-control font" placeholder="">
+                                    <input type="text" id="txtEquipment" class="form-control font" placeholder="" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -116,7 +116,7 @@
                                         <option class="font-bold">Select</option>
                                         @foreach (var i in ViewBag.BindEquipmentType)
                                         {
-                                            <option class="font-bold" value="@i.EquipmentType">@i.EquipmentType  @i.Description</option>
+                                            <option class="font-bold" value="@i.EquipmentType">@i.EquipmentType  (@i.Description)</option>
                                         }
 
                                     </select>
@@ -211,7 +211,7 @@
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Previous Location</label>
                                     </div>
-                                    <input type="text" class="form-control" id="txtPreviousLocation" placeholder="">
+                                    <input type="text" class="form-control font" id="txtPreviousLocation" placeholder="">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -319,6 +319,20 @@
 
 <script>
 
+    $('#txtEquipmentType').selectpicker();
+
+    $('#PurchaseDate').datetimepicker({
+        format: 'DD-MMM-YYYY'
+    });
+
+    $('#ReceiveDate').datetimepicker({
+        format: 'DD-MMM-YYYY'
+    });
+
+    $('#ServiceDate').datetimepicker({
+        format: 'DD-MMM-YYYY'
+    });
+
     bootstrapValidate(['#txtEquipment', '#txtEquipmentType', '#txtDescription', '#txtSerialNumber', '#txtModel', '#txtOwner', '#txtLocation', '#txtTelephoneOwner', '#txtResponsible', '#txtStatus'], 'required:Please fill out this field!');
 
     function InsertHardwareAsset() {
@@ -359,6 +373,9 @@
                         title: data.message,
                         icon: "success",
                         buttons: "DONE"
+                    }).then((willDone) => {
+                        $('#txtEquipment,#txtEquipmentType,#txtDescription,#txtSerialNumber,#txtModel,#txtOwner,#txtLocation,#txtTelephoneOwner,#txtResponsible,#txtStatus,#txtPreviousOwner').val('');
+                        $('#txtPreviousLocation,#txtServiceVendor,#txtCompany,#txtEquipmentGroup,#txtEquipmentGroup,#txtPurchaseDate,#txtReceiveDate,#txtServiceDate,#txtWarrantyType,#txtWarrantyNum,#txtSafetyNote').val('');
                     });
                 } else {
                     swal({
@@ -367,6 +384,9 @@
                         icon: "warning",
                         buttons: "DONE",
                         dangerMode: true
+                    }).then((willDone) => {
+                        $('#txtEquipment,#txtEquipmentType,#txtDescription,#txtSerialNumber,#txtModel,#txtOwner,#txtLocation,#txtTelephoneOwner,#txtResponsible,#txtStatus,#txtPreviousOwner').val('');
+                        $('#txtPreviousLocation,#txtServiceVendor,#txtCompany,#txtEquipmentGroup,#txtEquipmentGroup,#txtPurchaseDate,#txtReceiveDate,#txtServiceDate,#txtWarrantyType,#txtWarrantyNum,#txtSafetyNote').val('');
                     });
                 }
             }
@@ -374,10 +394,7 @@
 
     }
 
-    $('#txtEquipmentType').selectpicker();
-
     $('#txtEquipmentType').on('change', (e) => {
-        console.log('test');
         e.stopImmediatePropagation();
         $.ajax({
             url: './GetEquipmentLest',
@@ -393,20 +410,5 @@
         });
     });
 
-
-
-
-
-    $('#PurchaseDate').datetimepicker({
-        format: 'YYYY-MMM-DD'
-    });
-
-    $('#ReceiveDate').datetimepicker({
-        format: 'YYYY-MMM-DD'
-    });
-
-    $('#ServiceDate').datetimepicker({
-        format: 'YYYY-MMM-DD'
-    });
 
 </script>

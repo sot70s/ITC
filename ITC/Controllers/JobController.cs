@@ -22,7 +22,32 @@ namespace ITC.Controllers
             ViewBag.BindDDLSwOnHand = QuerySoftware.ListSoftwareOnHand().Where(s => s.EmployeeNo == emp_no).OrderBy(o => o.Equipment).ToList();
             ViewBag.BindDDLHwOnHand = QueryHardware.ListHardware().Where(w => w.OWNER == emp_no).ToList();
             ViewBag.BindDDLAnother = QueryAnother.ListAnotherOnHand(emp_no).ToList();
+
             return View();
+        }
+
+        public string getAgeMachine(DateTime recieveDate)
+        {
+            double ApproxDaysPerMonth = 30.4375;
+            double ApproxDaysPerYear = 365.25;
+
+            int iDays = (DateTime.Now - recieveDate).Days;
+
+            int iYear = (int)(iDays / ApproxDaysPerYear);
+            iDays -= (int)(iYear * ApproxDaysPerYear);
+
+            int iMonths = (int)(iDays / ApproxDaysPerMonth);
+            iDays -= (int)(iMonths * ApproxDaysPerMonth);
+
+            var fotmatStr = string.Empty;
+            if (iYear > 0)
+                fotmatStr =  iYear + "Year ";
+            if (iMonths > 0)
+                fotmatStr += iMonths + "Month ";
+            if (iDays > 0)
+                fotmatStr += iDays + "Day";
+
+            return fotmatStr;
         }
 
         [HttpPost]
@@ -134,6 +159,18 @@ namespace ITC.Controllers
             {
                 val = desc,
                 obj = objSymptom
+            });
+        }
+
+        [HttpPost]
+        public JsonResult GetStandardDate(ParameterSymtom cc)
+        {
+            ITCContext _dbITC = new ITCContext();
+            Symptom query = _dbITC.Symptom.Where(w => w.SymptomName == cc.SymptomName).FirstOrDefault();
+
+            return Json(new
+            {
+                date = String.Format("{0:dd-MMM-yyyy}", DateTime.Now.AddDays(query.StandardDate))
             });
         }
 
@@ -398,7 +435,7 @@ namespace ITC.Controllers
 
             TableJobPlanning data = new TableJobPlanning()
             {
-                data = QueryRequest.ListJobPlanning().Where(w => w.Requestor == emp_no).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t2 => t2.Rework).ToList()
+                data = QueryRequest.ListJobPlanning().Where(w => w.Requestor == emp_no && w.Status != 9).OrderByDescending(o => o.WorkRequest).ThenByDescending(t => t.Line).ThenByDescending(t2 => t2.Rework).ToList()
             };
 
             return Json(data, JsonRequestBehavior.AllowGet);
@@ -510,10 +547,10 @@ namespace ITC.Controllers
             var emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
             List<StatusChart> objStatus = new List<StatusChart>();
             StatusChart itemStatus;
-            List<JobRequest> _ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.Requestor == emp_no && w.Status > 0)
+            List<JobRequest> _ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.Requestor == emp_no && w.Status > 0 && Convert.ToDateTime(w.CreateDate).ToString("yyyy") == DateTime.Now.ToString("yyyy"))
                                 .Select(s => new JobRequest
                                 {
-                                    StatusStr = (s.Status == 9 && s.StatusWorkOrder == true) ? "COMPLETED" : (((s.Status == 6 || s.Status == 7 || s.Status == 9) && s.StatusWorkOrder == false) || s.Status == 12 || s.Status == 13) ? "REWORKED" : (s.Status == 10 || s.Status == 11) ? "REJECTED" : "PROCEED"
+                                    StatusStr = (s.Status == 9 && s.StatusWorkOrder == true) ? "COMPLETED" : (((s.Status == 6 || s.Status == 7 || s.Status == 9) && s.StatusWorkOrder == false) || s.Status == 12 || s.Status == 13) ? "REWORKED" : (s.Status == 10 || s.Status == 11) ? "REJECTED" : (s.Status == 1) ? "PENDING" :"PROCEED"
                                 }).ToList();
 
             _ListJobRequest = _ListJobRequest.GroupBy(g => new
@@ -530,7 +567,7 @@ namespace ITC.Controllers
             {
                 itemStatus = new StatusChart();
                 itemStatus.Status = _ListJobRequest[i].StatusStr;
-                itemStatus.Color = (_ListJobRequest[i].StatusStr == "COMPLETED") ? "#28a745" : (_ListJobRequest[i].StatusStr == "REWORKED") ? "#6c757d" : (_ListJobRequest[i].StatusStr == "REJECTED") ? "#dc3545" : "#ffc107";
+                itemStatus.Color = (_ListJobRequest[i].StatusStr == "COMPLETED") ? "#28a745" : (_ListJobRequest[i].StatusStr == "REWORKED") ? "#6c757d" : (_ListJobRequest[i].StatusStr == "REJECTED") ? "#dc3545" : (_ListJobRequest[i].StatusStr == "PENDING") ? "#a333c8" : "#ffc107";
                 itemStatus.CountStatus = _ListJobRequest[i].CountStatus;
                 objStatus.Add(itemStatus);
             }
@@ -591,7 +628,7 @@ namespace ITC.Controllers
                 string email_to = "";
                 sentEmail sm = new sentEmail();
 
-                subject = "ITC-FEED JOB";
+                subject = "ITC-FEED JOB : " + cc.WorkRequest + " (" + cc.Equipment + ")";
 
                 head = "<b>" + cc.WorkRequest + " : " + cc.Equipment + "</b>";
 

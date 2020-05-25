@@ -52,6 +52,19 @@ namespace ITC.Models
         }
     }
 
+    public class QueryEQUIPTYPE
+    {
+        public static List<EQUIPTYPE> ListEQUIPTYPE()
+        {
+
+            MP2Context dblist = new MP2Context();
+            List<EQUIPTYPE> query = dblist.EQTYPE.ToList();
+
+            return query;
+
+        }
+    }
+
     public class QueryListEquipmentType
     {
         public static List<Equipment_Type> listEquipmentType()
@@ -73,10 +86,27 @@ namespace ITC.Models
 
     }
 
+    public class QP
+    {
+        public static void PP()
+        {
+            ITCContext iTC = new ITCContext();
+            MP2Context db = new MP2Context();
+            List<EQUIPTYPE> q = db.EQTYPE.ToList();
+
+            for (int i = 0; i < q.Count(); i++)
+            {
+                var w = q[i];
+
+                iTC.Equipment_Types.Add(new Equipment_Type
+                {
+                    EquipmentType = w.EQTYPE,
+                    Description = w.DESCRIPTION,
+                    Status = 1,
+                });
+
+                iTC.SaveChanges();
+            }
+        }
+    }
 }
-
-
-
-
-
-

@@ -11,12 +11,17 @@
             url: './GetSchedulePlan?emp_no=' + emp_no,
             type: 'GET',
             dataType: 'JSON',
+            beforeSend: () => {
+                $(`#btnScheduleTeam`).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+            },
             success: (data) => {
+                $('#btnScheduleTeam').html(`<i class="fas fa-search"></i> Search`);
                 calendarSchedule = new FullCalendar.Calendar(document.getElementById('calendarSchedule'), {
                     plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
                     themeSystem: 'bootstrap',
                     fixedWeekCount: false,
                     height: 550,
+                    displayEventTime: false,
                     header: {
                         left: 'prevYear,dayGridMonth,dayGridWeek,dayGridDay',
                         center: 'title',

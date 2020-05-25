@@ -180,6 +180,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="font-weight-bold" style="font-size:x-small;">(Expected Completion Date : <label id="lbStandardDate">Please select your symptom</label>)</div>
                         </div>
                     </div>
                 </div>
@@ -485,6 +486,26 @@
             loadDataTable();
         });
 
+        $('#ddlSymptom').on('change', (e) => {
+            e.stopImmediatePropagation();
+            StandardDate();
+        });
+
+        function StandardDate() {
+            $.ajax({
+                url: './GetStandardDate',
+                data: JSON.stringify({
+                    SymptomName: $('#ddlSymptom').val()
+                }),
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('#lbStandardDate').text(data.date);
+                }
+            });
+        }
+
         function loadDataTable() {
             dataTable = $('#dtJobRequest').DataTable({
                 destroy: true,
@@ -520,11 +541,11 @@
                         render: function (data, type, row) {
                             if (row.Status == 0) {
                                 return `<button class="btn btn-danger btn-sm font-weight-bold" onclick=Delete("./DeleteJobRequest?id=${data}")><i class="fas fa-trash"></i></button>
-                                                                                                                                                                                            <button class="btn btn-primary btn-sm font-weight-bold" onclick=Info("./GetJobReqDetail?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                            <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendJobRequest?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                                                                                                                                                                                                    <button class="btn btn-primary btn-sm font-weight-bold" onclick=Info("./GetJobReqDetail?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                                                                    <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendJobRequest?id=${data}")><i class="fas fa-share-square"></i></button>`;
                             } else {
                                 return `<button class="btn btn-primary btn-sm font-weight-bold" onclick=Info("./GetJobReqDetail?id=${data}")><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
+                                                                                                                                                                                                        <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
                             }
                         }
                     }
@@ -582,57 +603,52 @@
                     {
                         data: "Id",
                         render: function (data, type, row) {
-                            if (row.Status == 0 || row.Status == 1 || row.Status == 2 || row.Status == 3) {
+                            if (row.Status == 0 || row.Status == 2 || row.Status == 3) {
                                 return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-warning btn-sm font-weight-bold">PROCEED</button>`;
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-warning btn-sm font-weight-bold">PROCEED</button>`;
+                            }
+                            else if (row.Status == 1) {
+                                return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-sm font-weight-bold" style="background-color:#a333c8;border-color:#a333c8;color:#ffffff;">PENDING</button>`;
                             }
                             else if (row.Status == 7) {
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-success btn-sm font-weight-bold btn-accept-${data}" onclick="AcceptJob('./SetAcceptJob?id=${data}')">ACCEPT</button>
-                                                                                                                                                                                                    <button class="btn btn-danger btn-sm font-weight-bold" onclick="NotAcceptJob('./SetNotAcceptJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')">NOT ACCEPT</button>`;
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-success btn-sm font-weight-bold btn-accept-${data}" onclick="AcceptJob('./SetAcceptJob?id=${data}')">ACCEPT</button>
+                                                                                                                                                                                                            <button class="btn btn-danger btn-sm font-weight-bold" onclick="NotAcceptJob('./SetNotAcceptJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')">NOT ACCEPT</button>`;
                                 } else {
                                     return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
                                 }
-                            } else if (row.Status == 9) {
-                                if (row.StatusWorkOrder == true) {
-                                    return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-success btn-sm font-weight-bold"><i class="fas fa-check"></i> COMPLETED</button>`;
-                                } else {
-                                    return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
-                                }
-                            }
+                            } //9 without
                             else if (row.Status == 10) {
                                 return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-danger btn-sm font-weight-bold" onclick="Reason('./GetReasonJobReject?id=${data}')">REJECTED</button>`;
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-danger btn-sm font-weight-bold" onclick="Reason('./GetReasonJobReject?id=${data}')">REJECTED</button>`;
                             }
                             else if (row.Status == 11) {
                                 return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-danger btn-sm font-weight-bold" onclick="ReasonMIS('./GetReasonJobReject?id=${data}')">REJECTED</button>`;
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-danger btn-sm font-weight-bold" onclick="ReasonMIS('./GetReasonJobReject?id=${data}')">REJECTED</button>`;
                             }
                             else if (row.Status == 12 || row.Status == 13) {
                                 return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
                             }
                             else {
                                 if (row.StatusWorkOrder == true) {
                                     return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-warning btn-sm font-weight-bold">PROCEED</button>`;
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-warning btn-sm font-weight-bold">PROCEED</button>`;
                                 } else {
                                     return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                                                                                                                                                                    <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                                                                                                                                                                                            <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
                                 }
                             }
                         }
@@ -666,6 +682,7 @@
                             $('#ddlSymptom').append(`<option class="font-weight-bold" value="${data.obj[i].SymptomName}">${data.obj[i].SymptomName} (${data.obj[i].SymptomName_Th})</option>`);
                         }
                         $('#lbEquipDesc').text(data.val);
+                        StandardDate();
                         $('#exampleModalCenter').modal('toggle');
                     }
                 });
@@ -702,6 +719,7 @@
                             $('#ddlSymptom').append(`<option class="font-weight-bold" value="${data.obj[i].SymptomName}">${data.obj[i].SymptomName} (${data.obj[i].SymptomName_Th})</option>`);
                         }
                         $('#lbEquipDesc').text(data.val);
+                        StandardDate();
                         $('#exampleModalCenter').modal('toggle');
                     }
                 });
@@ -795,8 +813,7 @@
                 title: "Are you sure?",
                 text: "Once deleted,you will not be able to recover",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true
+                buttons: true
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
@@ -837,8 +854,7 @@
                 title: "Are you sure?",
                 text: "Submit a job request for approval",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true
+                buttons: true
             }).then((willSend) => {
                 if (willSend) {
                     var id = getUrlVars(url)["id"];
@@ -957,8 +973,7 @@
                 title: "Are you sure?",
                 text: "Accept this job",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true
+                buttons: true
             }).then((willSend) => {
                 if (willSend) {
                     var id = getUrlVars(url)["id"];
@@ -1001,8 +1016,7 @@
                 title: "Are you sure?",
                 text: "Unaccept this job",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true
+                buttons: true
             }).then((willSend) => {
                 if (willSend) {
                     swal({
@@ -1061,9 +1075,9 @@
                         var item = data[i];
                         $('.reason-job-reject').append(
                             `<div class="d-flex w-100 justify-content-between">
-                                                                                                                                                                                                    <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <small>Reject by user manager</small>`
+                                                                                                                                                                                                            <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <small>Reject by user manager</small>`
                         );
                     }
                     $('#lbEquipmentRJR').text(data[0].Description + ' (' + data[0].Equipment + ')');
@@ -1085,9 +1099,9 @@
                         var item = data[i];
                         $('.reason-job-rework').append(
                             `<div class="d-flex w-100 justify-content-between">
-                                                                                                                                                                                                    <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <small>Rework by MIS</small>`
+                                                                                                                                                                                                            <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <small>Rework by MIS</small>`
                         );
                     }
                     $('#lbEquipmentRW').text(data[0].Description + ' (' + data[0].Equipment + ')');
@@ -1109,9 +1123,9 @@
                         var item = data[i];
                         $('.reason-job-reject').append(
                             `<div class="d-flex w-100 justify-content-between">
-                                                                                                                                                                                                    <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                                <small>Reject by MIS</small>`
+                                                                                                                                                                                                            <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <small>Reject by MIS</small>`
                         );
                     }
                     $('#lbEquipmentRJR').text(data[0].Description + ' (' + data[0].Equipment + ')');
@@ -1163,6 +1177,7 @@
                         series.colors = colorSet;
                         series.ticks.template.disabled = true;
                         series.alignLabels = false;
+                        series.labels.template.fontSize = 17
                         series.labels.template.text = "{value.percent.formatNumber('#.0')}%";
                         series.labels.template.radius = am4core.percent(-40);
                         series.labels.template.fill = am4core.color("white");
