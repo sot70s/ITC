@@ -1,0 +1,283 @@
+﻿﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+
+<style>
+    #dtSOPMaster_filter > label {
+        font-weight: bold;
+    }
+
+    #dtProcedure_filter > label {
+        font-weight: bold;
+    }
+
+    :not(.input-group) > .bootstrap-select.form-control:not([class*=col-]) {
+        width: 50%;
+    }
+
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="far fa-folder-open fa-lg"></i>&nbsp;Master Template</h3>
+            <div class="card-body">
+                <table id="dtSOPMaster" class="table font-weight-bold table-hover" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:20%;">SOP</th>
+                            <th style="width:20%;">SECTION TYPE</th>
+                            <th style="width:20%;">CREATE DATE</th>
+                            <th style="width:20%;">CREATE BY</th>
+                            <th style="width:20%;">ACTION</th>
+                        </tr>
+                        <tr class="table-success">
+                            <th>
+                                <input class="form-control" id="txtSOP">
+                            </th>
+                            <th>
+                                <select id="ddlType" class="form-control font-weight-bold">
+                                    <option class="font-weight-bold" value="IS">IS</option>
+                                    <option class="font-weight-bold" value="IT">IT</option>
+                                </select>
+                            </th>
+                            <th>
+                                <label id="lbCreateDate">@String.Format("{0:dd-MMM-yyyy hh:mm tt}", DateTime.Now)</label>
+                            </th>
+                            <th>
+                                <label>@ViewBag.BindEmployeeName</label>
+                            </th>
+                            <th>
+                                <button type="button" class="btn btn-outline-success btn-block" onclick="CreateSOP()"><i class="fas fa-plus"></i></button>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="far fa-folder-open fa-lg"></i>&nbsp;SOP Asset</h3>
+            <div class="card-body">
+                <select id="ddlSOP" class="form-control selectpicker" style="width:50%;" data-live-search="true">
+                    <option class="font-weight-bold" value="0">Select</option>
+                    @foreach (var i in ViewBag.BindSOP)
+                    {
+                        <option class="font-weight-bold" value="@i.Id">@i.SOP - @i.Type</option>
+                    }
+                </select>
+                <br />
+                <table id="dtProcedure" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:10%;"></th>
+                            <th style="width:30%;">PROCEDURE</th>
+                            <th style="width:25%;">SECTION TYPE</th>
+                            <th style="width:35%;">DESCRIPTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+<script>
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+        loadDataTableProcedure(0);
+    });
+
+    $('#ddlSOP').selectpicker();
+
+    function loadDataTable() {
+        dataTable = $('#dtSOPMaster').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetSOPTemplate/",
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                { data: "SOP" },
+                { data: "Type" },
+                { data: "CreateDate" },
+                { data: "CreateBy" },
+                {
+                    data: "Id",
+                    render: function (data, type, row) {
+                        return `<button type="button" class="btn btn-outline-danger btn-block" onclick=DeleteSOP("./DeleteSOP?id=${data}")><i class="fas fa-minus"></i></button>`;
+                    }
+                },
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    $('#ddlSOP').on('change', (e) => {
+        e.stopImmediatePropagation();
+        loadDataTableProcedure($('#ddlSOP').val());
+    });
+
+    function loadDataTableProcedure(id) {
+        $('#dtProcedure').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetSOPAsset/?id=" + id,
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                {
+                    data: "Id",
+                    render: function (data, type, row) {
+                        if (row.SOP_Id === 0) {
+                            return `<div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="chk-${data}" onclick=Check("./SetSOPAsset?id=${data}")>
+                              <label class="custom-control-label" for="chk-${data}"></label>
+                            </div>`;
+                        } else {
+                            return `<div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="chk-${data}" onclick=Check("./SetSOPAsset?id=${data}") checked>
+                              <label class="custom-control-label" for="chk-${data}"></label>
+                            </div>`;
+                        }
+                    }
+                },
+                { data: "Procedure" },
+                { data: "Type" },
+                { data: "Description" }
+
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    function Check(url) {
+        var id = getUrlVars(url)["id"];
+        $.ajax({
+            url: url,
+            data: JSON.stringify({
+                SOPTemplate_Id: $('#ddlSOP').val(),
+                Checkbox: $('#chk-' + id).is(':checked')
+            }),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success) {
+                    toastr.success(data.message);
+                } else {
+                    toastr.error(data.message);
+                }
+            }
+        });
+    }
+
+    function CreateSOP() {
+        $.ajax({
+            url: './CreateSOPTemplate',
+            data: JSON.stringify({
+                SOP: $('#txtSOP').val(),
+                Type: $('#ddlType').val(),
+                CreateDate: $('#lbCreateDate').text()
+            }),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success) {
+                    toastr.success(data.message);
+                    dataTable.ajax.reload();
+                    $('#lbCreateDate').text(data.date);
+                    $('#txtSOP').val('');
+                    GetDDlSOP();
+                    loadDataTableProcedure($('#ddlSOP').val());
+                } else {
+                    toastr.error(data.message);
+                }
+            }
+        });
+    }
+
+    function GetDDlSOP() {
+        $.ajax({
+            url: './GetDDLSOP',
+            type: 'GET',
+            success: (data) => {
+                $('#ddlSOP').html('<option class="font-weight-bold" value="0">Select</option>');
+                for (i in data) {
+                    $('#ddlSOP').append(`<option class="font-weight-bold" value="${data[i].Id}">${data[i].SOP}</option>`);
+                    $('#ddlSOP').selectpicker('refresh');
+                }
+            }
+        });
+    }
+
+    function DeleteSOP(url) {
+        var id = getUrlVars(url)["id"];
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            dataTable.ajax.reload();
+                            $('#lbCreateDate').text(data.date);
+                            $('#ddlSOP').find(`[value=${id}]`).remove();
+                            $('#ddlSOP').selectpicker('refresh');
+                            loadDataTableProcedure($('#ddlSOP').val());
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function getUrlVars(url) {
+        var vars = [], hash;
+        var hashes = url.slice(url.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+</script>

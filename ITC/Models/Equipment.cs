@@ -8,11 +8,12 @@ namespace ITC.Models
 {
     public class ParameterSoftware
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Company { get; set; }
         public string SoftwareType { get; set; }
         public string SoftwareName { get; set; }
         public string Responsible { get; set; }
+        public string SupportBy { get; set; }
         public string CoreFunction { get; set; }
         public string Description { get; set; }
         public string Remark { get; set; }
@@ -65,6 +66,7 @@ namespace ITC.Models
         public bool UserAccountNeed { get; set; }
         public bool TrainingNeed { get; set; }
         public bool Status { get; set; }
+        public string SupportBy { get; set; }
     }
 
     [Table("SoftwareFile")]
@@ -104,6 +106,8 @@ namespace ITC.Models
         public string PERSONRESPONSIBLE { get; set; }
         public string INSERVICE { get; set; }
         public string EQTYPE { get; set; }
+        public string SUBLOCATION1 { get; set; }
+        public string SUBLOCATION2 { get; set; }
     }
 
     [Table("EQTYPE")]
@@ -121,6 +125,7 @@ namespace ITC.Models
         public string SoftwareName { get; set; }
         public string Company { get; set; }
         public string Responsible { get; set; }
+        public string SupportBy { get; set; }
         public string CoreFunction { get; set; }
         public string Description { get; set; }
         public string Remark { get; set; }
@@ -194,6 +199,7 @@ namespace ITC.Models
                     Description = s.Description,
                     Remark = s.Remark,
                     Responsible = s.Responsible,
+                    SupportBy = s.SupportBy,
                     StartDate = s.StartDate.ToString(),
                     ObsolateDate = s.ObsolateDate.ToString(),
                     Status = s.Status,
@@ -214,6 +220,7 @@ namespace ITC.Models
                     Description = s.Description,
                     Remark = s.Remark,
                     Responsible = s.Responsible,
+                    SupportBy = s.SupportBy,
                     StartDate = String.Format("{0:dd-MMM-yyyy HH:mm tt}", Convert.ToDateTime(s.StartDate)),
                     ObsolateDate = String.Format("{0:dd-MMM-yyyy HH:mm tt}", Convert.ToDateTime(s.ObsolateDate)),
                     Status = s.Status,
@@ -239,6 +246,7 @@ namespace ITC.Models
                          Description = sw.Description,
                          Remark = sw.Remark,
                          Responsible = sw.Responsible,
+                         SupportBy = sw.SupportBy,
                          StartDate = sw.StartDate,
                          ObsolateDate = sw.ObsolateDate,
                          Status = sw.Status,
@@ -341,16 +349,29 @@ namespace ITC.Models
                     Equipment = s.EQNUM,
                     Description = s.DESCRIPTION,
                     Owner = s.OWNER
-                }).Join(QueryPersonnel.ListEmployeeMeyer(),
-                hw => hw.Owner,
-                emp => emp.EMPLOYEE_NO,
-                (hw, emp) => new AnotherStore
-                {
-                    Equipment = hw.Equipment,
-                    Description = hw.Description,
-                    Owner = emp.EMPLOYEE_NO,
-                    SectionCode = emp.SECTION_CODE
                 }).ToList();
+            //.Join(QueryPersonnel.ListEmployeeMeyer(),
+            //hw => hw.Owner,
+            //emp => emp.EMPLOYEE_NO,
+            //(hw, emp) => new AnotherStore
+            //{
+            //    Equipment = hw.Equipment,
+            //    Description = hw.Description,
+            //    Owner = emp.EMPLOYEE_NO,
+            //    SectionCode = emp.SECTION_CODE
+            //}).ToList();
+
+            query = (from hw in query.ToList()
+                     join emp in QueryPersonnel.ListEmployeeMeyer().ToList()
+                     on hw.Owner equals emp.EMPLOYEE_NO into joined
+                     from j in joined.DefaultIfEmpty()
+                     select new AnotherStore
+                     {
+                         Equipment = hw.Equipment,
+                         Description = hw.Description,
+                         Owner = (j == null) ? "" : j.EMPLOYEE_NO,
+                         SectionCode = (j == null) ? "" : j.SECTION_CODE
+                     }).ToList();
 
             return query;
         }

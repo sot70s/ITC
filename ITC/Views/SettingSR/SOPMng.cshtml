@@ -1,0 +1,43 @@
+﻿<div class="card m-2 p-1" style="background-color: #00b5ad;">
+    <h3 class="card-header font-weight-bold" style="background-color: #009991;"><i class="fab fa-stack-overflow fa-lg"></i>&nbsp;Standard Operation Procedures</h3>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3 p-1">
+                <div id="divSOPMaster" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnSOPMaster" href="#">
+                            <i class="far fa-file-code fa-4x"></i><br />
+                        </a>
+                        SOP Master
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divSOPAsset" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnSOPAsset" href="#">
+                            <i class="far fa-folder-open fa-4x"></i><br />
+                        </a>
+                        SOP Asset
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btnSOPMaster').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSOPAsset').css('background-color', '#ffffff');
+        $('#divSOPMaster').css('background-color', '#ccfffd');
+        $('.PartialSubSetting').empty().load('./SOPMaster');
+    });
+
+    $('#btnSOPAsset').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSOPMaster').css('background-color', '#ffffff');
+        $('#divSOPAsset').css('background-color', '#ccfffd');
+        $('.PartialSubSetting').empty().load('./SOPAsset');
+    });
+</script>

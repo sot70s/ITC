@@ -1,0 +1,1152 @@
+﻿<link href="~/lib/fullcalendar/core/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/daygrid/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/timegrid/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/bootstrap/main.css" rel="stylesheet" />
+<link href="~/lib/multiple-select/bootstrap-select.css" rel="stylesheet" />
+
+<style>
+    .filter-option-inner-inner {
+        font-weight: bold;
+    }
+
+    .table-bordered > tbody > tr > td {
+        font-weight: bold;
+    }
+
+    .btn-light {
+        background-color: #ffffff;
+        border-color: #ced4da;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    WORK ASSIGNMENT
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkAssignment" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="ml-2 mr-2 mt-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleWorkAssignment">
+                <table id="dtHandOut" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:15%;">WORK REQUEST</th>
+                            <th style="width:14%;">EQUIPMENT</th>
+                            <th style="width:24%">DESCRIPTION</th>
+                            <th style="width:23%">SYMTOM</th>
+                            <th style="width:11%">PRIORITY</th>
+                            <th style="width:13%">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    WEEKLY PLANNING
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkPlanning" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleWorkPlanning">
+                <div class="row">
+                    <div class="col-sm-2 p-3 font-weight-bold" style="text-align:right;">
+                        Work Request
+                    </div>
+                    <div class="col-sm-4 p-3">
+                        <select id="ddlWorkRequest" class="form-control form-control-sm font-weight-bold">
+                            <option class="font-weight-bold" value="0">SELECT ALL</option>
+                            @foreach (var i in ViewBag.BindDDLWorkRequest)
+                            {
+                                <option class="font-weight-bold" value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-6 p-3"></div>
+                    <div class="col-sm-2 p-3 font-weight-bold" style="text-align:right;">
+                        Fields Date
+                    </div>
+                    <div class="col-sm-4 p-3">
+                        <select id="ddlFieldsDate" class="form-control form-control-sm font-weight-bold">
+                            <option class="font-weight-bold" value="0">SELECT ALL</option>
+                            <option class="font-weight-bold" value="CD">CREATE DATE</option>
+                            <option class="font-weight-bold" value="RD">REQUIRE DATE</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 p-3"></div>
+                    <div class="col-sm-2 p-3 font-weight-bold" style="text-align:right;">
+                        From
+                    </div>
+                    <div class="col-sm-4 p-3">
+                        <div class="form-group" style="margin-bottom:unset;">
+                            <div class="input-group date" id="dateFromDate" data-target-input="nearest">
+                                <input id="txtFromDate" type="text" class="form-control form-control-sm datetimepicker-input font-weight-bold" data-target="#dateFromDate" />
+                                <div class="input-group-append" data-target="#dateFromDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 p-3 font-weight-bold" style="text-align:right;">
+                        To
+                    </div>
+                    <div class="col-sm-4 p-3">
+                        <div class="form-group" style="margin-bottom:unset;">
+                            <div class="input-group date" id="dateToDate" data-target-input="nearest">
+                                <input id="txtToDate" type="text" class="form-control form-control-sm datetimepicker-input font-weight-bold" data-target="#dateToDate" />
+                                <div class="input-group-append" data-target="#dateToDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 p-3"></div>
+                    <div class="col-sm-2 p-3"></div>
+                    <div class="col-sm-10 p-3">
+                        <button id="btnSearch" type="button" class="btn btn-sm btn-primary font-weight-bold" onclick="Search()"><i class="fas fa-search"></i> Search</button>
+                        <button id="btnExport" type="button" class="btn btn-sm btn-success font-weight-bold" onclick="Export()"><i class="fas fa-file-excel"></i> Export Excel File</button>
+                    </div>
+                </div>
+                <table id="dtExport" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">WORK REQUEST</th>
+                            <th style="width:25%;">WORK ORDER</th>
+                            <th style="width:25%;">CREATE DATE</th>
+                            <th style="width:25%;">REQUIRE DATE</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    SCHEDULE MY TEAM
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleScheduleMyTeam" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold collapse show" style="background-color:#ffffff;" id="ToggleScheduleMyTeam">
+                <div class="row">
+                    <div class="col-sm-3 p-3 font-weight-bold" style="text-align:right;">
+                        Employee Name
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <div class="input-group">
+                            <select id="ddlEmployeeSchedule" class="form-control form-control-sm font-weight-bold" multiple data-live-search="true">
+                                @foreach (var i in ViewBag.BindDDLAssignTo)
+                                {
+                                    <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME</option>
+                                }
+                            </select>
+                            <div class="input-group-append">
+                                <button id="btnScheduleTeam" class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="ScheduleTeam()"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="PartialSchedule mt-4"></div>
+            </div>
+        </div>
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    WORK TRACKING
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkTracking" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold collapse show" style="background-color:#ffffff;" id="ToggleWorkTracking">
+                <div class="row">
+                    <div class="col-sm-2 p-3 font-weight-bold" style="text-align:right;">
+                        Work Order
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <select id="ddlWorkOrderTJ" class="form-control form-control-sm font-weight-bold">
+                            <option class="font-weight-bold" value="0">SELECT ALL</option>
+                            @foreach (var i in ViewBag.BindDDlWorkOrder)
+                            {
+                                <option class="font-weight-bold" value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-5 p-3 pb-3"></div>
+                    <div class="col-sm-2 p-3 font-weight-bold" style="text-align:right;">
+                        Assign To
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <select id="ddlAssignToTJ" class="form-control form-control-sm font-weight-bold">
+                            <option class="font-weight-bold" value="0">SELECT ALL</option>
+                            @foreach (var i in ViewBag.BindDDLAssignTo)
+                            {
+                                <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-5 p-3"></div>
+                    <div class="col-sm-2 p-3"></div>
+                    <div class="col-sm-5 p-3">
+                        <button type="button" class="btn btn-sm btn-primary font-weight-bold" onclick="SearchTrackingJob()"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+                <table id="dtTrackingJob" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">WORK ORDER</th>
+                            <th style="width:27%;">ASSIGN TO</th>
+                            <th style="width:20%;">PROGRESS</th>
+                            <th style="width:28%;">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    DAILY MY TEAM
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleDailyMyTeam" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleDailyMyTeam">
+                <div class="row">
+                    <div class="col-sm-3 p-3 font-weight-bold" style="text-align:right;">
+                        Employee Name
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <div class="input-group">
+                            <select id="ddlEmployeeDaily" class="form-control form-control-sm font-weight-bold">
+                                <option class="font-weight-bold" value="0">SELECT</option>
+                                @foreach (var i in ViewBag.BindDDLAssignTo)
+                                {
+                                    <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME</option>
+                                }
+                            </select>
+                            <div class="input-group-append">
+                                <button id="btnTeamSupport" class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="TeamSupport()"><i class="fas fa-search"></i> Search</buttonid="btnTeamSupport">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="PartialCalendar mt-4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalRequestDetail" tabindex="-1" role="dialog" aria-labelledby="ModalRequestDetailTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="ModalRequestDetailLongTitle"><i class="fas fa-pencil-alt fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequest"></label> : <label id="lbEquipment"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtId" hidden />
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Require Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequireDate"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Requestor :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequestor"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Responsible :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbResponsible"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Request Detail :</h6>
+                                <p class="card-text" id="lbRequestDetail"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Symptom :</h6>
+                                <select id="ddlSymptom" class="form-control form-control-sm font-weight-bold mt-1">
+                                    <option class="font-weight-bold" value="0">SELECT</option>
+                                    @foreach (var i in ViewBag.BindDDLSymptom)
+                                    {
+                                        <option class="font-weight-bold" value="@i.SymptomName">@i.SymptomName (@i.SymptomName_Th)</option>
+                                    }
+                                </select>
+                                <br />
+                                <h6 class="card-title font-weight-bold">Assign To :</h6>
+                                <select id="ddlAssignTo" class="form-control form-control-sm font-weight-bold mt-1">
+                                    <option class="font-weight-bold" value="0">SELECT</option>
+                                    @foreach (var i in ViewBag.BindDDLAssignTo)
+                                    {
+                                        <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME (@i.EmployeeNo)</option>
+                                    }
+                                </select>
+                                <br />
+                                <h6 class="card-title font-weight-bold">Solution Suggestion :</h6>
+                                <textarea class="form-control form-control" id="txtSuggestion" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnClose" type="button" class="btn btn-secondary btn-sm font-weight-bold" data-dismiss="modal">Close</button>
+                <button id="btnSaveChanges" type="button" class="btn btn-success btn-sm font-weight-bold" data-dismiss="modal" onclick="SetJob('./SetJobReqBody')">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalTrackingJob" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestTJ"></label> : <label id="lbEquipmentTJ"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtIdTJ" hidden />
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Work Order :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbWorkOrderTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Equipment :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbEquipmentTJ2"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Description :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbDescriptionTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Symptom :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbSymptomTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Priority :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPriorityTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Require Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequireDateTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Plan Start Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPlanStartDateTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Plan Finish Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPlanFinishDateTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Requestor :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequestorTJ"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Responsible :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbResponsibleTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Assign To :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbAssignToTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Request Detail :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbRequestDetailTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution Suggestion :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbSuggestionTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Root Cause :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbRootCauseTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbSolutionTJ"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalDailyReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkOrderDR"></label>&nbsp;/&nbsp;Total Working Time : <label id="lbTotalWorkingTime"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row row-daily"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalReasonJobReject" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestRJR"></label> : <label id="lbEquipmentRJR"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="reason-job-reject"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalReasonJobRework" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestRW"></label> : <label id="lbEquipmentRW"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="reason-job-rework"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/fullcalendar/core/main.js"></script>
+    <script src="~/lib/fullcalendar/interaction/main.js"></script>
+    <script src="~/lib/fullcalendar/daygrid/main.js"></script>
+    <script src="~/lib/fullcalendar/timegrid/main.js"></script>
+    <script src="~/lib/fullcalendar/moment/main.js"></script>
+    <script src="~/lib/fullcalendar/bootstrap/main.js"></script>
+    <script src="~/lib/multiple-select/bootstrap-select.min.js"></script>
+
+    <script>
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+            icons: {
+                time: 'far fa-clock',
+                up: 'fas fa-sort-up',
+                down: 'fas fa-sort-down',
+                previous: 'fas fa-caret-left',
+                next: 'fas fa-caret-right'
+            }
+        });
+
+        $('#ddlEmployeeSchedule').selectpicker();
+
+        $('#dateFromDate,#dateToDate').datetimepicker({
+            format: 'DD-MMM-YYYY LT'
+        });
+
+        var dataTable;
+
+        $(document).ready(() => {
+            loadDataTable();
+            loadDataTableExport();
+            loadDataTableTrackingJob();
+            $('.PartialCalendar').empty().load('./JobDaily');
+            $('.PartialSchedule').empty().load('./SchedulePlan');
+        });
+
+        function loadDataTable() {
+            dataTable = $('#dtHandOut').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 170,
+                ajax: {
+                    url: "./GetJobResponsible",
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+                    {
+                        data: "WorkRequest",
+                        render: function (data, type, row) {
+                            return `<i class="far fa-file-alt"></i> ${data}-${row.Line}`
+                        }
+                    },
+                    { data: "Equipment" },
+                    { data: "Description" },
+                    {
+                        data: "Symptom",
+                        render: function (data, type, row) {
+                            return `${data} (${row.SymptomName_Th})`;
+                        }
+                    },
+                    { data: "Priority" },
+                    {
+                        data: "Id",
+                        render: function (data, type, row) {
+                            if (row.Status == 3) {
+                                return `<button class="btn btn-primary btn-sm font-weight-bold" onclick=Info("./GetAssignJob?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                    <button class="btn btn-sm font-weight-bold" style="background-color:#a333c8;border-color:#a333c8;color:#ffffff;")>PENDING</button>`;
+                            }
+                            else if (row.Status == 2) {
+                                if (row.Suggestion == "") {
+                                    return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Job("./GetAssignJob?id=${data}")><i class="fas fa-edit"></i></button>
+                                                                                                                        <button class="btn btn-danger btn-sm font-weight-bold"><i class="fas fa-exclamation-triangle"></i></button>`;
+                                } else {
+                                    return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Job("./GetAssignJob?id=${data}")><i class="fas fa-edit"></i></button>
+                                                                                                                        <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                                }
+                            } else {
+                                return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Job("./GetAssignJob?id=${data}")><i class="fas fa-edit"></i></button>
+                                                                                                                        <button class="btn btn-success btn-sm font-weight-bold btn-send-${data}" onclick=Send("./SendAssignJob?id=${data}")><i class="fas fa-share-square"></i></button>`;
+                            }
+                        }
+                    }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function loadDataTableExport() {
+            $('#dtExport').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 170,
+                ajax: {
+                    url: "./GetJobPlanning",
+                    data: {
+                        WorkRequest: $('#ddlWorkRequest').val(),
+                        FieldsDate: $('#ddlFieldsDate').val(),
+                        FromDate: $('#txtFromDate').val(),
+                        ToDate: $('#txtToDate').val()
+                    },
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+                    {
+                        data: "WorkRequest",
+                        render: function (data, type, row) {
+                            return `<i class="far fa-file-alt"></i> ${data}-${row.Line}`
+                        }
+                    },
+                    {
+                        data: "WoNo",
+                        render: function (data, type, row) {
+                            return `${data}-${row.Rework}`
+                        }
+                    },
+                    { data: "CreateDate" },
+                    { data: "RequireDate" }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function Job(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('#txtId').val(data[0].Id);
+                    $('#lbWorkRequest').text(data[0].WorkRequest + '-' + data[0].Line);
+                    $('#lbEquipment').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    var htmlDetail = $('#lbRequestDetail').text(data[0].Detail);
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    $('#lbRequireDate').text(data[0].RequireDate);
+                    $('#lbRequestor').text(data[0].RequestorName);
+                    $('#lbResponsible').text(data[0].ResponsibleName);
+                    $('#ddlSymptom').val(data[0].Symptom).attr('disabled', false);
+                    $('#ddlAssignTo').val(data[0].AssignTo).attr('disabled', false);
+                    $('#txtSuggestion').val(data[0].Suggestion).attr('disabled', false);
+                    $('#btnClose').attr('hidden', false);
+                    $('#btnSaveChanges').attr('hidden', false);
+                    $('#ModalRequestDetail').modal('toggle');
+                }
+            });
+        }
+
+        function Info(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('#txtId').val(data[0].Id);
+                    $('#lbWorkRequest').text(data[0].WorkRequest + '-' + data[0].Line);
+                    $('#lbEquipment').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    var htmlDetail = $('#lbRequestDetail').text(data[0].Detail);
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    $('#lbRequireDate').text(data[0].RequireDate);
+                    $('#lbRequestor').text(data[0].RequestorName);
+                    $('#lbResponsible').text(data[0].ResponsibleName);
+                    $('#ddlSymptom').val(data[0].Symptom).attr('disabled', true);
+                    $('#ddlAssignTo').val(data[0].AssignTo).attr('disabled', true);
+                    $('#txtSuggestion').val(data[0].Suggestion).attr('disabled', true);
+                    $('#btnClose').attr('hidden', true);
+                    $('#btnSaveChanges').attr('hidden', true);
+                    $('#ModalRequestDetail').modal('toggle');
+                }
+            });
+        }
+
+        function SetJob(url) {
+            $.ajax({
+                url: url,
+                data: JSON.stringify({
+                    Id: $('#txtId').val(),
+                    Symptom: $('#ddlSymptom').val(),
+                    AssignTo: $('#ddlAssignTo').val(),
+                    suggestion: $('#txtSuggestion').val()
+                }),
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    if (data.success === true) {
+                        swal({
+                            title: data.message,
+                            icon: "success",
+                            buttons: "DONE"
+                        }).then((willDone) => {
+                            loadDataTable();
+                        });
+
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            icon: "warning",
+                            buttons: "DONE",
+                            dangerMode: true
+                        });
+                    }
+                }
+            });
+        }
+
+        function Send(url) {
+            swal({
+                title: "Are you sure?",
+                text: "Submit a job request for approval",
+                icon: "warning",
+                buttons: true,
+            }).then((willSend) => {
+                if (willSend) {
+                    var id = getUrlVars(url)["id"];
+                    $.ajax({
+                        url: url,
+                        contentType: 'application/json; charset=utf-8',
+                        type: 'PUT',
+                        dataType: 'JSON',
+                        beforeSend: () => {
+                            $(`.btn-send-${id}`).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+                        },
+                        success: (data) => {
+                            if (data.success === true) {
+                                swal({
+                                    title: data.message,
+                                    icon: "success",
+                                    buttons: "DONE"
+                                }).then((willDone) => {
+                                    loadDataTable();
+                                    loadDataTableExport();
+                                });
+
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    icon: "warning",
+                                    buttons: "DONE",
+                                    dangerMode: true
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function Search() {
+            loadDataTableExport();
+        }
+
+        function Export() {
+            window.open(`./ExportJob?WorkRequest=${$('#ddlWorkRequest').val()}&FieldsDate=${$('#ddlFieldsDate').val()}&FromDate=${$('#txtFromDate').val()}&ToDate=${$('#txtToDate').val()}`);
+        }
+
+        function loadDataTableTrackingJob() {
+            dataTable = $('#dtTrackingJob').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 230,
+                ajax: {
+                    url: "./GetTrackingJob",
+                    data: {
+                        WorkOrder: $('#ddlWorkOrderTJ').val(),
+                        AssignTo: $('#ddlAssignToTJ').val()
+                    },
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+                    {
+                        data: "WoNo",
+                        render: function (data, type, row) {
+                            return `<i class="far fa-file-alt"></i> ${data}-${row.Rework}`
+                        }
+                    },
+                    { data: "AssignToName" },
+                    {
+                        data: "Progress",
+                        render: function (data) {
+                            if (data < 38) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
+                            } else if (data >= 35 && data < 70) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
+                            } else if (data >= 70 && data <= 99) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
+                            } else if (data >= 100) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
+                            }
+                        }
+                    },
+                    {
+                        data: "WorkOrder_Id",
+                        render: function (data, type, row) {
+                            if (row.Status == 6) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                <button class="btn btn-success btn-sm font-weight-bold btn-close-${data}" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
+                                                                                                                                                <button class="btn btn-danger btn-sm font-weight-bold btn-reject-${data}" onclick=RejectJob("./SetRejectWorkOrder?id=${data}")>REJECT</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
+                                }
+
+                            }
+                            else if (row.Status == 7) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-sm font-weight-bold" style="background-color:#a333c8;border-color:#a333c8;color:#ffffff;")>PENDING</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
+                                }
+                            }
+                            else if (row.Status == 8) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-success btn-sm font-weight-bold btn-close-${data}" onclick=CloseJob("./SetCloseJob?id=${data}")>CLOSE</button>
+                                                                                                                               <button class="btn btn-danger btn-sm font-weight-bold  btn-rework-${data}" onclick=ReworkJob("./SetReWorkJob?id=${data}")>REWORK</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
+                                }
+
+                            }
+                            else if (row.Status == 9) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-success btn-sm font-weight-bold")><i class="fas fa-check"></i> COMPLETED</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')")>REWORKED</button>`;
+                                }
+
+                            }
+                            else if (row.Status == 12 || row.Status == 13) {
+                                return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+
+                            }
+                            else {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                               <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                               <button class="btn btn-secondary btn-sm font-weight-bold") onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${row.WorkOrder_Id}')">REWORKED</button>`;
+                                }
+                            }
+                        }
+                    }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function InfoDailyReport(url) {
+            $.ajax({
+                url: url,
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.row-daily').empty();
+                    $('#lbWorkOrderDR').text(data.obj[0].WoNo + '-' + data.obj[0].Rework);
+                    $('#lbTotalWorkingTime').text(data.working);
+                    for (i in data.obj) {
+                        var item = data.obj[i];
+
+                        $('.row-daily').append(() => {
+                            switch (item.StatusWorkOrderStr) {
+                                case 'Doing':
+                                    return `<div class="col-md-3">
+                                                                                                                                                                                    <div class="card text-white bg-info mb-3">
+                                                                                                                                                                                        <div class="card-header">
+                                                                                                                                                                                            ${item.DailyDate}<br>
+                                                                                                                                                                                            (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        <div class="card-body">
+                                                                                                                                                                                            <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>`;
+                                    break;
+                                case 'PM':
+                                    return `<div class="col-md-3">
+                                                                                                                                                                                    <div class="card text-white bg-secondary mb-3">
+                                                                                                                                                                                        <div class="card-header">
+                                                                                                                                                                                            ${item.DailyDate}<br>
+                                                                                                                                                                                            (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        <div class="card-body">
+                                                                                                                                                                                            <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>`;
+                                    break;
+                                case 'Complete':
+                                    return `<div class="col-md-3">
+                                                                                                                                                                                    <div class="card text-white bg-success mb-3">
+                                                                                                                                                                                        <div class="card-header">
+                                                                                                                                                                                            ${item.DailyDate}<br>
+                                                                                                                                                                                            (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                        <div class="card-body">
+                                                                                                                                                                                            <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>`;
+                                    break;
+                            }
+                        });
+                    }
+
+                    $('#ModalDailyReport').modal('toggle');
+                }
+            });
+        }
+
+        function InfoTrackingJob(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    var htmlDetail = $('#lbRequestDetailTJ').text(data[0].Detail);
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    var htmlSuggestion = $('#lbSuggestionTJ').text(data[0].Suggestion);
+                    htmlSuggestion.html(htmlSuggestion.html().replace(/\n/g, '<br/>'));
+                    var htmlRootCause = $('#lbRootCauseTJ').text(data[0].RootCause);
+                    htmlRootCause.html(htmlRootCause.html().replace(/\n/g, '<br/>'));
+                    var htmlSolution = $('#lbSolutionTJ').text(data[0].Solution);
+                    htmlSolution.html(htmlSolution.html().replace(/\n/g, '<br/>'));
+
+                    $('#txtIdTJ').val(data[0].Id);
+                    $('#lbEquipmentTJ').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestTJ').text(data[0].WorkRequest + '-' + data[0].Line);
+                    $('#lbWorkOrderTJ').text(data[0].WoNo + '-' + data[0].Rework);
+                    $('#lbEquipmentTJ2').text(data[0].Equipment);
+                    $('#lbDescriptionTJ').text(data[0].Description);
+                    $('#lbSymptomTJ').text(data[0].Symptom + ' (' + data[0].SymptomName_Th + ')');
+                    $('#lbPriorityTJ').text(data[0].Priority);
+                    $('#lbPlanStartDateTJ').text(data[0].PlanStartDate);
+                    $('#lbPlanFinishDateTJ').text(data[0].PlanFinishDate);
+                    $('#lbRequireDateTJ').text(data[0].RequireDate);
+                    $('#lbRequestorTJ').text(data[0].RequestorName);
+                    $('#lbResponsibleTJ').text(data[0].ResponsibleName);
+                    $('#lbAssignToTJ').text(data[0].AssignToName);
+                    $('#ModalTrackingJob').modal('toggle');
+                }
+            });
+        }
+
+        function SearchTrackingJob() {
+            loadDataTableTrackingJob();
+        }
+
+        function TeamSupport(emp_no) {
+            $('.PartialCalendar').empty().load('./JobDaily?emp_no=' + $('#ddlEmployeeDaily').val());
+        }
+
+        function ScheduleTeam(emp_no) {
+            $('.PartialSchedule').empty().load('./SchedulePlan?emp_no=' + $('#ddlEmployeeSchedule').val());
+        }
+
+        function RejectJob(url) {
+            var id = getUrlVars(url)["id"];
+            swal({
+                title: "Are you sure?",
+                text: "Reject this job",
+                icon: "warning",
+                buttons: true
+            }).then((willSend) => {
+                if (willSend) {
+                    swal({
+                        title: "Reasons Reviewers Reject",
+                        text: "Write something here",
+                        content: "input",
+                        closeOnClickOutside: false,
+                        allowOutsideClick: false,
+                        button: {
+                            text: "SAVE",
+                            closeModal: false,
+                        }
+                    }).then(reason => {
+                        $.ajax({
+                            url: "./SetRejectWorkOrder",
+                            data: JSON.stringify({
+                                Id: id,
+                                Reason: reason
+                            }),
+                            contentType: 'application/json; charset=utf-8',
+                            type: 'POST',
+                            dataType: 'JSON',
+                            success: (data) => {
+                                if (data.success === true) {
+                                    swal({
+                                        title: data.message,
+                                        icon: "success",
+                                        buttons: "DONE"
+                                    }).then((willDone) => {
+                                        loadDataTableTrackingJob();
+                                        $('.PartialCalendar').empty().load('./JobDaily');
+                                    });
+
+                                } else {
+                                    swal({
+                                        title: "Warning",
+                                        text: data.message,
+                                        icon: "warning",
+                                        buttons: "DONE",
+                                        dangerMode: true
+                                    });
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+        function CloseJob(url) {
+            swal({
+                title: "Are you sure?",
+                text: "Close this job",
+                icon: "warning",
+                buttons: true
+            }).then((willSend) => {
+                if (willSend) {
+                    var id = getUrlVars(url)["id"];
+                    $.ajax({
+                        url: url,
+                        contentType: 'application/json; charset=utf-8',
+                        type: 'POST',
+                        dataType: 'JSON',
+                        beforeSend: () => {
+                            $(`.btn-close-${id}`).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+                        },
+                        success: (data) => {
+                            if (data.success === true) {
+                                swal({
+                                    title: data.message,
+                                    icon: "success",
+                                    buttons: "DONE"
+                                }).then((willDone) => {
+                                    loadDataTableTrackingJob();
+                                    $('.PartialCalendar').empty().load('./JobDaily');
+                                });
+
+                            } else {
+                                swal({
+                                    title: "Warning",
+                                    text: data.message,
+                                    icon: "warning",
+                                    buttons: "DONE",
+                                    dangerMode: true
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function ReworkJob(url) {
+            var WorkOrder_Id = getUrlVars(url)["id"];
+            swal({
+                title: "Are you sure?",
+                text: "Rework this job",
+                icon: "warning",
+                buttons: true
+            }).then((willSend) => {
+                if (willSend) {
+                    swal({
+                        title: "Reasons Planner Rework",
+                        text: "Write something here",
+                        content: "input",
+                        closeOnClickOutside: false,
+                        allowOutsideClick: false,
+                        button: {
+                            text: "SAVE",
+                            closeModal: false,
+                        }
+                    }).then(reason => {
+                        $.ajax({
+                            url: url,
+                            data: {
+                                WorkOrder_Id: WorkOrder_Id,
+                                Reason: reason
+                            },
+                            type: 'POST',
+                            dataType: 'JSON',
+                            success: (data) => {
+                                if (data.success === true) {
+                                    swal({
+                                        title: data.message,
+                                        icon: "success",
+                                        buttons: "DONE"
+                                    }).then((willDone) => {
+                                        loadDataTableTrackingJob();
+                                        loadDataTable();
+                                    });
+
+                                } else {
+                                    swal({
+                                        title: "Warning",
+                                        text: data.message,
+                                        icon: "warning",
+                                        buttons: "DONE",
+                                        dangerMode: true
+                                    });
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
+
+        function Reason(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.reason-job-reject').empty();
+                    for (i in data) {
+                        var item = data[i];
+                        $('.reason-job-reject').append(
+                            ` <div class="d-flex w-100 justify-content-between">
+                                                                                                                    <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                </div>
+                                                                                                                <small>Reject by manager</small>`
+                        );
+                    }
+                    $('#lbEquipmentRJR').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestRJR').text(data[0].WorkRequest + '-' + data[0].Line);
+
+                    $('#ModalReasonJobReject').modal('toggle');
+                }
+            });
+        }
+
+        function ReasonRework(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.reason-job-rework').empty();
+                    for (i in data) {
+                        var item = data[i];
+                        $('.reason-job-rework').append(
+                            `<div class="d-flex w-100 justify-content-between">
+                                                                                                                                    <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                                </div>
+                                                                                                                                <small>Rework by MIS</small>`
+                        );
+                    }
+                    $('#lbEquipmentRW').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestRW').text(data[0].WorkRequest + '-' + data[0].Line);
+
+                    $('#ModalReasonJobRework').modal('toggle');
+                }
+            });
+        }
+
+        function getUrlVars(url) {
+            var vars = [], hash;
+            var hashes = url.slice(url.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+    </script>
+}

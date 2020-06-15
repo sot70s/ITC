@@ -1,0 +1,102 @@
+﻿<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="card m-2 p-1" style="background-color:#ff674d;">
+                <h3 class="card-header font-weight-bold" style="background-color:#ff5233;"><i class="fas fa-cogs fa-lg"></i>&nbsp;Setting</h3>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3 p-1">
+                            <div id="divUsers" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                                <center>
+                                    <a id="btnUsers" href="#">
+                                        <i class="fas fa-users fa-4x"></i><br />
+                                    </a>
+                                    Users
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 p-1">
+                            <div id="divEquipment" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                                <center>
+                                    <a id="btnEquipment" href="#">
+                                        <i class="far fa-edit fa-4x"></i><br />
+                                    </a>
+                                    Equipment
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 p-1">
+                            <div id="divTeamFoundation" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                                <center>
+                                    <a id="btnTeamFoundation" href="#">
+                                        <i class="fas fa-sitemap fa-4x"></i><br />
+                                    </a>
+                                    Team Foundation
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 p-1">
+                            <div id="divJobPriority" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                                <center>
+                                    <a id="btnJobPriority" href="#">
+                                        <i class="fab fa-stack-overflow fa-4x"></i><br />
+                                    </a>
+                                    Job Priority
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="PartialSetting"></div>
+        </div>
+    </div>
+
+    <div class="PartialSubSetting"></div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#btnUsers').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('#divUsers').css('background-color', '#ffd4cc');
+            $('#divEquipment').css('background-color', '#ffffff');
+            $('#divTeamFoundation').css('background-color', '#ffffff');
+            $('#divJobPriority').css('background-color', '#ffffff');
+            $('.PartialSetting').empty().load('./UserMng');
+            $('.PartialSubSetting').empty();
+        });
+
+        $('#btnEquipment').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('#divUsers').css('background-color', '#ffffff');
+            $('#divEquipment').css('background-color', '#ffd4cc');
+            $('#divTeamFoundation').css('background-color', '#ffffff');
+            $('#divJobPriority').css('background-color', '#ffffff');
+            $('.PartialSetting').empty().load('./EquipmentMng');
+            $('.PartialSubSetting').empty();
+        });
+
+        $('#btnTeamFoundation').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('#divUsers').css('background-color', '#ffffff');
+            $('#divEquipment').css('background-color', '#ffffff');
+            $('#divTeamFoundation').css('background-color', '#ffd4cc');
+            $('#divJobPriority').css('background-color', '#ffffff');
+            $('.PartialSetting').empty().load('./TeamFoundationMng');
+            $('.PartialSubSetting').empty();
+        });
+
+        $('#btnJobPriority').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('#divUsers').css('background-color', '#ffffff');
+            $('#divEquipment').css('background-color', '#ffffff');
+            $('#divTeamFoundation').css('background-color', '#ffffff');
+            $('#divJobPriority').css('background-color', '#ffd4cc');
+            $('.PartialSetting').empty().load('./JobPriorityMng');
+            $('.PartialSubSetting').empty();
+        });
+    </script>
+}

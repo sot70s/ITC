@@ -20,7 +20,7 @@ namespace ITC.Controllers
 
             ViewBag.BindDDLWorkRequest = QueryRequest.ListJobWorkRequest().Where(w => w.Requestor == emp_no && w.Status <= 3).GroupBy(g => g.WorkRequest).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
             ViewBag.BindDDLSwOnHand = QuerySoftware.ListSoftwareOnHand().Where(s => s.EmployeeNo == emp_no).OrderBy(o => o.Equipment).ToList();
-            ViewBag.BindDDLHwOnHand = QueryHardware.ListHardware().Where(w => w.OWNER == emp_no).ToList();
+            ViewBag.BindDDLHwOnHand = QueryHardware.ListHardware().Where(w => w.OWNER == emp_no || w.OWNER.ToUpper() == "ALL").ToList();
             ViewBag.BindDDLAnother = QueryAnother.ListAnotherOnHand(emp_no).ToList();
 
             return View();
@@ -41,7 +41,7 @@ namespace ITC.Controllers
 
             var fotmatStr = string.Empty;
             if (iYear > 0)
-                fotmatStr =  iYear + "Year ";
+                fotmatStr = iYear + "Year ";
             if (iMonths > 0)
                 fotmatStr += iMonths + "Month ";
             if (iDays > 0)
@@ -122,7 +122,7 @@ namespace ITC.Controllers
         {
             TableJobRequest data = new TableJobRequest()
             {
-                data = QueryRequest.ListJobRequest(work_request).Where(w => w.Status != 10 && w.Status != 11).OrderByDescending(o => o.Id).ToList()
+                data = QueryRequest.ListJobRequest(work_request).Where(w => w.Status == 0 || w.Status == 1).OrderByDescending(o => o.Id).ToList()
             };
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -265,10 +265,7 @@ namespace ITC.Controllers
                 switch (data.DecisionType)
                 {
                     case "A":
-                        queryMisFlow.Status = 1;
-                        _dbITC.SaveChanges();
-
-                        subject = "ITC-Work Request Approval : " + data.WorkRequest;
+                        subject = "ITC-Work Request Approval (User Manager) : " + data.WorkRequest + " (Need Approve)";
                         content +=
                             "<b>" +
                             "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
@@ -283,12 +280,12 @@ namespace ITC.Controllers
                             "<li>If you <b>reject</b> equipment, Please click here " +
                             "<a href='http://milws/ITC/Job/RejectJob?id=" + data.Id + "' style='display: inline-block;font-weight: 400;text-align: center;vertical-align: middle;border: 1px solid transparent;padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;color: #fff;background-color: #dc3545;border-color: #dc3545;text-decoration-line:none;'>Reject</a></li>" +
                             "</ul></b>";
+
+                        queryMisFlow.Status = 1;
+                        _dbITC.SaveChanges();
                         break;
                     case "N":
-                        queryMisFlow.Status = 2;
-                        _dbITC.SaveChanges();
-
-                        subject = "ITC-Work Request : " + data.WorkRequest;
+                        subject = "ITC-Work Request (User Manager) : " + data.WorkRequest + " (Acknowledge)";
                         content +=
                             "<b>" +
                             "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
@@ -296,8 +293,21 @@ namespace ITC.Controllers
                             "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                             "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
                             "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "</b><br>";
+
+                        queryMisFlow.Status = 2;
+                        _dbITC.SaveChanges();
                         break;
                     case "T":
+
+                        subject = "ITC-Work Request (User Manager) : " + data.WorkRequest + " (Ticket)";
+                        content +=
+                            "<b>" +
+                            "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
+                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                            "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
+                            "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "</b><br>" +
+                            "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>";
+
                         var wt = string.Empty;
                         string year = DateTime.Now.ToString("yyyy") + "-";
                         List<WorkOrders> queryWo = _dbITC.WorkOrders.Where(w => w.WoNo.StartsWith("WT")).OrderByDescending(o => o.WoNo).ToList();
@@ -337,17 +347,20 @@ namespace ITC.Controllers
                         });
 
                         queryMisFlow.Status = 4;
-                        queryMisFlow.AssignTo = _dbITC.MisFlow.Where(w => w.Division.StartsWith(data.SectionType)).FirstOrDefault().EmployeeNo;
-                        _dbITC.SaveChanges();
 
-                        subject = "ITC-Work Request : " + data.WorkRequest;
-                        content +=
-                            "<b>" +
-                            "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
-                            "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
-                            "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "</b><br>" +
-                            "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>";
+                        switch (data.Equipment.Substring(0, 2))
+                        {
+                            case "0E":
+                                HardwareAsset _HardwareAssets = _dbITC.HardwareAssets.Where(w => w.Equipment.StartsWith(data.Equipment)).FirstOrDefault();
+                                queryMisFlow.AssignTo = (_HardwareAssets == null) ? data.Responsible : _HardwareAssets.SupportBy;
+                                break;
+                            default:
+                                Software _Software = _dbITC.Software.Where(w => w.Equipment.StartsWith(data.Equipment)).FirstOrDefault();
+                                queryMisFlow.AssignTo = (_Software == null) ? data.Responsible : _Software.SupportBy;
+                                break;
+                        }
+
+                        _dbITC.SaveChanges();
                         break;
                 }
                 email_to = QueryRequest.StrEmailApprover(id);
@@ -550,7 +563,7 @@ namespace ITC.Controllers
             List<JobRequest> _ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.Requestor == emp_no && w.Status > 0 && Convert.ToDateTime(w.CreateDate).ToString("yyyy") == DateTime.Now.ToString("yyyy"))
                                 .Select(s => new JobRequest
                                 {
-                                    StatusStr = (s.Status == 9 && s.StatusWorkOrder == true) ? "COMPLETED" : (((s.Status == 6 || s.Status == 7 || s.Status == 9) && s.StatusWorkOrder == false) || s.Status == 12 || s.Status == 13) ? "REWORKED" : (s.Status == 10 || s.Status == 11) ? "REJECTED" : (s.Status == 1) ? "PENDING" :"PROCEED"
+                                    StatusStr = (s.Status == 9 && s.StatusWorkOrder == true) ? "COMPLETED" : (((s.Status == 6 || s.Status == 7 || s.Status == 9) && s.StatusWorkOrder == false) || s.Status == 12 || s.Status == 13) ? "REWORKED" : (s.Status == 10 || s.Status == 11) ? "REJECTED" : (s.Status == 1) ? "PENDING" : "PROCEED"
                                 }).ToList();
 
             _ListJobRequest = _ListJobRequest.GroupBy(g => new
@@ -658,7 +671,7 @@ namespace ITC.Controllers
                                "</div><hr><br>";
                 }
                 content = head + "<br><br>" + content;
-                email_to = QueryRequest.StrEmailResponsible(cc.JobReqBody_Id);
+                email_to = QueryRequest.StrEmailResponsible(cc.JobReqBody_Id) + ";" + QueryRequest.StrEmailPlanner(cc.JobReqBody_Id);
                 sm.SendEMailTo("swadmin@meyer-mil.com", titleEmail, email_to, "", "", subject, content, true, "");
             }
             catch (Exception ex)

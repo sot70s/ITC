@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutSystemRequisitionForm.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="card m-2">
+                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                    SYSTEM REQUISITION FORM
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 mb-2">
+                            <label class="font-weight-bold">Name</label>
+                            <input type="text" class="form-control" id="txtName">
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <label class="font-weight-bold">Job Title</label>
+                            <input type="text" class="form-control" id="txtJobtitle">
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <label class="font-weight-bold">Date</label>
+                            <input type="text" class="form-control" id="txtDate" value="@String.Format("{0:dd-MMM-yyyy}",DateTime.Now)" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                    SERVICE REQUEST
+                </div>
+                <div class="card-body">
+                    <div class="custom-control custom-radio mb-2">
+                        <input type="radio" id="chkSymptom1" name="customRadio" class="custom-control-input">
+                        <label class="custom-control-label font-weight-bold" for="chkSymptom1">New System</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="chkSymptom2" name="customRadio" class="custom-control-input">
+                        <label class="custom-control-label font-weight-bold" for="chkSymptom2">Replace Symptom</label>
+                    </div>
+                </div>
+                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                    WHAT IS THIS SYSTEM BEING PROPOSED?
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-8 mb-2" style="padding-right:unset;">
+                            <input type="text" class="form-control" id="txtProposed">
+                        </div>
+                        <div class="col-sm-2 mb-2" style="padding-left:unset;padding-right:unset;">
+                            <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddProposed"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="col-sm-2 mb-2" style="padding-left:unset;">
+                            <button class="btn btn-outline-danger font-weight-bold btn-block" id="btnMinusProposed"><i class="fas fa-minus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-10"></div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-warning font-weight-bold" id="btnClear">Clear</button>
+                            <button class="btn btn-primary font-weight-bold" id="btnSubmit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#btnSubmit').on('click', (e) => {
+        e.stopImmediatePropagation();
+    });
+</script>

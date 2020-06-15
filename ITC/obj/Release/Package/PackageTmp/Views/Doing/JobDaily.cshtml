@@ -145,7 +145,7 @@
                         $('#ddlWorkOrder').val(0);
                         $('#ddlStatus').val(1);
                         $('#txtRootCauseDL,#txtSolutionDL,#txtTimeStart,#txtTimeStop,#txtNote').val('');
-                        $('#divProgress').attr('aria-valuenow', '0').css('width', '0%');
+                        $('#divProgress').attr('aria-valuenow', '0').css('width', '0%').text('0%');
                         $('#ModalUpdateDaily').modal('toggle');
                     },
                     //eventDrop: function (info) {
@@ -182,13 +182,13 @@
                 }
 
                 if (data.objPlanning[0].Progress < 35) {
-                    return $('#divProgress').attr('aria-valuenow', `${data.objPlanning[0].Progress}`).css('width', `${data.objPlanning[0].Progress}%`).addClass('bg-danger').removeClass('bg-danger').text(`${data.objPlanning[0].Progress}%`);
+                    return $('#divProgress').attr('aria-valuenow', `${data.objPlanning[0].Progress}`).css('width', `${data.objPlanning[0].Progress}%`).removeClass('bg-success').removeClass('bg-info').removeClass('bg-warning').addClass('bg-danger').text(`${data.objPlanning[0].Progress}%`);
                 } else if (data.objPlanning[0].Progress >= 35 && data.objPlanning[0].Progress < 70) {
-                    return $('#divProgress').attr('aria-valuenow', `${data.objPlanning[0].Progress}`).css('width', `${data.objPlanning[0].Progress}%`).addClass('bg-warning').removeClass('bg-danger').text(`${data.objPlanning[0].Progress}%`);
+                    return $('#divProgress').attr('aria-valuenow', `${data.objPlanning[0].Progress}`).css('width', `${data.objPlanning[0].Progress}%`).removeClass('bg-success').removeClass('bg-info').removeClass('bg-danger').addClass('bg-warning').text(`${data.objPlanning[0].Progress}%`);
                 } else if (data.objPlanning[0].Progress >= 70 && data.objPlanning[0].Progress <= 99) {
-                    return $('#divProgress').attr('aria-valuenow', `${data.objPlanning[0].Progress}`).css('width', `${data.objPlanning[0].Progress}%`).addClass('bg-info').removeClass('bg-danger').text(`${data.objPlanning[0].Progress}%`);
+                    return $('#divProgress').attr('aria-valuenow', `${data.objPlanning[0].Progress}`).css('width', `${data.objPlanning[0].Progress}%`).removeClass('bg-success').removeClass('bg-warning').removeClass('bg-danger').addClass('bg-info').text(`${data.objPlanning[0].Progress}%`);
                 } else if (data.objPlanning[0].Progress >= 100) {
-                    return $('#divProgress').attr('aria-valuenow', `${data.objPlanning[0].Progress}`).css('width', `${data.objPlanning[0].Progress}%`).addClass('bg-success').removeClass('bg-danger').text(`${data.objPlanning[0].Progress}%`);
+                    return $('#divProgress').attr('aria-valuenow', `${data.objPlanning[0].Progress}`).css('width', `${data.objPlanning[0].Progress}%`).removeClass('bg-info').removeClass('bg-warning').removeClass('bg-danger').addClass('bg-success').text(`${data.objPlanning[0].Progress}%`);
                 }
             }
         });
@@ -197,7 +197,7 @@
     $('#ddlStatus').on('change', (e) => {
         e.stopImmediatePropagation();
         if ($('#ddlStatus').val() == 3) {
-            $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-info').removeClass('bg-warning').removeClass('bg-danger');
+            $('#divProgress').attr('aria-valuenow', '100').css('width', '100%').addClass('bg-success').removeClass('bg-info').removeClass('bg-warning').removeClass('bg-danger').text('100%');
         }
     });
 
@@ -299,7 +299,8 @@
                 $.ajax({
                     url: url,
                     data: JSON.stringify({
-                        JobDaily_Id: $('#ddlWorkOrderPeriod').val()
+                        JobDaily_Id: $('#ddlWorkOrderPeriod').val(),
+                        WorkOrder_Id: $('#ddlWorkOrder').val()
                     }),
                     contentType: 'application/json; charset=utf-8',
                     type: 'DELETE',
@@ -311,6 +312,7 @@
                                 icon: "success",
                                 buttons: "DONE"
                             }).then((willDone) => {
+                                loadDataTableDailyReport();
                                 $('.PartialCalendar').empty().load('./JobDaily');
                             });
                         } else {

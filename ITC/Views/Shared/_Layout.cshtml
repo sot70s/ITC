@@ -25,9 +25,6 @@
             <div class="row">
                 <div class="col-sm-4 mt-4">
                     <ul class="nav nav-pills">
-                        <li class="nav-item">
-                            <button class="btn btn-light" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fas fa-bars fa-lg"></i></button>
-                        </li>
                     </ul>
                 </div>
                 <div class="col-sm-4">
@@ -37,23 +34,28 @@
                 </div>
                 <div class="col-sm-4 mt-4">
                     <ul class="nav justify-content-end">
-                        <li class="nav-item dropdown ">
+                        <li class="nav-item dropdown">
                             <a class="btn btn-info dropdown-toggle font-weight-bold" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-user-circle"></i>&nbsp;<span id="lbUser"></span>
+                                <i class="fas fa-user-circle fa-lg"></i>&nbsp;<span id="lbUser"></span>
                             </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item font-weight-bold request-job" href="~/Job/Index"><i class="fas fa-edit"></i>&nbsp;Work Request</a>
-                                <a class="dropdown-item font-weight-bold job-doing" href="~/Doing/Index"><i class="fab fa-stack-overflow"></i>&nbsp;&nbsp;Work Doing</a>
-                                <a class="dropdown-item font-weight-bold hand-out" href="~/HandOut/Index"><i class="fas fa-paste"></i>&nbsp;&nbsp;Work Management</a>
-                                <a class="dropdown-item font-weight-bold inspector" href="~/Inspector/Index"><i class="fas fa-tasks"></i>&nbsp;&nbsp;Work Monitoring</a>
+                            <div class="dropdown-menu work-request">
+                                <a class="dropdown-item font-weight-bold" href="~/Home/Index"><i class="fas fa-home fa-lg"></i>&nbsp;&nbsp;Home</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item font-weight-bold" href="~/Setting/ChangePassword"><i class="fas fa-key"></i>&nbsp;&nbsp;Change Password</a>
-                                <a class="dropdown-item font-weight-bold system-config" href="~/Setting/Index"><i class="fas fa-cogs"></i>&nbsp;&nbsp;System Configuration</a>
+                                <a class="dropdown-item font-weight-bold request-job" href="~/Job/Index"><i class="fas fa-edit fa-lg"></i>&nbsp;Work Request</a>
+                                <a class="dropdown-item font-weight-bold hand-out" href="~/HandOut/Index"><i class="fas fa-paste fa-lg"></i>&nbsp;&nbsp;Work Planner</a>
+                                <a class="dropdown-item font-weight-bold job-doing" href="~/Doing/Index"><i class="fab fa-stack-overflow fa-lg"></i>&nbsp;&nbsp;Work Doing</a>
+                                <a class="dropdown-item font-weight-bold inspector" href="~/Inspector/Index"><i class="fas fa-tasks fa-lg"></i>&nbsp;&nbsp;Work Monitoring</a>
+                                <a class="dropdown-item font-weight-bold dashboard" href="~/Dashboard/Index"><i class="fas fa-chart-bar"></i>&nbsp;&nbsp;DashBoard</a>
+                                @*<a class="dropdown-item font-weight-bold dashboard" href="~/Dashboard/Index"><i class="fas fa-chart-bar"></i>&nbsp;&nbsp;DashBoard</a>*@
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item font-weight-bold" href="~/Setting/ChangePassword"><i class="fas fa-key fa-lg"></i>&nbsp;&nbsp;Change Password</a>
+                                <a class="dropdown-item font-weight-bold system-config" href="~/Setting/Index"><i class="fas fa-cogs fa-lg"></i>&nbsp;&nbsp;System Configuration</a>
                             </div>
                         </li>
                         &nbsp;&nbsp;&nbsp;
                         <li class="nav-item">
-                            <a id="btnSignOut" class="btn btn-danger text-white font-weight-bold" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;Sign Out</a>
+                            <a id="btnSignOut" class="btn btn-danger text-white font-weight-bold" href="#"><i class="fas fa-sign-out-alt fa-lg"></i>&nbsp;Sign Out</a>
                         </li>
                     </ul>
                 </div>

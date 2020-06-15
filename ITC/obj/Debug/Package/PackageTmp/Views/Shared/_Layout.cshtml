@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/images/shortcut.png">
+    <title>ITCONNECTS</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/lib/sweetalert/sweetalert.min.css" rel="stylesheet" />
+    <link href="~/lib/datepicker/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Styles/font-responsive.css" rel="stylesheet" />
+</head>
+<body style="background-color:#19004d;" class="text-justify">
+    @*<div class="collapse" id="navbarToggleExternalContent">
+            <div class="p-4" style="background-color:#333333;">
+            </div>
+        </div>*@
+    <div style="background-color:#ffffff;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 mt-4">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <button class="btn btn-light" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fas fa-bars fa-lg"></i></button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-4">
+                    <center>
+                        <img class="img-fluid logo" src="~/images/logo.png">
+                    </center>
+                </div>
+                <div class="col-sm-4 mt-4">
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item dropdown ">
+                            <a class="btn btn-info dropdown-toggle font-weight-bold" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>&nbsp;<span id="lbUser"></span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item font-weight-bold request-job" href="~/Job/Index"><i class="fas fa-edit"></i>&nbsp;Work Request</a>
+                                <a class="dropdown-item font-weight-bold job-doing" href="~/Doing/Index"><i class="fab fa-stack-overflow"></i>&nbsp;&nbsp;Work Doing</a>
+                                <a class="dropdown-item font-weight-bold hand-out" href="~/HandOut/Index"><i class="fas fa-paste"></i>&nbsp;&nbsp;Work Management</a>
+                                <a class="dropdown-item font-weight-bold inspector" href="~/Inspector/Index"><i class="fas fa-tasks"></i>&nbsp;&nbsp;Work Monitoring</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item font-weight-bold" href="~/Setting/ChangePassword"><i class="fas fa-key"></i>&nbsp;&nbsp;Change Password</a>
+                                <a class="dropdown-item font-weight-bold system-config" href="~/Setting/Index"><i class="fas fa-cogs"></i>&nbsp;&nbsp;System Configuration</a>
+                            </div>
+                        </li>
+                        &nbsp;&nbsp;&nbsp;
+                        <li class="nav-item">
+                            <a id="btnSignOut" class="btn btn-danger text-white font-weight-bold" href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;Sign Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="background-color:#ff6600;" class="pb-lg-1 mb-lg-4"></div>
+
+
+    <div class="row m-2 rounded" style="background-color:#ffffff;">
+        <div class="row m-1" style="background-color:#333333;width:100%;">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/datatable/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="~/lib/fontawesome/js/all.js"></script>
+    <script src="~/lib/datepicker/moment.min.js"></script>
+    <script src="~/lib/datepicker/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="~/lib/dateFormat/dateFormat.min.js"></script>
+    <script src="~/lib/dateFormat/jquery-dateformat.min.js"></script>
+    <script src="~/lib/bootstrap-validate/bootstrap-validate.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<script>
+    $.ajax({
+        url: "../Home/GetFullName",
+        type: "GET",
+        dataType: "JSON",
+        contentType: "application/json; charset=utf-8",
+        success: (data) => {
+            $("#lbUser").text(data.Name);
+            if (data.Permission == false)
+                $('.system-config').attr('hidden', 'hidden');
+            if (data.PageStaff == false)
+                $('.job-doing').attr('hidden', 'hidden');
+            if (data.PagePlanner == false)
+                $('.hand-out').attr('hidden', 'hidden');
+            if (data.PageMisManager == false)
+                $('.inspector').attr('hidden', 'hidden');
+
+        }
+    });
+
+    $('#btnSignOut').on('click', (e) => {
+        swal({
+            title: "Are you sure?",
+            text: "Sign out of ITConnnect",
+            icon: "warning",
+            buttons: ["Cancel", "Submit"],
+            dangerMode: true
+        }).then((signOut) => {
+            if (signOut == true) {
+                window.location.href = "../Home/SignOut";
+            }
+        });
+    });
+
+    $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            up: 'fas fa-sort-up',
+            down: 'fas fa-sort-down',
+            previous: 'fas fa-caret-left',
+            next: 'fas fa-caret-right'
+        }
+    });
+
+    function getUrlVars(url) {
+        var vars = [], hash;
+        var hashes = url.slice(url.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+</script>

@@ -1,0 +1,381 @@
+﻿﻿
+<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+<style>
+
+    .button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: .25rem;
+    }
+
+    .label {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #ffffff;
+        text-align: left;
+        background-color: #0094ff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        width: 170px;
+        font-weight: bold;
+    }
+
+    .label-model {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #000000;
+        text-align: left;
+        background-color: #ffffff;
+        border: 0px solid #ced4da;
+        border-radius: .25rem;
+        width: 150px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .label-model-date {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #000000;
+        text-align: left;
+        background-color: #ffffff;
+        border: 0px solid #ced4da;
+        border-radius: .25rem;
+        width: 150px;
+        height: 30px;
+        font-weight: bold;
+    }
+
+    .label-date {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #ffffff;
+        text-align: left;
+        background-color: #0094ff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        width: 390px;
+        font-weight: bold;
+    }
+
+    #more {
+        display: none;
+    }
+
+    :not(.input-group) > .bootstrap-select.form-control:not([class*=col-]) {
+        width: 50%;
+    }
+
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+
+    .font {
+        font-weight: bold;
+        color: black;
+    }
+
+    .font-bold {
+        font-weight: bold;
+    }
+
+    #datepicker {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+        #datepicker > span:hover {
+            cursor: pointer;
+        }
+
+    #datepicker1 {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+        #datepicker1 > span:hover {
+            cursor: pointer;
+        }
+
+    #dtHardwareAsset_filter > label {
+        font-weight: bold;
+    }
+
+    #dtHardwareAsset_info {
+        font-weight: bold;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="fas fa-chart-bar"></i>&nbsp;Dashboard</h3>
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top: 30px; margin-right:20px">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Equipment Type</label>
+                                    </div>
+                                    <select id="ddlEquipmentType" class="form-control selectpicker select4" witdh="100%" data-live-search="true">
+                                        @foreach (var i in ViewBag.BindEQUIPTYPE)
+                                        {
+                                            <option class="font-bold" value="@i.EquipmentType">@i.EquipmentType  (@i.Description)</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Location</label>
+                                    </div>
+                                    <select id="ddlLocation" class="form-control selectpicker select5" witdh="100%" data-live-search="true">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold">L1</option>
+                                        <option class="font-bold">L2</option>
+                                        <option class="font-bold">L3</option>
+                                        <option class="font-bold">L4</option>
+                                        <option class="font-bold">L5</option>
+                                        <option class="font-bold">L6</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top: 30px">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Equipment Aging</label>
+                                    </div>
+                                    <select id="ddlAge" class="form-control font">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold" value="Day">Day</option>
+                                        <option class="font-bold" value="Month">Month</option>
+                                        <option class="font-bold" value="Year">Year</option>
+                                    </select>
+                                    <input class="form-control font" type="text" id="txtFrom" placeholder=" From">
+                                    <input class="form-control font" type="text" id="txtTo" placeholder=" To">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Responsible</label>
+                                    </div>
+                                    <select id="ddlResponsible" class="form-control selectpicker select6" witdh="100%" data-live-search="true">
+                                        <option class="font-bold">Select</option>
+                                        @foreach (var i in ViewBag.BindPersonal)
+                                        {
+                                            <option class="font-bold" value="@i.EMPLOYEE_NO">@i.EMPLOYEE_NO  (@i.EMPLOYEE_NAME)</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="btnSearchDashboard" type="button" class="btn btn-info font-bold" style="width: 100px; margin-left: 47%;" onclick="LoadChartDasnboard()">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card m-2 p-1">
+            @*<h3 class="card-header font-weight-bold"><i class="fas fa-chart-bar"></i>&nbsp;Dashboard</h3>*@
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="chartdiv" style="width: 100%; height: 400px; background-color: #FFFFFF;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- amCharts javascript sources -->
+<script src="~/lib/amcharts4/amcharts.js"></script>
+<script src="~/lib/amcharts4/serial.js"></script>
+<script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+<script>$('.select4,.select5,.select6').selectpicker();
+
+    //$(document).ready(function () {
+    //    ChartDasnboardHelper.InitChart();
+    //});
+
+    //function GetChartData() {
+    //    var objChart = "";
+    //    var jsonChart = "";
+    //    var service = "./GetChartDashboard";
+    //    AjaxManager.GetJsonResult(service, jsonChart, false, false, onSuccess, onfailed);
+
+    //    function onSuccess(jsonData) {
+    //        objChart = jsonData;
+    //    }
+    //    function onfailed(error) {
+    //        window.alert(error.status)
+    //    }
+    //    return objChart;
+    //};
+
+    //function GetJsonResult(service) {
+    //    $.ajax({
+    //        url: service,
+    //        type: "GET",
+    //        dataType: "JSON",
+    //        success: function (data) {
+    //            $('#ddlEquipmentType').text(data[0].EquipmentType);
+    //            $('#ddlLocation').text(data[0].Location);
+    //            $('#ddlResponsible').text(data[0].Responsible);
+    //        }
+    //    });
+    //};
+
+    //var ChartDasnboardHelper = {
+    //    InitChart: function () {
+    //        ChartDasnboardHelper.LoadChartDasnboard();
+    //    },
+
+    //    LoadChartDasnboard: function () {
+    //        var Chart = AmCharts.makeChart("chartdiv",
+    //            {
+    //                type: "serial",
+    //                categoryField: "category",
+    //                startDuration: 1,
+    //                categoryAxis: {
+    //                    "gridPosition": "start"
+    //                },
+    //                trendLines: [],
+    //                dataProvider: GetChartData(),
+    //                graphs: [
+    //                    {
+    //                        "balloonText": "[[title]] of [[category]]:[[value]]",
+    //                        "fillAlphas": 1,
+    //                        "id": "AmGraph-1",
+    //                        "title": "graph 1",
+    //                        "type": "column",
+    //                        "valueField": "column-1"
+    //                    },
+    //                    {
+    //                        "balloonText": "[[title]] of [[category]]:[[value]]",
+    //                        "fillAlphas": 1,
+    //                        "id": "AmGraph-2",
+    //                        "title": "graph 2",
+    //                        "type": "column",
+    //                        "valueField": "column-2"
+    //                    }
+    //                ],
+    //                 dataProvider:[],
+    //                guides: [],
+    //                valueAxes: [
+    //                    {
+    //                        "id": "ValueAxis-1",
+    //                        "title": "Axis title"
+    //                    }
+    //                ],
+    //                allLabels: [],
+    //                balloon: {},
+    //                legend: {
+    //                    "enabled": true,
+    //                    "useGraphSettings": true
+    //                },
+    //                titles: [
+    //                    {
+    //                        "id": "Title-1",
+    //                        "size": 15,
+    //                        "text": "Chart Title"
+    //                    }
+    //                ],
+    //            }
+    //        );
+
+    //    }
+
+    //}
+
+    function LoadChartDasnboard() {
+        $.ajax({
+            url: "./GetChartDashboard",
+            data: JSON.stringify({
+                EquipmentType: $('#ddlEquipmentType').val(),
+                Responsible: $('#ddlResponsible').val(),
+                Location: $('#ddlLocation').val(),
+                EquipmentAgingType: $('#ddlAge').val(),
+                EquipmentAgingFrom: $('#txtFrom').val(),
+                EquipmentAgingTo: $('#txtTo').val(),
+            }),
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data);
+                AmCharts.makeChart("chartdiv",
+                    {
+                        "type": "serial",
+                        "categoryField": "category",
+                        "rotate": true,
+                        "angle": 30,
+                        "depth3D": 30,
+                        "startDuration": 1,
+                        "categoryAxis": {
+                            "gridPosition": "start"
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "balloonText": "[[title]] of [[category]]:[[value]]",
+                                "fillAlphas": 1,
+                                "id": "AmGraph-1",
+                                "title": data.Location,
+                                "type": "column",
+                                "valueField": "column-1"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "stackType": "regular",
+                                "title": ""
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Chart Title"
+                            }
+                        ],
+                        "dataProvider": data,
+                    }
+                );
+            }
+
+        })
+    }</script>
+

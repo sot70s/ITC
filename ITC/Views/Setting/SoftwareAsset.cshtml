@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col-md-8 p-3">
                                     <div class="input-group">
-                                        <input class="form-control form-control" id="txtSoftwareName">
+                                        <input class="form-control" id="txtSoftwareName">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-white" id="basic-addon1"><i class="fab fa-slack-hash" style="color:red;"></i></span>
                                         </div>
@@ -66,25 +66,42 @@
                                     Core Function
                                 </div>
                                 <div class="col-md-8 p-3">
-                                    <input class="form-control form-control" id="txtCoreFunction">
+                                    <input class="form-control" id="txtCoreFunction">
                                 </div>
                                 <div class="col-md-4 p-3" style="text-align:right;">
                                     Responsible
                                 </div>
                                 <div class="col-md-8 p-3">
-                                    <input class="form-control form-control" id="txtResponsible">
+                                    <div class="input-group">
+                                        <input class="form-control" id="txtResponsible">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-white" id="basic-addon1"><i class="fab fa-slack-hash" style="color:red;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
+                                    Support By
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <select id="ddlSupportBy" class="form-control font-weight-bold">
+                                        <option class="font-weight-bold" value="">SELECT</option>
+                                        @foreach (var i in ViewBag.BindSupport)
+                                        {
+                                            <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME</option>
+                                        }
+                                    </select>
                                 </div>
                                 <div class="col-md-4 p-3" style="text-align:right;">
                                     Description
                                 </div>
                                 <div class="col-md-8 p-3">
-                                    <textarea class="form-control form-control" id="txtDescription" rows="3"></textarea>
+                                    <textarea class="form-control" id="txtDescription" rows="3"></textarea>
                                 </div>
                                 <div class="col-md-4 p-3" style="text-align:right;">
                                     Remark
                                 </div>
                                 <div class="col-md-8 p-3">
-                                    <textarea class="form-control form-control" id="txtRemark" rows="3"></textarea>
+                                    <textarea class="form-control" id="txtRemark" rows="3"></textarea>
                                 </div>
                                 <div class="col-md-4 p-3" style="text-align:right;">
                                     Location
@@ -108,7 +125,7 @@
                                 <div class="col-md-8 p-3">
                                     <div class="input-group">
                                         <select id="ddlLicenseType" class="form-control font-weight-bold">
-                                            <option class="font-weight-bold" value="">Select</option>
+                                            <option class="font-weight-bold" value="">SELECT</option>
                                             <option class="font-weight-bold" value="Concurrent">Concurrent</option>
                                             <option class="font-weight-bold" value="Name">Name</option>
                                             <option class="font-weight-bold" value="Leasing">Leasing</option>
@@ -347,31 +364,32 @@
             url: url,
             type: "GET",
             success: (data) => {
-                $('#lbEquipment').text(data[0].SoftwareName + ' (' + data[0].Equipment + ')');
-                $('#txtId').val(data[0].Id);
-                $('#txtEquipment').val(data[0].Equipment);
-                $('#txtSoftwareName').val(data[0].SoftwareName);
-                $('#txtCoreFunction').val(data[0].CoreFunction);
-                $('#txtResponsible').val(data[0].Responsible);
-                $('#txtDescription').val(data[0].Description);
-                $('#txtRemark').val(data[0].Remark);
-                $('#txtLocation').val(data[0].Location);
-                $('#txtCost').val(data[0].Cost);
-                $('#ddlLicenseType').val(data[0].LicenseType);
-                $('#txtLicenseQty').val(data[0].LicenseQty);
-                $('#txtStartDate').val(data[0].StartDate);
-                $('#txtObsolateDate').val(data[0].ObsolateDate);
-                $('#chkUserAccountNeed').prop('checked', data[0].UserAccountNeed == true ? true : false);
-                $('#chkTrainingNeed').prop('checked', data[0].TrainingNeed == true ? true : false);
-                $('#chkActive').prop('checked', data[0].Status == true ? true : false);
-                $('#chkInactive').prop('checked', data[0].Status == true ? false : true);
+                console.log(data)
+                $('#lbEquipment').text(data.SoftwareName + ' (' + data.Equipment + ')');
+                $('#txtId').val(data.Id);
+                $('#txtEquipment').val(data.Equipment);
+                $('#txtSoftwareName').val(data.SoftwareName);
+                $('#txtCoreFunction').val(data.CoreFunction);
+                $('#txtResponsible').val(data.Responsible);
+                $('#txtDescription').val(data.Description);
+                $('#txtRemark').val(data.Remark);
+                $('#txtLocation').val(data.Location);
+                $('#txtCost').val(data.Cost);
+                $('#ddlLicenseType').val(data.LicenseType);
+                $('#txtLicenseQty').val(data.LicenseQty);
+                $('#txtStartDate').val(data.StartDate);
+                $('#txtObsolateDate').val(data.ObsolateDate);
+                $('#chkUserAccountNeed').prop('checked', data.UserAccountNeed == true ? true : false);
+                $('#chkTrainingNeed').prop('checked', data.TrainingNeed == true ? true : false);
+                $('#chkActive').prop('checked', data.Status == true ? true : false);
+                $('#chkInactive').prop('checked', data.Status == true ? false : true);
+                $('#ddlSupportBy').val(data.SupportBy);
             }
         });
     }
 
     function Save(url) {
         var status = ($('#chkActive').is(':checked') === true) ? true : false;
-
         $.ajax({
             url: url,
             data: JSON.stringify({
@@ -379,6 +397,7 @@
                 SoftwareName: $('#txtSoftwareName').val(),
                 CoreFunction: $('#txtCoreFunction').val(),
                 Responsible: $('#txtResponsible').val(),
+                SupportBy: $('#ddlSupportBy').val(),
                 Description: $('#txtDescription').val(),
                 Remark: $('#txtRemark').val(),
                 Location: $('#txtLocation').val(),

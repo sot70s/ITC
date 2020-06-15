@@ -1,0 +1,13 @@
+﻿@section Scripts {
+    <script>
+        $(document).ready(() => {
+            swal({
+                title: "Successful",
+                icon: "success",
+                buttons: "DONE"
+            }).then((willApprove) => {
+                window.close();
+            });
+        });
+    </script>
+}

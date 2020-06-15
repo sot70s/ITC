@@ -1,0 +1,414 @@
+﻿﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+
+<style>
+
+    .button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: .25rem;
+    }
+
+    .label {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #ffffff;
+        text-align: left;
+        background-color: #0094ff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        width: 170px;
+        font-weight: bold;
+    }
+
+    .label-date {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #ffffff;
+        text-align: left;
+        background-color: #0094ff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        width: 170px;
+        height: 50px;
+        font-weight: bold;
+    }
+
+    #more {
+        display: none;
+    }
+
+    :not(.input-group) > .bootstrap-select.form-control:not([class*=col-]) {
+        width: 50%;
+    }
+
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+
+    .font {
+        font-weight: bold;
+        color: black;
+    }
+
+    .font-bold {
+        font-weight: bold;
+    }
+
+    #datepicker {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+        #datepicker > span:hover {
+            cursor: pointer;
+        }
+
+    #datepicker1 {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+        #datepicker1 > span:hover {
+            cursor: pointer;
+        }
+</style>
+<div class="row">
+    <div class="col-sm-12" style="padding:10px;">
+        <div class="card">
+            <div class="card-header font-weight-bold">
+                <h2><i class="far fa-hdd"></i>&nbsp;&nbsp;Create Hardware Asset</h2>
+            </div>
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <div class="row m-5">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" style="width:210px;background-color:#0094ff; color:#ffffff" for="inputGroupSelect01">Equipment</label>
+                                    </div>
+                                    <input type="text" id="txtEquipment" class="form-control font" placeholder="" readonly>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                        <label class="label" for="inputGroupSelect01">Equipment Type</label>
+                                    </div>
+                                    <select id="txtEquipmentType" class="form-control selectpicker" witdh="100%" data-live-search="true">
+                                        <option class="font-bold">Select</option>
+                                        @foreach (var i in ViewBag.BindEquipmentType)
+                                        {
+                                            <option class="font-bold" value="@i.EquipmentType">@i.EquipmentType  (@i.Description)</option>
+                                        }
+
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Description</label>
+                                    </div>
+                                    <textarea class="form-control font" id="txtDescription" aria-label="With textarea"></textarea>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Serial Number</label>
+                                    </div>
+                                    <input type="text" class="form-control font" id="txtSerialNumber" placeholder="">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Model</label>
+                                    </div>
+                                    <input type="text" class="form-control font" id="txtModel" placeholder="">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Owner</label>
+                                    </div>
+                                    <input type="text" class="form-control font" id="txtOwner" placeholder="">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Location</label>
+                                    </div>
+                                    <input type="text" class="form-control font" id="txtLocation" placeholder="">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Telephone Owner</label>
+                                    </div>
+                                    <input type="text" class="form-control font" id="txtTelephoneOwner" placeholder="">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Responsible</label>
+                                    </div>
+                                    <input type="text" class="form-control font" id="txtResponsible" placeholder="">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Status</label>
+                                    </div>
+                                    <select id="txtStatus" class="form-control font">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold" value="1">Service</option>
+                                        <option class="font-bold" value="2">Inservice</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row m-5">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Previous Owner</label>
+                                    </div>
+                                    <input type="text" class="form-control font" id="txtPreviousOwner" placeholder="">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Previous Location</label>
+                                    </div>
+                                    <input type="text" class="form-control font" id="txtPreviousLocation" placeholder="">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Service Vendor</label>
+                                    </div>
+                                    <select id="txtServiceVendor" class="form-control font">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold" value="1">1</option>
+                                        <option class="font-bold" value="2">2</option>
+                                        <option class="font-bold" value="3">3</option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Company</label>
+                                    </div>
+                                    <select id="txtCompany" class="form-control font">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold" value="MIL">MIL</option>
+                                        <option class="font-bold" value="MTL">MTL</option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Equipment Group</label>
+                                    </div>
+                                    <select id="txtEquipmentGroup" class="form-control font">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold" value="Select All">Select All</option>
+                                        <option class="font-bold" value="Lease">Lease</option>
+                                        <option class="font-bold" value="Purchase">Purchase</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="label" style="height:35px" for="inputGroupSelect01">Purchase Date</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group date" id="PurchaseDate" data-target-input="nearest" style="width:253%">
+                                            <input id="txtPurchaseDate" type="text" class="form-control datetimepicker-input font" data-target="#PurchaseDate" />
+                                            <div class="input-group-append" data-target="#PurchaseDate" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="label" style="height:35px;" for="inputGroupSelect01">Receive Date</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group date" id="ReceiveDate" data-target-input="nearest" style="width:253%">
+                                            <input id="txtReceiveDate" type="text" class="form-control datetimepicker-input font" data-target="#ReceiveDate" />
+                                            <div class="input-group-append" data-target="#ReceiveDate" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="label" style="height:35px" for="inputGroupSelect01">Service Date</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group date" id="ServiceDate" data-target-input="nearest" style="width:253%">
+                                            <input id="txtServiceDate" type="text" class="form-control datetimepicker-input font" data-target="#ServiceDate" />
+                                            <div class="input-group-append" data-target="#ServiceDate" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Warranty Date</label>
+                                    </div>
+                                    <select id="txtWarrantyType" class="form-control font">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold" value="Day">Day</option>
+                                        <option class="font-bold" value="Month">Month</option>
+                                        <option class="font-bold" value="Year">Year</option>
+                                    </select>
+                                    <input class="form-control font" type="text" id="txtWarrantyNum" placeholder=" Number">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="label" for="inputGroupSelect01">Safety Note</label>
+                                    </div>
+                                    <textarea class="form-control font" id="txtSafetyNote" aria-label="With textarea"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <center>
+                    <button id="btnSubmitHardwareAsset" type="submit" class="btn btn-info" style="width: 100px; margin-bottom: 30px;" onclick="InsertHardwareAsset()">Submit</button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<script>
+
+    $('#txtEquipmentType').selectpicker();
+
+    $('#PurchaseDate').datetimepicker({
+        format: 'DD-MMM-YYYY'
+    });
+
+    $('#ReceiveDate').datetimepicker({
+        format: 'DD-MMM-YYYY'
+    });
+
+    $('#ServiceDate').datetimepicker({
+        format: 'DD-MMM-YYYY'
+    });
+
+    bootstrapValidate(['#txtEquipment', '#txtEquipmentType', '#txtDescription', '#txtSerialNumber', '#txtModel', '#txtOwner', '#txtLocation', '#txtTelephoneOwner', '#txtResponsible', '#txtStatus'], 'required:Please fill out this field!');
+
+    function InsertHardwareAsset() {
+
+
+        $.ajax({
+            url: "./InsertHardwareAsset",
+            data: JSON.stringify({
+                Equipment: $('#txtEquipment').val(),
+                EquipmentType: $('#txtEquipmentType').val(),
+                Description: $('#txtDescription').val(),
+                SerialNumber: $('#txtSerialNumber').val(),
+                Model: $('#txtModel').val(),
+                Owner: $('#txtOwner').val(),
+                Location: $('#txtLocation').val(),
+                TelephoneOwner: $('#txtTelephoneOwner').val(),
+                Responsible: $('#txtResponsible').val(),
+                Status: $('#txtStatus').val(),
+                PreviousOwner: $('#txtPreviousOwner').val(),
+                PreviousLocation: $('#txtPreviousLocation').val(),
+                ServiceVendor: $('#txtServiceVendor').val(),
+                Company: $('#txtCompany').val(),
+                EquipmentGroup: $('#txtEquipmentGroup').val(),
+                PurchaseDate: $('#txtPurchaseDate').val(),
+                ReceiveDate: $('#txtReceiveDate').val(),
+                ServiceDate: $('#txtServiceDate').val(),
+                WarrantyType: $('#txtWarrantyType').val(),
+                WarrantyNum: $('#txtWarrantyNum').val(),
+                SafetyNote: $('#txtSafetyNote').val(),
+
+            }),
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            dataType: "JSON",
+            success: (data) => {
+                if (data.success == true) {
+                    swal({
+                        title: data.message,
+                        icon: "success",
+                        buttons: "DONE"
+                    }).then((willDone) => {
+                        $('#txtEquipment,#txtEquipmentType,#txtDescription,#txtSerialNumber,#txtModel,#txtOwner,#txtLocation,#txtTelephoneOwner,#txtResponsible,#txtStatus,#txtPreviousOwner').val('');
+                        $('#txtPreviousLocation,#txtServiceVendor,#txtCompany,#txtEquipmentGroup,#txtEquipmentGroup,#txtPurchaseDate,#txtReceiveDate,#txtServiceDate,#txtWarrantyType,#txtWarrantyNum,#txtSafetyNote').val('');
+                    });
+                } else {
+                    swal({
+                        title: "Warning",
+                        text: data.message,
+                        icon: "warning",
+                        buttons: "DONE",
+                        dangerMode: true
+                    }).then((willDone) => {
+                        $('#txtEquipment,#txtEquipmentType,#txtDescription,#txtSerialNumber,#txtModel,#txtOwner,#txtLocation,#txtTelephoneOwner,#txtResponsible,#txtStatus,#txtPreviousOwner').val('');
+                        $('#txtPreviousLocation,#txtServiceVendor,#txtCompany,#txtEquipmentGroup,#txtEquipmentGroup,#txtPurchaseDate,#txtReceiveDate,#txtServiceDate,#txtWarrantyType,#txtWarrantyNum,#txtSafetyNote').val('');
+                    });
+                }
+            }
+        });
+
+    }
+
+    $('#txtEquipmentType').on('change', (e) => {
+        e.stopImmediatePropagation();
+        $.ajax({
+            url: './GetEquipmentLest',
+            data: JSON.stringify({
+                EquipmentType: $('#txtEquipmentType').val(),
+            }),
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            dataType: "JSON",
+            success: (data) => {
+                $('#txtEquipment').val(data.success);
+            }
+        });
+    });
+
+
+</script>

@@ -605,12 +605,10 @@
                         render: function (data, type, row) {
                             if (row.Status == 0 || row.Status == 2 || row.Status == 3) {
                                 return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
                                                                                                                                                                                                             <button class="btn btn-warning btn-sm font-weight-bold">PROCEED</button>`;
                             }
                             else if (row.Status == 1) {
                                 return `<button class="btn btn-primary btn-sm font-weight-bold" onclick="InfoJobStatus('./GetJobStatusInfo?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-info-circle"></i></button>
-                                                                                                                                                                                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${data}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
                                                                                                                                                                                                             <button class="btn btn-sm font-weight-bold" style="background-color:#a333c8;border-color:#a333c8;color:#ffffff;">PENDING</button>`;
                             }
                             else if (row.Status == 7) {
@@ -1177,7 +1175,7 @@
                         series.colors = colorSet;
                         series.ticks.template.disabled = true;
                         series.alignLabels = false;
-                        series.labels.template.fontSize = 17
+                        series.labels.template.fontSize = 16
                         series.labels.template.text = "{value.percent.formatNumber('#.0')}%";
                         series.labels.template.radius = am4core.percent(-40);
                         series.labels.template.fill = am4core.color("white");

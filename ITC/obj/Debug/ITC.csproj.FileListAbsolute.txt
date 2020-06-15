@@ -261,3 +261,12 @@ C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\obj\Debug\ITC.c
 C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\obj\Debug\ITC.csproj.CopyComplete
 C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\obj\Debug\ITC.dll
 C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\obj\Debug\ITC.pdb
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Spire.Common.dll
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Spire.License.dll
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Spire.Pdf.dll
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Spire.XLS.dll
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Microsoft.mshtml.dll
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Spire.Common.xml
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Spire.License.xml
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Spire.Pdf.xml
+C:\Users\SupachaiSi\Documents\Visual Studio 2017\Project\ITC\ITC\bin\Spire.XLS.xml

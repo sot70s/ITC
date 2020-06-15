@@ -146,7 +146,43 @@ namespace ITC.Models
 
         public static List<EmployeeStore> ListEmployeeMeyer()
         {
-            List<EmployeeStore> query = ListEmployee().ToList().Union(ListEmployeeManager().ToList()).ToList();
+            List<EmployeeStore> query = ListEmployee().ToList().Union(ListEmployeeManager().ToList()).GroupBy(g => new {
+                g.EMPLOYEE_NO,
+                g.EMPLOYEE_NAME,
+                g.EMPLOYEE_LOCAL_NAME,
+                g.EMPLOYEE_STATUS,
+                g.DIVISION_CODE,
+                g.DIVISION_DESCRIPTION,
+                g.DEPARTMENT_CODE,
+                g.DEPARTMENT_DESCRIPTION,
+                g.SECTION_CODE,
+                g.SECTION_DESCRIPTION,
+                g.POSITION_DESCRIPTION,
+                g.GRADE_CODE,
+                g.SEX
+            },(key,group) => new EmployeeStore {
+                EMPLOYEE_NO = key.EMPLOYEE_NO,
+                EMPLOYEE_NAME = key.EMPLOYEE_NAME,
+                EMPLOYEE_LOCAL_NAME = key.EMPLOYEE_LOCAL_NAME,
+                EMPLOYEE_STATUS = key.EMPLOYEE_STATUS,
+                DIVISION_CODE = key.DIVISION_CODE,
+                DIVISION_DESCRIPTION = key.DIVISION_DESCRIPTION,
+                DEPARTMENT_CODE = key.DEPARTMENT_CODE,
+                DEPARTMENT_DESCRIPTION = key.DEPARTMENT_DESCRIPTION,
+                SECTION_CODE = key.SECTION_CODE,
+                SECTION_DESCRIPTION = key.SECTION_DESCRIPTION,
+                POSITION_DESCRIPTION = key.POSITION_DESCRIPTION,
+                GRADE_CODE = key.GRADE_CODE,
+                SEX = key.SEX
+            }).ToList();
+
+            return query;
+        }
+
+        public static List<HRM_Section_Master> ListHRMSectionMaster()
+        {
+            HRMContext _dbHRM = new HRMContext();
+            List<HRM_Section_Master> query = _dbHRM.HRM_Section_Master.ToList();
 
             return query;
         }

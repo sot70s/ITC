@@ -33,5 +33,9 @@ namespace ITC.Models
         public DbSet<Equipment_Type> Equipment_Types { get; set; }
         public DbSet<JobComment> JobComment { get; set; }
         public DbSet<JobReply> JobReply { get; set; }
+        public DbSet<SOP> SOP { get; set; }
+        public DbSet<SOPTemplate> SOPTemplate { get; set; }
+        public DbSet<SOPAsset> SOPAsset { get; set; }
+        public DbSet<RoleSR> RoleSR { get; set; }
     }
 }

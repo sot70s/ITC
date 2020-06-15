@@ -1,0 +1,341 @@
+﻿﻿
+<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+<style>
+
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+</style>
+<style>
+
+    .button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: .25rem;
+    }
+
+    .label {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #ffffff;
+        text-align: left;
+        background-color: #0094ff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        width: 170px;
+        font-weight: bold;
+    }
+
+    .label-model {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #000000;
+        text-align: left;
+        background-color: #ffffff;
+        border: 0px solid #ced4da;
+        border-radius: .25rem;
+        width: 150px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .label-model-date {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #000000;
+        text-align: left;
+        background-color: #ffffff;
+        border: 0px solid #ced4da;
+        border-radius: .25rem;
+        width: 150px;
+        height: 30px;
+        font-weight: bold;
+    }
+
+    .label-date {
+        padding: .375rem .75rem;
+        margin-bottom: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #ffffff;
+        text-align: left;
+        background-color: #0094ff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        width: 390px;
+        font-weight: bold;
+    }
+
+    #more {
+        display: none;
+    }
+
+    :not(.input-group) > .bootstrap-select.form-control:not([class*=col-]) {
+        width: 50%;
+    }
+
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+
+    .font {
+        font-weight: bold;
+        color: black;
+    }
+
+    .font-bold {
+        font-weight: bold;
+    }
+
+    #datepicker {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+        #datepicker > span:hover {
+            cursor: pointer;
+        }
+
+    #datepicker1 {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+        #datepicker1 > span:hover {
+            cursor: pointer;
+        }
+
+    #dtHardwareAsset_filter > label {
+        font-weight: bold;
+    }
+
+    #dtHardwareAsset_info {
+        font-weight: bold;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+            <div class="card m-2 p-1">
+                <h3 class="card-header font-weight-bold"><i class="fas fa-chart-bar"></i>&nbsp;Dashboard</h3>
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row" style="margin-top: 30px; margin-right:20px">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Equipment Type</label>
+                                        </div>
+                                        <select id="ddlEquipmentType" class="form-control selectpicker select4" witdh="100%" data-live-search="true" multiple>
+                                            <option class="font-bold">Select</option>
+                                            @foreach (var i in ViewBag.BindEQUIPTYPE)
+                                            {
+                                                <option class="font-bold" value="@i.EquipmentType">@i.EquipmentType  (@i.Description)</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Location</label>
+                                        </div>
+                                        <select id="ddlLocation" class="form-control selectpicker font" witdh="100%" data-live-search="true" multiple>
+                                            <option class="font-bold">Select All</option>
+                                            <option class="font-bold">L1</option>
+                                            <option class="font-bold">L2</option>
+                                            <option class="font-bold">L3</option>
+                                            <option class="font-bold">L4</option>
+                                            <option class="font-bold">L5</option>
+                                            <option class="font-bold">L6</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row" style="margin-top: 30px">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Equipment Aging</label>
+                                        </div>
+                                        <select id="ddlAge" class="form-control font">
+                                            <option class="font-bold">Select</option>
+                                            <option class="font-bold" value="Day">Day</option>
+                                            <option class="font-bold" value="Month">Month</option>
+                                            <option class="font-bold" value="Year">Year</option>
+                                        </select>
+                                        <input class="form-control font" type="text" id="txtFrom" placeholder=" From">
+                                        <input class="form-control font" type="text" id="txtTo" placeholder=" To">
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="label" for="inputGroupSelect01">Responsible</label>
+                                        </div>
+                                        <select id="ddlResponsible" class="form-control selectpicker select6" witdh="100%" data-live-search="true">
+                                            <option class="font-bold">Select</option>
+                                            @foreach (var i in ViewBag.BindSupportBy)
+                                            {
+                                                <option class="font-bold" value="@i.EmployeeNo">@i.EmployeeNo  (@i.EMPLOYEE_NAME)</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="btnSearchDashboard" type="button" class="btn btn-info font-bold" style="width: 100px; margin-left: 47%;" onclick="LoadChartDasnboard()">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card m-2 p-1">
+                @*<h3 class="card-header font-weight-bold"><i class="fas fa-chart-bar"></i>&nbsp;Dashboard</h3>*@
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div id="chartdiv" style="width: 100%; height: 500px; background-color: #FFFFFF;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- amCharts javascript sources -->
+    <script src="~/lib/amcharts4/amcharts.js"></script>
+    <script src="~/lib/amcharts4/serial.js"></script>
+    <script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script>$('.select4,.select5,.select6').selectpicker();
+
+        $(document).ready(() => {
+            LoadChartDasnboard();
+        });
+        function LoadChartDasnboard() {
+            var dataEQT = $('#ddlEquipmentType').val();
+            for (i in dataEQT) {
+                var EQT = dataEQT[i];
+                //console.log(EQT);
+            };
+            var dataLo = $('#ddlLocation').val();
+            for (i in dataLo) {
+                var Location = dataLo[i];
+                //console.log(Location);
+            };
+
+            $.ajax({
+                url: "./GetChartDashboard",
+                data: JSON.stringify({
+                    EquipmentType: $('#ddlEquipmentType').val(),
+                    Location: $('#ddlLocation').val(),
+                    Responsible: $('#ddlResponsible').val(),
+                    EquipmentAgingType: $('#ddlAge').val(),
+                    EquipmentAgingFrom: $('#txtFrom').val(),
+                    EquipmentAgingTo: $('#txtTo').val(),
+                }),
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    console.log(data);
+                    var taskData = '';
+                    var task = '';
+                    var LO = '';
+                    var task = '';
+                    for (i in data.obj) {
+                        var item = data.obj[i];
+                        if (LO != item.Location) {
+                            task = '';
+                            LO = item.Location;
+                            for (j in item.objEquipmentType) {
+                                var itemObj = item.objEquipmentType[j];
+                                task += ',"' + itemObj.EquipmentType + '" : ' + itemObj.CountType + '';
+                            }
+                        }
+                        else {
+                            task += ',"' + itemObj.EquipmentType + '" : ' + itemObj.CountType + '';
+                        }
+                        taskData += '{"Location" : "' + item.Location + '"  ' + task + '  },';
+                    };
+
+                    taskData = taskData.substr(0, taskData.lastIndexOf(","));
+                    var taskDataArr = JSON.parse('[' + taskData + ']');
+                    console.log(taskDataArr);
+                    am4core.ready(function () {
+
+                        am4core.useTheme(am4themes_animated);
+
+                        var chart = am4core.create("chartdiv", am4charts.XYChart);
+                        chart.data = taskDataArr;
+                        chart.legend = new am4charts.Legend();
+                        chart.legend.position = "right";
+
+                        var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+                        categoryAxis.dataFields.category = "Location";
+                        categoryAxis.renderer.grid.template.opacity = 0;
+
+                        var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+                        valueAxis.min = 0;
+                        valueAxis.renderer.grid.template.opacity = 0;
+                        valueAxis.renderer.ticks.template.strokeOpacity = 0.5;
+                        valueAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
+                        valueAxis.renderer.ticks.template.length = 10;
+                        valueAxis.renderer.line.strokeOpacity = 0.5;
+                        valueAxis.renderer.baseGrid.disabled = true;
+                        valueAxis.renderer.minGridDistance = 40;
+
+                        // Create series
+                        function createSeries(field, name) {
+                            var series = chart.series.push(new am4charts.ColumnSeries());
+
+                            series.dataFields.valueX = field;
+                            series.dataFields.categoryY = "Location";
+                            series.stacked = true;
+                            series.name = name;
+
+                            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+                            labelBullet.locationX = 0.5;
+                            labelBullet.label.text = "{valueX}";
+                            labelBullet.label.fill = am4core.color("#fff");
+                        }
+
+                        var itemEQT = '';
+                        for (i in data.objEQT) {
+                            var item = data.objEQT[i];
+                            itemEQT = item.EquipmentType;
+                            createSeries(itemEQT, itemEQT);
+
+                        };
+                    });
+                }
+            })
+        }</script>
+
+
+}
+
+

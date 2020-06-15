@@ -1,10 +1,10 @@
 ﻿@media only screen and (min-device-width: 1280px) and (max-device-width: 1360px) {
     html {
-        font-size: 0.4rem;
+        font-size: 0.6rem;
     }
 
     .logo {
-        width: 50%
+        width: 46%
     }
 }
 
@@ -15,26 +15,26 @@
     }
 
     .logo {
-        width: 52%
+        width: 48%
     }
 }
 
 @media only screen and (min-device-width: 1440px) and (max-device-width: 1600px) {
     html {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 
     .logo {
-        width: 54%
+        width: 50%
     }
 }
 
 @media only screen and (min-device-width: 1680px) and (max-device-width: 1920px) {
     html {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
     .logo {
-        width: 56%
+        width: 52%
     }
 }

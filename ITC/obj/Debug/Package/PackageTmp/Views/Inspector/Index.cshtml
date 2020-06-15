@@ -1,0 +1,710 @@
+﻿<link href="~/lib/fullcalendar/core/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/daygrid/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/timegrid/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/bootstrap/main.css" rel="stylesheet" />
+<link href="~/lib/multiple-select/bootstrap-select.css" rel="stylesheet" />
+
+<style>
+    .filter-option-inner-inner {
+        font-weight: bold;
+    }
+
+    .table-bordered > tbody > tr > td {
+        font-weight: bold;
+    }
+
+    .btn-light {
+        background-color: #ffffff;
+        border-color: #ced4da;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left">
+                    <i class="fas fa-chart-bar fa-lg"></i>&nbsp;WORK STATUS ON HAND
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkStatusOnHand" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold collapse show" style="background-color:#ffffff;" id="ToggleWorkStatusOnHand">
+                <div class="row">
+                    <div class="col-sm-3 p-3 font-weight-bold" style="text-align:right;">
+                        Year
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <div class="input-group">
+                            <select id="ddlYear" class="form-control form-control-sm font-weight-bold">
+                                <option class="font-weight-bold" value="0">SELECT ALL</option>
+                                @foreach (var i in ViewBag.BindYear)
+                                {
+                                    <option class="font-weight-bold" value="@i">@i</option>
+                                }
+                            </select>
+                            <div class="input-group-append">
+                                <button id="btnSearchChart" class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="ChartStatusOnHand()"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="chartdivStack" style="width:100%;height:400px;"></div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    SCHEDULE MY TEAM
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleScheduleMyTeam" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold collapse show" style="background-color:#ffffff;" id="ToggleScheduleMyTeam">
+                <div class="row">
+                    <div class="col-sm-3 p-3 font-weight-bold" style="text-align:right;">
+                        Employee Name
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <div class="input-group">
+                            <select id="ddlEmployeeSchedule" class="form-control form-control-sm font-weight-bold" multiple data-live-search="true">
+                                @foreach (var i in ViewBag.BindDDLAssignTo)
+                                {
+                                    <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME</option>
+                                }
+                            </select>
+                            <div class="input-group-append">
+                                <button id="btnScheduleTeam" class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="ScheduleTeam()"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="PartialSchedule mt-4"></div>
+            </div>
+
+        </div>
+        <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    WORK TRACKING
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleWorkTracking" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 font-weight-bold collapse show" style="background-color:#ffffff;" id="ToggleWorkTracking">
+                <div class="row">
+                    <div class="col-sm-2 p-3 font-weight-bold" style="text-align:right;">
+                        Work Order
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <select id="ddlWorkOrderTJ" class="form-control form-control-sm font-weight-bold">
+                            <option class="font-weight-bold" value="0">SELECT ALL</option>
+                            @foreach (var i in ViewBag.BindDDlWorkOrder)
+                            {
+                                <option class="font-weight-bold" value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-5 p-3 pb-3"></div>
+                    <div class="col-sm-2 p-3 font-weight-bold" style="text-align:right;">
+                        Assign To
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <select id="ddlAssignToTJ" class="form-control form-control-sm font-weight-bold">
+                            <option class="font-weight-bold" value="0">SELECT ALL</option>
+                            @foreach (var i in ViewBag.BindDDLAssignTo)
+                            {
+                                <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-5 p-3"></div>
+                    <div class="col-sm-2 p-3"></div>
+                    <div class="col-sm-5 p-3">
+                        <button type="button" class="btn btn-sm btn-primary font-weight-bold" onclick="SearchTrackingJob()"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+                <table id="dtTrackingJob" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">WORK ORDER</th>
+                            <th style="width:27%;">ASSIGN TO</th>
+                            <th style="width:20%;">PROGRESS</th>
+                            <th style="width:28%;">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="m-2 p-1 font-weight-bold clearfix" style="background-color:#ffffff;">
+                <div class="float-left" style="margin-left:50%;">
+                    DAILY MY TEAM
+                </div>
+                <div class="float-right">
+                    <button class="btn" data-toggle="collapse" data-target="#ToggleDailyMyTeam" style="box-shadow:unset;padding:unset;"><i class="fas fa-angle-down fa-lg"></i></button>
+                </div>
+            </div>
+            <div class="m-2 p-1 collapse show" style="background-color:#ffffff;" id="ToggleDailyMyTeam">
+                <div class="row">
+                    <div class="col-sm-3 p-3 font-weight-bold" style="text-align:right;">
+                        Employee Name
+                    </div>
+                    <div class="col-sm-5 p-3">
+                        <div class="input-group">
+                            <select id="ddlEmployeeDaily" class="form-control form-control-sm font-weight-bold">
+                                <option class="font-weight-bold" value="0">SELECT</option>
+                                @foreach (var i in ViewBag.BindDDLAssignTo)
+                                {
+                                    <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME</option>
+                                }
+                            </select>
+                            <div class="input-group-append">
+                                <button id="btnTeamSupport" class="btn btn-sm btn-primary font-weight-bold" type="button" onclick="TeamSupport()"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="PartialCalendar mt-4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalTrackingJob" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestTJ"></label> : <label id="lbEquipmentTJ"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <input id="txtIdTJ" hidden />
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Work Order :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbWorkOrderTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Equipment :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbEquipmentTJ2"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Description :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbDescriptionTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Symptom :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbSymptomTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Priority :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPriorityTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Require Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequireDateTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Plan Start Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPlanStartDateTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Plan Finish Date :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbPlanFinishDateTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Requestor :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequestorTJ"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Responsible :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbResponsibleTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Assign To :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbAssignToTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Request Detail :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbRequestDetailTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution Suggestion :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbSuggestionTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Root Cause :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbRootCauseTJ"></p>
+                                <hr />
+                                <h6 class="card-title font-weight-bold">Solution :</h6>
+                                <p class="card-text" style="text-align:left;" id="lbSolutionTJ"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalDailyReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkOrderDR"></label>&nbsp;/&nbsp;Total Working Time : <label id="lbTotalWorkingTime"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row row-daily"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalReasonJobRework" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:rgba(0,0,0,.03);">
+                <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle"><i class="fas fa-info-circle fa-lg"></i>&nbsp;&nbsp;<label id="lbWorkRequestRW"></label> : <label id="lbEquipmentRW"></label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="reason-job-rework"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/fullcalendar/core/main.js"></script>
+    <script src="~/lib/fullcalendar/interaction/main.js"></script>
+    <script src="~/lib/fullcalendar/daygrid/main.js"></script>
+    <script src="~/lib/fullcalendar/timegrid/main.js"></script>
+    <script src="~/lib/fullcalendar/moment/main.js"></script>
+    <script src="~/lib/fullcalendar/bootstrap/main.js"></script>
+    <script src="~/lib/multiple-select/bootstrap-select.min.js"></script>
+
+    @*<script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+        <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>*@
+
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <script>
+        $(document).ready(() => {
+            ChartStatusOnHand();
+            loadDataTableTrackingJob();
+            $('.PartialCalendar').empty().load('./JobDaily');
+            $('.PartialSchedule').empty().load('./SchedulePlan');
+        });
+
+        $('#ddlEmployeeSchedule').selectpicker();
+
+        function loadDataTableTrackingJob() {
+            dataTable = $('#dtTrackingJob').DataTable({
+                destroy: true,
+                responsive: true,
+                bInfo: false,
+                ordering: false,
+                bLengthChange: false,
+                paging: false,
+                searching: false,
+                scrollY: 170,
+                ajax: {
+                    url: "./GetTrackingJob",
+                    data: {
+                        WorkOrder: $('#ddlWorkOrderTJ').val(),
+                        AssignTo: $('#ddlAssignToTJ').val()
+                    },
+                    type: "GET",
+                    datatype: "JSON"
+                },
+                columns: [
+                    {
+                        data: "WoNo",
+                        render: function (data, type, row) {
+                            return `<i class="far fa-file-alt"></i> ${data}-${row.Rework}`
+                        }
+                    },
+                    { data: "AssignToName" },
+                    {
+                        data: "Progress",
+                        render: function (data) {
+                            if (data < 35) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
+                            } else if (data >= 35 && data < 70) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
+                            } else if (data >= 70 && data <= 99) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
+                            } else if (data >= 100) {
+                                return `<div class="progress"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="${data}" aria-valuemin="0" aria-valuemax="100" style="width: ${data}%">${data}%</div></div>`;
+                            }
+                        }
+                    },
+                    {
+                        data: "WorkOrder_Id",
+                        render: function (data, type, row) {
+                            if (row.Status == 6) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+                                }
+
+                            }
+                            else if (row.Status == 7) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+                                }
+
+                            }
+                            else if (row.Status == 8) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+                                }
+
+                            }
+                            else if (row.Status == 9) {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-success btn-sm font-weight-bold"><i class="fas fa-check"></i> COMPLETED</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+                                }
+
+                            }
+                            else if (row.Status == 12 || row.Status == 13) {
+                                return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+
+                            }
+                            else {
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-warning btn-sm font-weight-bold")>PROCEED</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                                                                                                                                           <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoTrackingJob("./GetTrackingJobInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                                                                                                                                           <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
+                                }
+                            }
+                        }
+                    }
+                ],
+                language: {
+                    "emptyTable": "no data found"
+                }
+            });
+        }
+
+        function InfoDailyReport(url) {
+            $.ajax({
+                url: url,
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.row-daily').empty();
+                    $('#lbWorkOrderDR').text(data.obj[0].WoNo + '-' + data.obj[0].Rework);
+                    $('#lbTotalWorkingTime').text(data.working);
+                    for (i in data.obj) {
+                        var item = data.obj[i];
+
+                        $('.row-daily').append(() => {
+                            switch (item.StatusWorkOrderStr) {
+                                case 'Doing':
+                                    return `<div class="col-md-3">
+                                                                                                                                                                                                                <div class="card text-white bg-info mb-3">
+                                                                                                                                                                                                                    <div class="card-header">
+                                                                                                                                                                                                                        ${item.DailyDate}<br>
+                                                                                                                                                                                                                        (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                    <div class="card-body">
+                                                                                                                                                                                                                        <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                            </div>`;
+                                    break;
+                                case 'PM':
+                                    return `<div class="col-md-3">
+                                                                                                                                                                                                                <div class="card text-white bg-secondary mb-3">
+                                                                                                                                                                                                                    <div class="card-header">
+                                                                                                                                                                                                                        ${item.DailyDate}<br>
+                                                                                                                                                                                                                        (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                    <div class="card-body">
+                                                                                                                                                                                                                        <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                            </div>`;
+                                    break;
+                                case 'Complete':
+                                    return `<div class="col-md-3">
+                                                                                                                                                                                                                <div class="card text-white bg-success mb-3">
+                                                                                                                                                                                                                    <div class="card-header">
+                                                                                                                                                                                                                        ${item.DailyDate}<br>
+                                                                                                                                                                                                                        (${item.TimeStart} - ${item.TimeStop})
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                    <div class="card-body">
+                                                                                                                                                                                                                        <h5 class="card-title" style="color:#ffc107;">${item.StatusWorkOrderStr}</h5>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                            </div>`;
+                                    break;
+                            }
+                        });
+                    }
+
+                    $('#ModalDailyReport').modal('toggle');
+                }
+            });
+        }
+
+        function InfoTrackingJob(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    var htmlDetail = $('#lbRequestDetailTJ').text(data[0].Detail);
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    var htmlSuggestion = $('#lbSuggestionTJ').text(data[0].Suggestion);
+                    htmlSuggestion.html(htmlSuggestion.html().replace(/\n/g, '<br/>'));
+                    var htmlRootCause = $('#lbRootCauseTJ').text(data[0].RootCause);
+                    htmlRootCause.html(htmlRootCause.html().replace(/\n/g, '<br/>'));
+                    var htmlSolution = $('#lbSolutionTJ').text(data[0].Solution);
+                    htmlSolution.html(htmlSolution.html().replace(/\n/g, '<br/>'));
+
+                    $('#txtIdTJ').val(data[0].Id);
+                    $('#lbEquipmentTJ').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestTJ').text(data[0].WorkRequest + '-' + data[0].Line);
+                    $('#lbWorkOrderTJ').text(data[0].WoNo + '-' + data[0].Rework);
+                    $('#lbEquipmentTJ2').text(data[0].Equipment);
+                    $('#lbDescriptionTJ').text(data[0].Description);
+                    $('#lbSymptomTJ').text(data[0].Symptom + ' (' + data[0].SymptomName_Th + ')');
+                    $('#lbPriorityTJ').text(data[0].Priority);
+                    $('#lbPlanStartDateTJ').text(data[0].PlanStartDate);
+                    $('#lbPlanFinishDateTJ').text(data[0].PlanFinishDate);
+                    $('#lbRequireDateTJ').text(data[0].RequireDate);
+                    $('#lbRequestorTJ').text(data[0].RequestorName);
+                    $('#lbResponsibleTJ').text(data[0].ResponsibleName);
+                    $('#lbAssignToTJ').text(data[0].AssignToName);
+                    $('#ModalTrackingJob').modal('toggle');
+                }
+            });
+        }
+
+        function SearchTrackingJob() {
+            loadDataTableTrackingJob();
+        }
+
+        function TeamSupport(emp_no) {
+            $('.PartialCalendar').empty().load('./JobDaily?emp_no=' + $('#ddlEmployeeDaily').val());
+        }
+
+        function ScheduleTeam(emp_no) {
+            $('.PartialSchedule').empty().load('./SchedulePlan?emp_no=' + $('#ddlEmployeeSchedule').val());
+        }
+
+        function ChartStatusOnHand() {
+            $.ajax({
+                url: './ChartStatusOnHand?year=' + $('#ddlYear').val(),
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: () => {
+                    $('#btnSearchChart').html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+                },
+                success: (data) => {
+                    $('#btnSearchChart').html(`<i class="fas fa-search"></i> Search`);
+                    var taskData = '';
+                    for (i in data.obj) {
+                        var item = data.obj[i];
+                        if (item.Rejected > 0 && item.Reworked > 0 && item.Proceed > 0 && item.Complete > 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REJECTED" : "${item.Rejected}",
+                                                                                             "REWORKED" : "${item.Reworked}",
+                                                                                             "PROCEED" : "${item.Proceed}",
+                                                                                             "COMPLETED" : "${item.Complete}"},`;
+                        } else if (item.Rejected > 0 && item.Reworked > 0 && item.Proceed > 0 && item.Complete == 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REJECTED" : "${item.Rejected}",
+                                                                                             "REWORKED" : "${item.Reworked}",
+                                                                                             "PROCEED" : "${item.Proceed}"},`;
+
+                        } else if (item.Rejected > 0 && item.Reworked > 0 && item.Proceed == 0 && item.Complete > 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REJECTED" : "${item.Rejected}",
+                                                                                             "REWORKED" : "${item.Reworked}",
+                                                                                             "COMPLETED" : "${item.Complete}"},`;
+                        } else if (item.Rejected > 0 && item.Reworked == 0 && item.Proceed > 0 && item.Complete > 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REJECTED" : "${item.Rejected}",
+                                                                                             "PROCEED" : "${item.Proceed}",
+                                                                                             "COMPLETED" : "${item.Complete}"},`;
+                        } else if (item.Rejected == 0 && item.Reworked > 0 && item.Proceed > 0 && item.Complete > 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REWORKED" : "${item.Reworked}",
+                                                                                             "PROCEED" : "${item.Proceed}",
+                                                                                             "COMPLETED" : "${item.Complete}"},`;
+                        } else if (item.Rejected > 0 && item.Reworked > 0 && item.Proceed == 0 && item.Complete == 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REJECTED" : "${item.Rejected}",
+                                                                                             "REWORKED" : "${item.Reworked}"},`;
+                        } else if (item.Rejected > 0 && item.Reworked == 0 && item.Proceed > 0 && item.Complete == 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REJECTED" : "${item.Rejected}",
+                                                                                             "PROCEED" : "${item.Proceed}"},`;
+                        } else if (item.Rejected == 0 && item.Reworked > 0 && item.Proceed > 0 && item.Complete == 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REWORKED" : "${item.Reworked}",
+                                                                                             "PROCEED" : "${item.Proceed}"},`;
+                        } else if (item.Rejected == 0 && item.Reworked == 0 && item.Proceed > 0 && item.Complete > 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "PROCEED" : "${item.Proceed}",
+                                                                                             "COMPLETED" : "${item.Complete}"},`;
+                        } else if (item.Rejected == 0 && item.Reworked > 0 && item.Proceed == 0 && item.Complete > 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REWORKED" : "${item.Reworked}",
+                                                                                             "COMPLETED" : "${item.Complete}"},`;
+                        } else if (item.Rejected > 0 && item.Reworked == 0 && item.Proceed == 0 && item.Complete > 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REJECTED" : "${item.Rejected}",
+                                                                                             "COMPLETED" : "${item.Complete}"},`;
+                        } else if (item.Rejected > 0 && item.Reworked == 0 && item.Proceed == 0 && item.Complete == 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REJECTED" : "${item.Rejected}"},`;
+                        } else if (item.Rejected == 0 && item.Reworked > 0 && item.Proceed == 0 && item.Complete == 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "REWORKED" : "${item.Reworked}"},`;
+                        } else if (item.Rejected == 0 && item.Reworked == 0 && item.Proceed > 0 && item.Complete == 0 ) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "PROCEED" : "${item.Proceed}"},`;
+                        } else if (item.Rejected == 0 && item.Reworked == 0 && item.Proceed == 0 && item.Complete > 0) {
+                            taskData +=
+                                `{"category" : "${item.AssignToName}",
+                                                                                             "COMPLETED" : "${item.Complete}"},`;
+                        }
+
+                    }
+
+                    taskData = taskData.substr(0, taskData.lastIndexOf(","));
+                    var taskDataArr = JSON.parse('[' + taskData + ']');
+
+                    am4core.ready(function () {
+                        am4core.useTheme(am4themes_animated);
+                        var chart = am4core.create("chartdivStack", am4charts.XYChart);
+                        chart.data = taskDataArr;
+                        chart.legend = new am4charts.Legend();
+                        chart.legend.position = "right";
+                        chart.colors.list = [
+                            am4core.color("#dc3545"),
+                            am4core.color("#6c757d"),
+                            am4core.color("#ffc107"),
+                            am4core.color("#28a745"),
+                        ];
+
+                        var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+                        categoryAxis.dataFields.category = "category";
+                        categoryAxis.renderer.grid.template.opacity = 0;
+                        var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+                        valueAxis.min = 0;
+                        valueAxis.renderer.grid.template.opacity = 0;
+                        valueAxis.renderer.ticks.template.strokeOpacity = 0.5;
+                        valueAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
+                        valueAxis.renderer.ticks.template.length = 10;
+                        valueAxis.renderer.line.strokeOpacity = 0.5;
+                        valueAxis.renderer.baseGrid.disabled = true;
+                        valueAxis.renderer.minGridDistance = 40;
+
+                        function createSeries(field, name) {
+                            var series = chart.series.push(new am4charts.ColumnSeries());
+                            series.dataFields.valueX = field;
+                            series.dataFields.categoryY = "category";
+                            series.stacked = true;
+                            series.name = name;
+
+                            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+                            labelBullet.locationX = 0.5;
+                            labelBullet.label.text = "{valueX}";
+                            labelBullet.label.fill = am4core.color("#fff");
+                            labelBullet.label.fontSize = 23;
+                        }
+
+                        createSeries("REJECTED", "REJECTED");
+                        createSeries("REWORKED", "REWORKED");
+                        createSeries("PROCEED", "PROCEED");
+                        createSeries("COMPLETED", "COMPLETED");
+
+                    });
+                }
+            });
+        }
+
+        function ReasonRework(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'JSON',
+                success: (data) => {
+                    $('.reason-job-rework').empty();
+                    for (i in data) {
+                        var item = data[i];
+                        $('.reason-job-rework').append(
+                            `<div class="d-flex w-100 justify-content-between">
+                                                                                                                                            <h5 class="mb-1">${item.Reason.replace(/\n/g, '<br/>')}</h5>
+                                                                                                                                        </div>
+                                                                                                                                        <small>Rework by MIS</small>`
+                        );
+                    }
+                    $('#lbEquipmentRW').text(data[0].Description + ' (' + data[0].Equipment + ')');
+                    $('#lbWorkRequestRW').text(data[0].WorkRequest + '-' + data[0].Line);
+
+                    $('#ModalReasonJobRework').modal('toggle');
+                }
+            });
+        }
+    </script>
+}

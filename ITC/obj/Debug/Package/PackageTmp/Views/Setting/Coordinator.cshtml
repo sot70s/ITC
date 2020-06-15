@@ -1,0 +1,134 @@
+﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+
+<style>
+    #dtCoordinator_filter > label {
+        font-weight: bold;
+    }
+
+    #dtCoordinator_info {
+        font-weight: bold;
+    }
+
+    :not(.input-group) > .bootstrap-select.form-control:not([class*=col-]) {
+        width: 50%;
+    }
+
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="fas fa-user-friends fa-lg"></i>&nbsp;Coordinator</h3>
+            <div class="card-body">
+                <select id="ddlEmployee" class="form-control selectpicker" style="width:50%;" data-live-search="true">
+                    <option class="font-weight-bold" value="0">Select</option>
+                    @foreach (var i in ViewBag.BindEmployee)
+                    {
+                        <option class="font-weight-bold" value="@i.EmployeeNo">@i.DEPARTMENT_CODE - @i.EMPLOYEE_NAME (@i.EmployeeNo)</option>
+                    }
+                </select>
+                <br />
+                <table id="dtCoordinator" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:17%;"></th>
+                            <th style="width:25%;">DEPARTMENT CODE</th>
+                            <th style="width:25%;">SECTION CODE</th>
+                            <th style="width:33%;">SECTION DESCRIPTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<script>
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+    });
+
+    $('#ddlEmployee').selectpicker();
+
+    $('#ddlEmployee').on('change', (e) => {
+        e.stopImmediatePropagation();
+        loadDataTable($('#ddlEmployee').val());
+    });
+
+    function loadDataTable(employee_no) {
+        dataTable = $('#dtCoordinator').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetCoordinator?employee_no=" + employee_no,
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                {
+                    data: "SECTION_CODE",
+                    render: function (data, type, row) {
+                        if (row.EmployeeNo === "") {
+                            return `<div class="custom-control custom-checkbox">
+                              <input class="custom-control-input" type="checkbox" id="chk-${data}" onclick=Check("./SetCoordinator?section_code=${data}")>
+                        <label class="custom-control-label" for="chk-${data}"></label>
+                            </div>`;
+                        } else {
+                            return `<div class="custom-control custom-checkbox">
+                              <input class="custom-control-input" type="checkbox" id="chk-${data}" onclick=Check("./SetCoordinator?section_code=${data}") checked>
+                        <label class="custom-control-label" for="chk-${data}"></label>
+                            </div>`;
+                        }
+                    }
+                },
+                { data: "DEPARTMENT_CODE" },
+                { data: "SECTION_CODE" },
+                { data: "SECTION_DESCRIPTION" }
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    function Check(url) {
+        var section_code = getUrlVars(url)["section_code"];
+        $.ajax({
+            url: url,
+            data: JSON.stringify({
+                EmployeeNo: $('#ddlEmployee').val(),
+                Checkbox: $('#chk-' + section_code).is(':checked'),
+                SectionCode: section_code
+            }),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success) {
+                    toastr.success(data.message);
+                } else {
+                    toastr.error(data.message);
+                }
+            }
+        });
+    }
+
+</script>

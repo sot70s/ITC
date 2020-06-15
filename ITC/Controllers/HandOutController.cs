@@ -26,7 +26,15 @@ namespace ITC.Controllers
                 ViewBag.BindDDLSymptom = _dbITC.Symptom.Where(w => w.SectionType.StartsWith(_dvArr0) || w.SectionType.StartsWith(_dvArr1)).ToList();
                 ViewBag.BindDDLWorkRequest = QueryRequest.ListAssignResponsible().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && (w.Status == 4 || w.Status == 5)).GroupBy(g => g.WorkRequest).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
                 ViewBag.BindDDlWorkOrder = QueryRequest.ListJobPlanning().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).GroupBy(g => g.WoNo).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
-                ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => (w.Division.StartsWith(query[0].Division) || w.Division.StartsWith(query[1].Division)) && w.JobType == "Staff").ToList();
+                ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => (w.Division.StartsWith(query[0].Division) || w.Division.StartsWith(query[1].Division)) && w.JobType == "Staff").GroupBy(g => new
+                {
+                    g.EmployeeNo,
+                    g.EMPLOYEE_NAME
+                }, (key, group) => new MisFlowJoinEmployee
+                {
+                    EmployeeNo = key.EmployeeNo,
+                    EMPLOYEE_NAME = key.EMPLOYEE_NAME
+                }).ToList();
             }
             else
             {
@@ -34,7 +42,15 @@ namespace ITC.Controllers
                 ViewBag.BindDDLSymptom = _dbITC.Symptom.Where(w => w.SectionType.StartsWith(_dvArr0)).ToList();
                 ViewBag.BindDDLWorkRequest = QueryRequest.ListAssignResponsible().Where(w => w.SectionType.StartsWith(query[0].Division) && (w.Status == 4 || w.Status == 5)).GroupBy(g => g.WorkRequest).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
                 ViewBag.BindDDlWorkOrder = QueryRequest.ListJobPlanning().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).GroupBy(g => g.WoNo).OrderByDescending(o => o.Key).Select(s => s.Key).ToList();
-                ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => w.Division.StartsWith(query[0].Division) && w.JobType == "Staff").ToList();
+                ViewBag.BindDDLAssignTo = QueryMisFlow.ListMisFlow().Where(w => w.Division.StartsWith(query[0].Division) && w.JobType == "Staff").GroupBy(g => new
+                {
+                    g.EmployeeNo,
+                    g.EMPLOYEE_NAME
+                }, (key, group) => new MisFlowJoinEmployee
+                {
+                    EmployeeNo = key.EmployeeNo,
+                    EMPLOYEE_NAME = key.EMPLOYEE_NAME
+                }).ToList();
             }
 
             return View();
@@ -83,7 +99,7 @@ namespace ITC.Controllers
             ITCContext _dbITC = new ITCContext();
             try
             {
-                if (cc.Symptom == "0" || cc.Responsible == "0" || cc.Suggestion == null)
+                if (cc.Symptom == "0" || cc.Responsible == "0")
                 {
                     status = false;
                     msg = "One or more fields have _blank";
@@ -97,14 +113,13 @@ namespace ITC.Controllers
 
                     if (querySolutionSuggestion.Count() > 0)
                     {
-
-                        querySolutionSuggestion[0].Solution = cc.Suggestion.Replace("\n", Environment.NewLine);
+                        querySolutionSuggestion[0].Solution = (cc.Suggestion == null || cc.Suggestion == "") ? "" : cc.Suggestion.Replace("\n", Environment.NewLine);
                     }
                     else
                     {
                         _dbITC.SolutionSuggestion.Add(new SolutionSuggestion
                         {
-                            Solution = cc.Suggestion.Replace("\n", Environment.NewLine),
+                            Solution = (cc.Suggestion == null || cc.Suggestion == "") ? "N/A" : cc.Suggestion.Replace("\n", Environment.NewLine),
                             JobReqBody_Id = cc.Id
                         });
                     }
@@ -145,6 +160,27 @@ namespace ITC.Controllers
                 switch (data.DecisionType)
                 {
                     case "A":
+                        subject = "ITC-Work Request Approval (MIS Manager) : " + data.WorkRequest + " (Need Approve)";
+                        content +=
+                            "<b>" +
+                            "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
+                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                            "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
+                            "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
+                            "<span style='color:#007acc;'>Responsible : </span> " + data.ResponsibleName + " (" + data.Responsible + ")" + "<br>" +
+                            "<span style='color:#007acc;'>Assign To : </span> " + data.AssignToName + " (" + data.AssignTo + ")" + "<br>" +
+                            "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>" +
+                            "<span style='color:#007acc;'>Solution Suggestion : </span> " + ((data.Suggestion == null || data.Suggestion == "") ? "N/A" : data.Suggestion.Replace(Environment.NewLine, "<br>")) + "<br><br>" +
+                            "<span style='color:#007acc;'>Approved by : </span> " + ((data.ApproveByName == "" || data.ApproveByName == null) ? "-": data.ApproveByName + " (User Manager)") + "<br>" +
+                            "<span style='color:#007acc;'>Approved Date : </span> " + data.ApproveDate + "<br><br>" +
+                            "<span style='color:#007acc;'>Please task one of the following actions :</span> " +
+                            "<ul>" +
+                            "<li>If you <b>accept</b> equipment, Please click here " +
+                            "<a href='http://milws/ITC/HandOut/ApproveJob?id=" + data.Id + "' style='display: inline-block;font-weight: 400;text-align: center;vertical-align: middle;border: 1px solid transparent;padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;color: #fff;background-color: #28a745;border-color: #28a745;text-decoration-line:none;'>Accept</a></li><br>" +
+                            "<li>If you <b>reject</b> equipment, Please click here " +
+                            "<a href='http://milws/ITC/HandOut/RejectJob?id=" + data.Id + "' style='display: inline-block;font-weight: 400;text-align: center;vertical-align: middle;border: 1px solid transparent;padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;color: #fff;background-color: #dc3545;border-color: #dc3545;text-decoration-line:none;'>Reject</a></li>" +
+                            "</ul></b>";
+
                         if (queryMisFlow[0].Status == 12)
                         {
                             queryMisFlow[0].Status = 13;
@@ -155,27 +191,6 @@ namespace ITC.Controllers
                             queryMisFlow[0].Status = 3;
                             _dbITC.SaveChanges();
                         }
-
-                        subject = "ITC-Work Request Approval : " + data.WorkRequest;
-                        content +=
-                            "<b>" +
-                            "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
-                            "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
-                            "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
-                            "<span style='color:#007acc;'>Responsible : </span> " + data.ResponsibleName + " (" + data.Responsible + ")" + "<br>" +
-                            "<span style='color:#007acc;'>Assign To : </span> " + data.AssignToName + " (" + data.AssignTo + ")" + "<br>" +
-                            "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>" +
-                            "<span style='color:#007acc;'>Solution Suggestion : </span> " + data.Suggestion.Replace(Environment.NewLine, "<br>") + "<br><br>" +
-                            "<span style='color:#007acc;'>Approve by : </span> " + data.ApproveByName + " (User Manager)" + "<br>" +
-                            "<span style='color:#007acc;'>Approve Date : </span> " + data.ApproveDate + "<br><br>" +
-                            "<span style='color:#007acc;'>Please task one of the following actions :</span> " +
-                            "<ul>" +
-                            "<li>If you <b>accept</b> equipment, Please click here " +
-                            "<a href='http://milws/ITC/HandOut/ApproveJob?id=" + data.Id + "' style='display: inline-block;font-weight: 400;text-align: center;vertical-align: middle;border: 1px solid transparent;padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;color: #fff;background-color: #28a745;border-color: #28a745;text-decoration-line:none;'>Accept</a></li><br>" +
-                            "<li>If you <b>reject</b> equipment, Please click here " +
-                            "<a href='http://milws/ITC/HandOut/RejectJob?id=" + data.Id + "' style='display: inline-block;font-weight: 400;text-align: center;vertical-align: middle;border: 1px solid transparent;padding: .25rem .5rem;font-size: .875rem;line-height: 1.5;border-radius: .2rem;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;color: #fff;background-color: #dc3545;border-color: #dc3545;text-decoration-line:none;'>Reject</a></li>" +
-                            "</ul></b>";
                         break;
                     case "N":
                         if (queryMisFlow[0].Status == 12)
@@ -196,6 +211,18 @@ namespace ITC.Controllers
                         }
                         else
                         {
+                            subject = "ITC-Work Request (MIS Manager) : " + data.WorkRequest + " (Acknowledge)";
+                            content +=
+                                "<b>" +
+                                "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
+                                "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                                "<span style='color:#007acc;'>Symptom :</span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
+                                "<span style='color:#007acc;'>Require Date :</span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
+                                "<span style='color:#007acc;'>Responsible :</span> " + data.ResponsibleName + "<br>" +
+                                "<span style='color:#007acc;'>Assign To :</span> " + data.AssignToName + "<br>" +
+                                "<span style='color:#007acc;'>Detail :</span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>" +
+                                "<span style='color:#007acc;'>Solution Suggestion :</span> " + ((data.Suggestion == null || data.Suggestion == "") ? "N/A" : data.Suggestion.Replace(Environment.NewLine, "<br>")) + "<br>";
+
                             var wo = string.Empty;
                             string year = DateTime.Now.ToString("yyyy") + "-";
                             List<WorkOrders> queryWo = _dbITC.WorkOrders.Where(w => w.WoNo.StartsWith("WO")).OrderByDescending(o => o.WoNo).ToList();
@@ -237,18 +264,6 @@ namespace ITC.Controllers
                             queryMisFlow[0].Status = 4;
                             _dbITC.SaveChanges();
                         }
-
-                        subject = "ITC-Work Request : " + data.WorkRequest;
-                        content +=
-                            "<b>" +
-                            "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
-                            "<span style='color:#007acc;'>Symptom :</span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
-                            "<span style='color:#007acc;'>Require Date :</span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
-                            "<span style='color:#007acc;'>Responsible :</span> " + data.ResponsibleName + "<br>" +
-                            "<span style='color:#007acc;'>Assign To :</span> " + data.AssignToName + "<br>" +
-                            "<span style='color:#007acc;'>Detail :</span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>" +
-                            "<span style='color:#007acc;'>Solution Suggestion :</span> " + data.Suggestion.Replace(Environment.NewLine, "<br>") + "<br>";
                         break;
                     case "T":
                         if (queryMisFlow[0].Status == 12)
@@ -269,6 +284,18 @@ namespace ITC.Controllers
                         }
                         else
                         {
+                            subject = "ITC-Work Request (MIS Manager) : " + data.WorkRequest + " (Ticket)";
+                            content +=
+                                "<b>" +
+                                "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
+                                "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                                "<span style='color:#007acc;'>Symptom :</span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
+                                "<span style='color:#007acc;'>Require Date :</span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
+                                "<span style='color:#007acc;'>Responsible :</span> " + data.ResponsibleName + "<br>" +
+                                "<span style='color:#007acc;'>Assign To :</span> " + data.AssignToName + "<br>" +
+                                "<span style='color:#007acc;'>Detail :</span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>" +
+                               "<span style='color:#007acc;'>Solution Suggestion :</span> " + ((data.Suggestion == null || data.Suggestion == "") ? "N/A" : data.Suggestion.Replace(Environment.NewLine, "<br>")) + "<br>";
+
                             var wt = string.Empty;
                             string year = DateTime.Now.ToString("yyyy") + "-";
                             List<WorkOrders> queryWo = _dbITC.WorkOrders.Where(w => w.WoNo.StartsWith("WT")).OrderByDescending(o => o.WoNo).ToList();
@@ -310,18 +337,6 @@ namespace ITC.Controllers
                             queryMisFlow[0].Status = 4;
                             _dbITC.SaveChanges();
                         }
-
-                        subject = "ITC-Work Request : " + data.WorkRequest;
-                        content +=
-                            "<b>" +
-                            "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
-                            "<span style='color:#007acc;'>Symptom :</span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
-                            "<span style='color:#007acc;'>Require Date :</span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
-                            "<span style='color:#007acc;'>Responsible :</span> " + data.ResponsibleName + "<br>" +
-                            "<span style='color:#007acc;'>Assign To :</span> " + data.AssignToName + "<br>" +
-                            "<span style='color:#007acc;'>Detail :</span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>" +
-                           "<span style='color:#007acc;'>Solution Suggestion :</span> " + data.Suggestion.Replace(Environment.NewLine, "<br>") + "<br>";
                         break;
                 }
                 email_to = QueryRequest.StrEmailManager();
@@ -701,7 +716,7 @@ namespace ITC.Controllers
             List<DailyReport> ListDailyReport = new List<DailyReport>();
             if (query.Count > 1)
             {
-                ListDailyReport = QueryRequest.ListJobDaily().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
+                ListDailyReport = QueryRequest.ListJobDailyTracking().Where(w => (w.SectionType.StartsWith(query[0].Division) || w.SectionType.StartsWith(query[1].Division)) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
                                                .GroupBy(g => new
                                                {
                                                    g.WorkOrder_Id,
@@ -726,8 +741,9 @@ namespace ITC.Controllers
                                                    StatusWorkOrder = key.StatusWorkOrder
                                                }).OrderByDescending(o => o.WoNo).ThenByDescending(t => t.Rework).ToList();
             }
-            else {
-                ListDailyReport = QueryRequest.ListJobDaily().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
+            else
+            {
+                ListDailyReport = QueryRequest.ListJobDailyTracking().Where(w => w.SectionType.StartsWith(query[0].Division) && ((w.Status == 4 && w.StatusWorkOrder == false) || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13))
                                .GroupBy(g => new
                                {
                                    g.WorkOrder_Id,
@@ -779,11 +795,206 @@ namespace ITC.Controllers
         }
 
         [HttpGet]
+        public JsonResult GetFeedJob(int id, int WorkOrder_Id)
+        {
+            List<JobRequest> ListJobRequest = new List<JobRequest>();
+            if (WorkOrder_Id == 0)
+            {
+                ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.Id == id).ToList();
+            }
+            else
+            {
+                ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.WorkOrder_Id == WorkOrder_Id).ToList();
+            }
+
+            return Json(ListJobRequest, JsonRequestBehavior.AllowGet);
+        }
+
+        public PartialViewResult FeedJob(int id)
+        {
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            var emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
+            ViewBag.BindData = QueryRequest.ListJobComments(id).ToList();
+            ViewBag.BindEmpNo = emp_no;
+            return PartialView();
+        }
+
+        [HttpPost]
+        public JsonResult SetFeed(ParameterSetFeed cc)
+        {
+            bool status = false;
+            string msg = string.Empty;
+            ITCContext _dbITC = new ITCContext();
+            ClaimsPrincipal identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            string emp_no = identity.Claims.Where(c => c.Type == "employee_no").Select(c => c.Value).SingleOrDefault();
+            try
+            {
+                status = true;
+                switch (cc.TypeFeed)
+                {
+                    case 1:
+                        _dbITC.JobComment.Add(new JobComment
+                        {
+                            Title = cc.TitleComment,
+                            Comment = cc.Comment.Replace("\n", Environment.NewLine),
+                            JobReqBody_Id = cc.JobReqBody_Id,
+                            CreateBy = emp_no,
+                            CreateDate = DateTime.Now
+                        });
+                        break;
+                    case 2:
+                        _dbITC.JobReply.Add(new JobReply
+                        {
+                            Reply = cc.Comment.Replace("\n", Environment.NewLine),
+                            JobComment_Id = cc.TitleReply,
+                            JobReqBody_Id = cc.JobReqBody_Id,
+                            CreateBy = emp_no,
+                            CreateDate = DateTime.Now
+                        });
+                        break;
+                }
+                _dbITC.SaveChanges();
+
+                string titleEmail = "IT Connects Admin";
+                string subject = "";
+                string content = "";
+                string contentReply = "";
+                var head = "";
+                string email_to = "";
+                sentEmail sm = new sentEmail();
+
+                subject = "ITC-FEED JOB : " + cc.WorkRequest + " (" + cc.Equipment + ")";
+
+                head = "<b>" + cc.WorkRequest + " : " + cc.Equipment + "</b>";
+
+                for (int i = 0; i < QueryRequest.ListJobComments(cc.Id).ToList().Count; i++)
+                {
+                    var item = QueryRequest.ListJobComments(cc.Id).ToList()[i];
+                    contentReply = "";
+                    for (int j = 0; j < item.ObjJobReply.Count; j++)
+                    {
+                        var itemReply = item.ObjJobReply[j];
+                        contentReply += "<div class='media mt-2' style='flex: 1;margin-top: .3rem!important;'>" +
+                                                   "<a class='mr-2' style='margin-right: .5rem!important;'></a>" +
+                                                        "<div class='media-body' style='flex: 1;margin-left:15px;'>" +
+                                                            "Reply => " + itemReply.Reply.Replace(Environment.NewLine, "<br />") + "<br/>" +
+                                                            "<label style='font-size:xx-small;'>BY " + itemReply.EmployeeName + " : " + itemReply.CreateDate + "</label>" +
+                                                        "</div>" +
+                                         "</div>";
+                    }
+                    content += "<div class='media mb-2' style='display: flex; align-items: flex-start;'>" +
+                                   "<div class='mr-2' style='margin-right: .5rem!important;font-weight:bold;'>##</div>" +
+                                   "<div class='media-body' style='flex: 1;'>" +
+                                       "<h5 class='mt-0' style='margin-top: 0!important;font-size: 1.00rem;margin-bottom: .5rem;font-weight: bold;line-height: 1.2;'>" + item.Title + "</h5>" +
+                                       "Comment => " + item.Comment.Replace(Environment.NewLine, "<br />") + "<br/>" +
+                                       "<label style='font-size:xx-small;'>BY " + item.EmployeeName + " : " + item.CreateDate + "</label>" +
+                                       contentReply +
+                                     "</div>" +
+                               "</div><hr><br>";
+                }
+                content = head + "<br><br>" + content;
+                email_to = QueryRequest.StrEmailRequestor(cc.JobReqBody_Id) + ";" + QueryRequest.StrEmailResponsible(cc.JobReqBody_Id);
+                sm.SendEMailTo("swadmin@meyer-mil.com", titleEmail, email_to, "", "", subject, content, true, "");
+            }
+            catch (Exception ex)
+            {
+                status = false;
+                msg = ex.Message;
+            }
+
+            return Json(new { success = status, message = msg });
+        }
+
+        [HttpGet]
+        public JsonResult GetTitleFeed(int id)
+        {
+            ITCContext _dbITC = new ITCContext();
+            return Json(_dbITC.JobComment.Where(w => w.JobReqBody_Id == id).ToList().OrderBy(o => o.Id), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteFeed(int id, string type)
+        {
+            ITCContext _dbITC = new ITCContext();
+            var JobReqBody_Id = 0;
+            switch (type)
+            {
+                case "comment":
+                    JobComment qc = _dbITC.JobComment.FirstOrDefault(s => s.Id == id);
+                    _dbITC.JobComment.Remove(qc);
+                    JobReqBody_Id = qc.JobReqBody_Id;
+                    break;
+                case "reply":
+                    JobReply qr = _dbITC.JobReply.FirstOrDefault(s => s.Id == id);
+                    _dbITC.JobReply.Remove(qr);
+                    JobReqBody_Id = qr.JobReqBody_Id;
+                    break;
+            }
+            _dbITC.SaveChanges();
+            return Json(new { id = JobReqBody_Id, success = true, message = "Delete successful" });
+        }
+
+        [HttpGet]
         public JsonResult GetTrackingJobInfo(int id)
         {
             List<JobRequest> ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.WorkOrder_Id == id).ToList();
             return Json(ListJobRequest, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult GetModifyPlan(int id)
+        {
+            List<JobRequest> ListJobRequest = QueryRequest.ListJobPlanning().Where(w => w.WorkOrder_Id == id).ToList();
+            return Json(ListJobRequest, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SetModifyPlan(ParameterJobPlanning cc)
+        {
+            bool status = false;
+            string msg = string.Empty;
+            ITCContext _dbITC = new ITCContext();
+
+            try
+            {
+                if (cc.PlanFinishDate == null || cc.Reason == null)
+                {
+                    status = false;
+                    msg = "One or more fields have _blank";
+                }
+                else
+                {
+                    status = true;
+                    msg = "Successful";
+                    JobPlanning _JobPlanning = _dbITC.JobPlanning.FirstOrDefault(w => w.JobReqBody_Id == cc.Id);
+                    WorkOrders _ListWorkOrders = _dbITC.WorkOrders.Where(w => w.Id == _JobPlanning.WorkOrder_Id).FirstOrDefault();
+                    JobReqBody _ListJobReqBody = _dbITC.JobReqBody.Where(w => w.Id == cc.Id).FirstOrDefault();
+                    _JobPlanning.PlanFinishDate = Convert.ToDateTime(cc.PlanFinishDate);
+
+                    string titleEmail = "IT Connects Admin";
+                    string subject = "";
+                    string content = "";
+                    sentEmail sm = new sentEmail();
+
+                    subject = "ITC-CHANGE PLAN SCHEDULE : " + _ListWorkOrders.WoNo + "-" + _ListWorkOrders.Rework;
+                    content +=
+                        "<b> Plan Start Date : " + _JobPlanning.PlanStartDate + "</b><br>" +
+                        "<b> Change from Plan Finish Date : " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", _JobPlanning.PlanStartDate) + " to <span style='color:#28a745;'>" + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(cc.PlanFinishDate)) + "</span></b><br>" +
+                        "<b> Reason : " + cc.Reason.Replace(Environment.NewLine, "<br>") + "</b>";
+
+                    sm.SendEMailTo("swadmin@meyer-mil.com", titleEmail, QueryRequest.StrEmailPlanner(_ListJobReqBody.AssignTo), "", "", subject, content, true, "");
+                }
+                _dbITC.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                status = false;
+                msg = ex.Message;
+            }
+
+            return Json(new { success = status, message = msg });
+        }
+
 
         public PartialViewResult JobDaily(string emp_no)
         {
@@ -800,29 +1011,43 @@ namespace ITC.Controllers
         [HttpPost]
         public JsonResult GetInfoDailyReport(ParameterJobDaily cc)
         {
+            ITCContext _dbITC = new ITCContext();
             List<DailyReport> _ListQueryRequest = QueryRequest.ListDailyReport().Where(w => w.WorkOrder_Id == cc.id).ToList();
-            TimeSpan duration = new TimeSpan(0, 0, 0, 0);
-            for (int i = 0; i < _ListQueryRequest.Count(); i++)
-            {
-                var item = _ListQueryRequest[i];
-                duration = DateTime.Parse(item.TimeStop).Subtract(DateTime.Parse(item.TimeStart)) + duration;
-            }
             var total = "";
-
-            if (duration.Hours > 0)
+            if (_ListQueryRequest.Count() > 0)
             {
-                if (duration.Minutes > 0)
+                TimeSpan duration = new TimeSpan(0, 0, 0, 0);
+                for (int i = 0; i < _ListQueryRequest.Count(); i++)
                 {
-                    total = ((duration.Days * 24) + duration.Hours).ToString() + " Hrs " + duration.Minutes + " Min";
+                    var item = _ListQueryRequest[i];
+                    duration = DateTime.Parse(item.TimeStop).Subtract(DateTime.Parse(item.TimeStart)) + duration;
+                }
+
+                if (duration.Hours > 0)
+                {
+                    if (duration.Minutes > 0)
+                    {
+                        total = ((duration.Days * 24) + duration.Hours).ToString() + " Hrs " + duration.Minutes + " Min";
+                    }
+                    else
+                    {
+                        total = duration.Hours.ToString() + " Hrs";
+                    }
                 }
                 else
                 {
-                    total = duration.Hours.ToString() + " Hrs";
+                    total = duration.Minutes.ToString() + " Min";
                 }
             }
             else
             {
-                total = duration.Minutes.ToString() + " Min";
+                total = "N/A";
+                _ListQueryRequest = _dbITC.WorkOrders.Where(w => w.Id == cc.id).Select(s => new DailyReport
+                {
+                    WorkOrder_Id = s.Id,
+                    WoNo = s.WoNo,
+                    Rework = (s.Rework.ToString().Length == 1) ? "0" + s.Rework.ToString() : s.Rework.ToString(),
+                }).ToList();
             }
 
             return Json(new { obj = _ListQueryRequest, working = total });

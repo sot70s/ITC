@@ -43,12 +43,10 @@ namespace ITC.Models
     {
         public static List<Equipment_Type> ListEquipmentType()
         {
-
-            ITCContext dblist = new ITCContext();
-            List<Equipment_Type> query = dblist.Equipment_Types.ToList();
+            ITCContext _dbITC = new ITCContext();
+            List<Equipment_Type> query = _dbITC.Equipment_Types.ToList();
 
             return query;
-
         }
     }
 
@@ -56,21 +54,20 @@ namespace ITC.Models
     {
         public static List<EQUIPTYPE> ListEQUIPTYPE()
         {
-
-            MP2Context dblist = new MP2Context();
-            List<EQUIPTYPE> query = dblist.EQTYPE.ToList();
+            MP2Context _dbITC = new MP2Context();
+            List<EQUIPTYPE> query = _dbITC.EQTYPE.ToList();
 
             return query;
-
         }
     }
+
 
     public class QueryListEquipmentType
     {
         public static List<Equipment_Type> listEquipmentType()
         {
-            ITCContext dblist = new ITCContext();
-            List<Equipment_Type> query = dblist.Equipment_Types
+            ITCContext _dbITC = new ITCContext();
+            List<Equipment_Type> query = _dbITC.Equipment_Types
                .Select(s => new Equipment_Type
                {
                    Id = s.Id,
@@ -90,7 +87,7 @@ namespace ITC.Models
     {
         public static void PP()
         {
-            ITCContext iTC = new ITCContext();
+            ITCContext _dbITC = new ITCContext();
             MP2Context db = new MP2Context();
             List<EQUIPTYPE> q = db.EQTYPE.ToList();
 
@@ -98,15 +95,21 @@ namespace ITC.Models
             {
                 var w = q[i];
 
-                iTC.Equipment_Types.Add(new Equipment_Type
+                _dbITC.Equipment_Types.Add(new Equipment_Type
                 {
                     EquipmentType = w.EQTYPE,
                     Description = w.DESCRIPTION,
                     Status = 1,
                 });
 
-                iTC.SaveChanges();
+                _dbITC.SaveChanges();
             }
         }
     }
 }
+
+
+
+
+
+

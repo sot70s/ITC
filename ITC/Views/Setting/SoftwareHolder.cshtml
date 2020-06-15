@@ -1,6 +1,6 @@
-﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
-
+﻿﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
 <style>
+
     #dtSoftwareHolder_filter > label {
         font-weight: bold;
     }
@@ -31,7 +31,6 @@
         font-weight: bold;
     }
 </style>
-
 <div class="row">
     <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
         <div class="card m-2 p-1">
@@ -107,9 +106,7 @@
         </div>
     </div>
 </div>
-
 <script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
-
 <script>
     var dataTable;
 
@@ -215,7 +212,7 @@
             paging: false,
             scrollY: 500,
             ajax: {
-                url: "./GetSoftwareTemplate?position=" + position,
+                url: "./GetSoftwareTemplate?1position=" + position,
                 type: "GET",
                 datatype: "json"
             },

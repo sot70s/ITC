@@ -193,6 +193,9 @@
                                 <h6 class="card-title font-weight-bold">Equipment :</h6>
                                 <p class="card-text" style="text-align:right;" id="lbEquipmentTJ2"></p>
                                 <hr />
+                                <h6 class="card-title font-weight-bold">Location :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbLocationTJ"></p>
+                                <hr />
                                 <h6 class="card-title font-weight-bold">Description :</h6>
                                 <p class="card-text" style="text-align:right;" id="lbDescriptionTJ"></p>
                                 <hr />
@@ -210,13 +213,13 @@
                                 <hr />
                                 <h6 class="card-title font-weight-bold">Plan Finish Date :</h6>
                                 <p class="card-text" style="text-align:right;" id="lbPlanFinishDateTJ"></p>
-                                <hr />
-                                <h6 class="card-title font-weight-bold">Requestor :</h6>
-                                <p class="card-text" style="text-align:right;" id="lbRequestorTJ"></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Requestor :</h6>
+                                <p class="card-text" style="text-align:right;" id="lbRequestorTJ"></p>
+                                <hr />
                                 <h6 class="card-title font-weight-bold">Responsible :</h6>
                                 <p class="card-text" style="text-align:right;" id="lbResponsibleTJ"></p>
                                 <hr />
@@ -495,6 +498,7 @@
                 type: 'GET',
                 dataType: 'JSON',
                 success: (data) => {
+                    console.log(data)
                     var htmlDetail = $('#lbRequestDetailTJ').text(data[0].Detail);
                     htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
                     var htmlSuggestion = $('#lbSuggestionTJ').text(data[0].Suggestion);
@@ -518,6 +522,7 @@
                     $('#lbRequestorTJ').text(data[0].RequestorName);
                     $('#lbResponsibleTJ').text(data[0].ResponsibleName);
                     $('#lbAssignToTJ').text(data[0].AssignToName);
+                    $('#lbLocationTJ').text(data[0].SUBLOCATION3);
                     $('#ModalTrackingJob').modal('toggle');
                 }
             });

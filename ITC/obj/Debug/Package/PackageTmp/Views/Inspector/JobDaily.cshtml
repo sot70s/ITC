@@ -1,0 +1,34 @@
+﻿<div id='calendar'></div>
+<input id="txtEmployeeNo" value="@ViewBag.BindEmployeeNo" hidden />
+
+<script>
+    $(document).ready(() => {
+        Calendar($('#txtEmployeeNo').val());
+    });
+
+    function Calendar(emp_no) {
+        $.ajax({
+            url: './GetCalendarDaily?emp_no=' + emp_no,
+            type: 'GET',
+            dataType: 'JSON',
+            beforeSend: () => {
+                $(`#btnTeamSupport`).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);
+            },
+            success: (data) => {
+                $('#btnTeamSupport').html(`<i class="fas fa-search"></i> Search`);
+                calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+                    plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid'],
+                    themeSystem: 'bootstrap',
+                    fixedWeekCount: false,
+                    height: 550,
+                    header: {
+                        left: 'prevYear,dayGridMonth,dayGridWeek,dayGridDay',
+                        center: 'title',
+                        right: 'prev,next,today,nextYear'
+                    },
+                    events: data
+                }).render();
+            }
+        });
+    }
+</script>

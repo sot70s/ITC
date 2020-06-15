@@ -51,7 +51,7 @@ namespace ITC.Controllers
 
             try
             {
-                if (cc.PlanStartDate == null || cc.PlanFinishDate == null || cc.RootCause == null || cc.Solution == null)
+                if (cc.PlanStartDate == null || cc.PlanFinishDate == null)
                 {
                     status = false;
                     msg = "One or more fields have _blank";
@@ -66,8 +66,8 @@ namespace ITC.Controllers
                     {
                         query[0].PlanStartDate = Convert.ToDateTime(cc.PlanStartDate);
                         query[0].PlanFinishDate = Convert.ToDateTime(cc.PlanFinishDate);
-                        query[0].RootCause = cc.RootCause.Replace("\n", Environment.NewLine);
-                        query[0].Solution = cc.Solution.Replace("\n", Environment.NewLine);
+                        query[0].RootCause = (cc.RootCause == null) ? "" : cc.RootCause.Replace("\n", Environment.NewLine);
+                        query[0].Solution = (cc.Solution == null) ? "" : cc.Solution.Replace("\n", Environment.NewLine);
                     }
                     else
                     {
@@ -76,8 +76,8 @@ namespace ITC.Controllers
                             JobReqBody_Id = cc.Id,
                             PlanStartDate = Convert.ToDateTime(cc.PlanStartDate),
                             PlanFinishDate = Convert.ToDateTime(cc.PlanFinishDate),
-                            RootCause = cc.RootCause.Replace("\n", Environment.NewLine),
-                            Solution = cc.Solution.Replace("\n", Environment.NewLine),
+                            RootCause = (cc.RootCause == null) ? "" : cc.RootCause.Replace("\n", Environment.NewLine),
+                            Solution = (cc.Solution == null) ? "" : cc.Solution.Replace("\n", Environment.NewLine),
                             WorkOrder_Id = cc.WorkOrder_Id
                         });
                     }
@@ -161,7 +161,7 @@ namespace ITC.Controllers
             string msg = string.Empty;
             ITCContext _dbITC = new ITCContext();
 
-            if (cc.WorkOrder_Id == 0 || cc.Status == 0 || cc.TimeStart == null || cc.TimeStop == null || cc.RootCause == null || cc.Solution == null)
+            if (cc.WorkOrder_Id == 0 || cc.Status == 0 || cc.TimeStart == null || cc.TimeStop == null)
             {
                 status = false;
                 msg = "One or more fields have _blank";
@@ -181,21 +181,48 @@ namespace ITC.Controllers
                     var minuteEnd = Convert.ToDateTime(cc.TimeStop).Minute;
                     if (cc.Status == 3)
                     {
-                        _JobReqBody.Status = 6;
+                        if (cc.RootCause == null || cc.Solution == null)
+                        {
+                            status = false;
+                            msg = "One or more fields have _blank";
+                        }
+                        else
+                        {
+                            _JobReqBody.Status = 6;
+                            _WorkOrder.Progress = cc.Progress;
+                            _JobPlanning.RootCause = (cc.RootCause == null) ? "" : cc.RootCause.Replace("\n", Environment.NewLine);
+                            _JobPlanning.Solution = (cc.Solution == null) ? "" : cc.Solution.Replace("\n", Environment.NewLine);
+                            _JobPlanning.Note = (cc.Note == null) ? "" : cc.Note.Replace("\n", Environment.NewLine);
+                            _dbITC.JobDaily.Add(new JobDaily
+                            {
+                                TimeStart = Convert.ToDateTime(cc.DailyDate).AddHours(hourStart).AddMinutes(minuteStart),
+                                TimeStop = Convert.ToDateTime(cc.DailyDate).AddHours(hourEnd).AddMinutes(minuteEnd),
+                                Status = cc.Status,
+                                WorkOrder_Id = cc.WorkOrder_Id,
+                                DailyDate = Convert.ToDateTime(cc.DailyDate),
+                                Progress = Convert.ToInt32(cc.Progress)
+                            });
+                            _dbITC.SaveChanges();
+                        }
                     }
-                    _WorkOrder.Progress = cc.Progress;
-                    _JobPlanning.RootCause = cc.RootCause.Replace("\n", Environment.NewLine);
-                    _JobPlanning.Solution = cc.Solution.Replace("\n", Environment.NewLine);
-                    _JobPlanning.Note = cc.Note.Replace("\n", Environment.NewLine);
-                    _dbITC.JobDaily.Add(new JobDaily
+                    else
                     {
-                        TimeStart = Convert.ToDateTime(cc.DailyDate).AddHours(hourStart).AddMinutes(minuteStart),
-                        TimeStop = Convert.ToDateTime(cc.DailyDate).AddHours(hourEnd).AddMinutes(minuteEnd),
-                        Status = cc.Status,
-                        WorkOrder_Id = cc.WorkOrder_Id,
-                        DailyDate = Convert.ToDateTime(cc.DailyDate)
-                    });
-                    _dbITC.SaveChanges();
+                        _WorkOrder.Progress = cc.Progress;
+                        _JobPlanning.RootCause = (cc.RootCause == null) ? "" : cc.RootCause.Replace("\n", Environment.NewLine);
+                        _JobPlanning.Solution = (cc.Solution == null) ? "" : cc.Solution.Replace("\n", Environment.NewLine);
+                        _JobPlanning.Note = (cc.Note == null) ? "" : cc.Note.Replace("\n", Environment.NewLine);
+                        _dbITC.JobDaily.Add(new JobDaily
+                        {
+                            TimeStart = Convert.ToDateTime(cc.DailyDate).AddHours(hourStart).AddMinutes(minuteStart),
+                            TimeStop = Convert.ToDateTime(cc.DailyDate).AddHours(hourEnd).AddMinutes(minuteEnd),
+                            Status = cc.Status,
+                            WorkOrder_Id = cc.WorkOrder_Id,
+                            DailyDate = Convert.ToDateTime(cc.DailyDate),
+                            Progress = Convert.ToInt32(cc.Progress)
+                        });
+                        _dbITC.SaveChanges();
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -226,11 +253,23 @@ namespace ITC.Controllers
         {
             ITCContext _dbITC = new ITCContext();
             JobDaily query = _dbITC.JobDaily.FirstOrDefault(s => s.Id == cc.JobDaily_Id);
+
             if (query == null)
             {
                 return Json(new { success = false, message = "Error while Deleting" });
             }
             _dbITC.JobDaily.Remove(query);
+            _dbITC.SaveChanges();
+            int CountProgress = 0;
+            try
+            {
+                CountProgress = _dbITC.JobDaily.Where(w => w.WorkOrder_Id == cc.WorkOrder_Id).Sum(s => s.Progress);
+            }
+            catch {
+                CountProgress = 0;
+            }
+            WorkOrders _WorkOrders = _dbITC.WorkOrders.Where(w => w.Id == cc.WorkOrder_Id).FirstOrDefault();
+            _WorkOrders.Progress = CountProgress;
             _dbITC.SaveChanges();
 
             return Json(new { success = true, message = "Delete successful" });
@@ -264,7 +303,7 @@ namespace ITC.Controllers
                                        Progress = key.Progress,
                                        Priority = key.Priority,
                                        Status = key.Status,
-                                       LeadTime = (DateTime.Now - Convert.ToDateTime(key.PlanFinishDate)).Days,
+                                       LeadTime = (Convert.ToDateTime(key.PlanFinishDate) - DateTime.Now).Days,
                                        CriticalDate = key.CriticalDate,
                                        CriticalPercent = key.CriticalPercent,
                                        StatusWorkOrder = key.StatusWorkOrder
@@ -414,7 +453,7 @@ namespace ITC.Controllers
                                "</div><hr><br>";
                 }
                 content = head + "<br><br>" + content;
-                email_to = QueryRequest.StrEmailRequestor(cc.JobReqBody_Id);
+                email_to = QueryRequest.StrEmailRequestor(cc.JobReqBody_Id) + ";" + QueryRequest.StrEmailPlanner(cc.JobReqBody_Id);
                 sm.SendEMailTo("swadmin@meyer-mil.com", titleEmail, email_to, "", "", subject, content, true, "");
             }
             catch (Exception ex)

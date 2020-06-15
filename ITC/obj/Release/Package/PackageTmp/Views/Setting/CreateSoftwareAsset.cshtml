@@ -13,7 +13,7 @@
                                 <div class="col-md-8 p-3">
                                     <div class="input-group">
                                         <select id="ddlCompany" class="form-control font-weight-bold">
-                                            <option class="font-weight-bold" value="">Select</option>
+                                            <option class="font-weight-bold" value="">SELECT</option>
                                             <option class="font-weight-bold" value="MIL">MIL</option>
                                             <option class="font-weight-bold" value="MTL">MTL</option>
                                             <option class="font-weight-bold" value="MEM">MEM</option>
@@ -29,7 +29,7 @@
                                 <div class="col-md-8 p-3">
                                     <div class="input-group">
                                         <select id="ddlSoftwareType" class="form-control font-weight-bold">
-                                            <option class="font-weight-bold" value="">Select</option>
+                                            <option class="font-weight-bold" value="">SELECT</option>
                                             <option class="font-weight-bold" value="0S">Purchase</option>
                                             <option class="font-weight-bold" value="0P">Opensource</option>
                                             <option class="font-weight-bold" value="0D">Develop</option>
@@ -68,6 +68,18 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 p-3" style="text-align:right;">
+                                    Support By
+                                </div>
+                                <div class="col-md-8 p-3">
+                                    <select id="ddlSupportBy" class="form-control font-weight-bold">
+                                        <option class="font-weight-bold" value="">SELECT</option>
+                                        @foreach (var i in ViewBag.BindSupport)
+                                        {
+                                            <option class="font-weight-bold" value="@i.EmployeeNo">@i.EMPLOYEE_NAME</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-4 p-3" style="text-align:right;">
                                     Description
                                 </div>
                                 <div class="col-md-8 p-3">
@@ -101,7 +113,7 @@
                                 <div class="col-md-8 p-3">
                                     <div class="input-group">
                                         <select id="ddlLicenseType" class="form-control font-weight-bold">
-                                            <option class="font-weight-bold" value="">Select</option>
+                                            <option class="font-weight-bold" value="">SELECT</option>
                                             <option class="font-weight-bold" value="Concurrent">Concurrent</option>
                                             <option class="font-weight-bold" value="Name">Name</option>
                                             <option class="font-weight-bold" value="Leasing">Leasing</option>
@@ -233,6 +245,7 @@
         $('#chkUserAccountNeed').prop('checked', false);
         $('#chkTrainingNeed').prop('checked', false);
         $('#chkUserAccountNeed,#chkTrainingNeed').prop('checked', false);
+        $('#ddlSupportBy').val('');
         $('#ddlCompany,#ddlSoftwareType,#txtLocation,#txtCost,#ddlLicenseType,#txtLicenseQty,#txtSoftwareName,#txtCoreFunction,#txtDescription,#txtResponsible,#txtRemark,#txtStartDate,#txtObsolateDate').val('');
         $(".custom-file-label").addClass("selected").html('Choose file');
     });
@@ -251,6 +264,7 @@
                 SoftwareName: $('#txtSoftwareName').val(),
                 CoreFunction: $('#txtCoreFunction').val(),
                 Responsible: $('#txtResponsible').val(),
+                SupportBy: $('#ddlSupportBy').val(),
                 Description: $('#txtDescription').val(),
                 Remark: $('#txtRemark').val(),
                 Location: $('#txtLocation').val(),
@@ -284,6 +298,7 @@
                                         buttons: "DONE"
                                     }).then((willDone) => {
                                         $('#ddlCompany').val('0');
+                                        $('#ddlSupportBy').val('');
                                         $('#chkActive').prop('checked', true);
                                         $('#chkInactive').prop('checked', false);
                                         $('#chkUserAccountNeed').prop('checked', false);
@@ -309,6 +324,7 @@
                             buttons: "DONE"
                         }).then((willDone) => {
                             $('#ddlCompany').val('0');
+                            $('#ddlSupportBy').val('');
                             $('#chkActive').prop('checked', true);
                             $('#chkInactive').prop('checked', false);
                             $('#chkUserAccountNeed').prop('checked', false);

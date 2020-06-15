@@ -1,0 +1,158 @@
+﻿<style>
+    #dtRole_filter > label {
+        font-weight: bold;
+    }
+
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="fas fa-users fa-lg"></i>&nbsp;Role</h3>
+            <div class="card-body">
+                <table id="dtRole" class="table font-weight-bold table-hover" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:20%;">EMPLOYEE NO</th>
+                            <th style="width:23%;">EMPLOYEE NAME</th>
+                            <th style="width:20%;">SECTION TYPE</th>
+                            <th style="width:20%;">JOB TYPE</th>
+                            <th style="width:17%;">ACTION</th>
+                        </tr>
+                        <tr class="table-success">
+                            <th>
+                                <input class="form-control" id="txtEmployeeNo" disabled />
+                            </th>
+                            <th>
+                                <select id="ddlEmployee" class="form-control">
+                                    <option class="font-weight-bold" value="0">Select</option>
+                                    @foreach (var i in ViewBag.BindEmployee)
+                                    {
+                                        <option class="font-weight-bold" value="@i.EmployeeNo">@i.EmployeeNo - @i.EMPLOYEE_NAME</option>
+                                    }
+                                </select>
+                            </th>
+                            <th>
+                                <select id="ddlSectionType" class="form-control font-weight-bold">
+                                    <option class="font-weight-bold" value="IS">IS</option>
+                                    <option class="font-weight-bold" value="IT">IT</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select id="ddlJobType" class="form-control font-weight-bold">
+                                    <option class="font-weight-bold" value="Planner">Planner</option>
+                                    <option class="font-weight-bold" value="Manager">Manager</option>
+                                    <option class="font-weight-bold" value="MD/GM">MD/GM</option>
+                                </select>
+                            </th>
+                            <th>
+                                <button type="button" class="btn btn-outline-success btn-block" onclick="CreateRole()"><i class="fas fa-plus"></i></button>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+    });
+
+    $('#ddlEmployee').on('change', (e) => {
+        e.stopImmediatePropagation();
+        $('#txtEmployeeNo').val($('#ddlEmployee').val());
+    });
+
+    function loadDataTable() {
+        dataTable = $('#dtRole').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetRole/",
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                { data: "EmployeeNo" },
+                { data: "EmployeeName" },
+                { data: "SectionType" },
+                { data: "JobType" },
+                {
+                    data: "Id",
+                    render: function (data, type, row) {
+                        return `<button type="button" class="btn btn-outline-danger btn-block" onclick=DeleteRole("./DeleteRole?id=${data}")><i class="fas fa-minus"></i></button>`;
+                    }
+                },
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    function CreateRole() {
+        $.ajax({
+            url: './CreateRole',
+            data: JSON.stringify({
+                EmployeeNo: $('#ddlEmployee').val(),
+                SectionType: $('#ddlSectionType').val(),
+                JobType: $('#ddlJobType').val()
+            }),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success) {
+                    toastr.success(data.message);
+                    dataTable.ajax.reload();
+                } else {
+                    toastr.error(data.message);
+                }
+            }
+        });
+    }
+
+    function DeleteRole(url) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            dataTable.ajax.reload();
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>

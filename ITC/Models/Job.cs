@@ -34,6 +34,7 @@ namespace ITC.Models
         public string RootCause { get; set; }
         public string Solution { get; set; }
         public int WorkOrder_Id { get; set; }
+        public string Reason { get; set; }
     }
 
     public class ParameterJobDaily
@@ -162,6 +163,7 @@ namespace ITC.Models
         public int Status { get; set; }
         public int WorkOrder_Id { get; set; }
         public DateTime DailyDate { get; set; }
+        public int Progress { get; set; }
     }
 
     [Table("JobRework")]
@@ -204,6 +206,11 @@ namespace ITC.Models
         public DateTime CreateDate { get; set; }
         public int JobComment_Id { get; set; }
         public int JobReqBody_Id { get; set; }
+    }
+
+    public class Progress
+    {
+        public int SumProgress { get;set;}
     }
 
     public class JobComments
@@ -285,6 +292,9 @@ namespace ITC.Models
         public int StandardDate { get; set; }
         public int CriticalDate { get; set; }
         public int CriticalPercent { get; set; }
+        public string SUBLOCATION1 { get; set; }
+        public string SUBLOCATION2 { get; set; }
+        public string SUBLOCATION3 { get; set; }
     }
 
     public class JobGradeScore
@@ -910,6 +920,20 @@ namespace ITC.Models
             return query;
         }
 
+        public static List<MisFlowJoinEmployee> ListEmailPlanner(int id)
+        {
+            ITCContext _dbITC = new ITCContext();
+            MILAuthContext _dbMILAuth = new MILAuthContext();
+
+            var AssignTo = _dbITC.JobReqBody.Where(w => w.Id == id).ToList()[0].AssignTo;
+
+
+            List<MisFlowJoinEmployee> query = QueryMisFlow.ListMisFlow().Where(w => w.EmployeeNo == AssignTo && w.JobType == "Staff").ToList();
+            List<MisFlowJoinEmployee> queryPlanner = QueryMisFlow.ListMisFlow().Where(w => w.Division == ((query[0].Division == "ISD") ? "IS" : (query[0].Division == "ISS") ? "IS" : "IT") && w.JobType == "Planner").ToList();
+
+            return queryPlanner;
+        }
+
         public static List<JobRequest> ListEmailRequestor(int id)
         {
             ITCContext _dbITC = new ITCContext();
@@ -955,6 +979,34 @@ namespace ITC.Models
             for (int i = 0; i < ListEmailResponsible(id).Count(); i++)
             {
                 var item = ListEmailResponsible(id)[i];
+                email += ";" + item.Email;
+            }
+            email = Regex.Replace(email, @"\s", "");
+            email = email.Substring(1, email.Length - 1);
+
+            return email;
+        }
+
+        public static string StrEmailStaff(int id)
+        {
+            var email = "";
+            for (int i = 0; i < ListEmailResponsible(id).Count(); i++)
+            {
+                var item = ListEmailResponsible(id)[i];
+                email += ";" + item.Email;
+            }
+            email = Regex.Replace(email, @"\s", "");
+            email = email.Substring(1, email.Length - 1);
+
+            return email;
+        }
+
+        public static string StrEmailPlanner(int id)
+        {
+            var email = "";
+            for (int i = 0; i < ListEmailPlanner(id).Count(); i++)
+            {
+                var item = ListEmailPlanner(id)[i];
                 email += ";" + item.Email;
             }
             email = Regex.Replace(email, @"\s", "");
@@ -1282,6 +1334,57 @@ namespace ITC.Models
             return query;
         }
 
+        public static List<JobRequest> ListJobDailyTracking()
+        {
+            ITCContext _dbITC = new ITCContext();
+            List<JobRequest> query = (from jp in ListJobPlanning().ToList()
+                                      join jd in _dbITC.JobDaily.ToList()
+                                      on jp.WorkOrder_Id equals jd.WorkOrder_Id into joined
+                                      from j in joined.DefaultIfEmpty()
+                                      select new JobRequest
+                                      {
+                                          Id = jp.Id,
+                                          WorkRequest = jp.WorkRequest,
+                                          Equipment = jp.Equipment,
+                                          Description = jp.Description,
+                                          Line = jp.Line,
+                                          Symptom = jp.Symptom,
+                                          SymptomName_Th = jp.SymptomName_Th,
+                                          StandardDate = jp.StandardDate,
+                                          CriticalDate = jp.CriticalDate,
+                                          CriticalPercent = jp.CriticalPercent,
+                                          RequireDate = jp.RequireDate,
+                                          CreateDate = jp.CreateDate,
+                                          Priority = jp.Priority,
+                                          Status = jp.Status,
+                                          Detail = jp.Detail,
+                                          DecisionType = jp.DecisionType,
+                                          SectionType = jp.SectionType,
+                                          Suggestion = jp.Suggestion,
+                                          Requestor = jp.Requestor,
+                                          RequestorName = jp.RequestorName,
+                                          Responsible = jp.Responsible,
+                                          ResponsibleName = jp.ResponsibleName,
+                                          AssignTo = jp.AssignTo,
+                                          AssignToName = jp.AssignToName,
+                                          WorkOrder_Id = jp.WorkOrder_Id,
+                                          WoNo = jp.WoNo,
+                                          StatusWorkOrder = jp.StatusWorkOrder,
+                                          Rework = jp.Rework,
+                                          Progress = jp.Progress,
+                                          PlanStartDate = jp.PlanStartDate,
+                                          PlanFinishDate = jp.PlanFinishDate,
+                                          RootCause = jp.RootCause,
+                                          Solution = jp.Solution,
+                                          JobDaily_Id = (j == null) ? 0 : j.Id,
+                                          TimeStart = (j == null) ? "" : Convert.ToDateTime(j.TimeStart).ToString("hh:mm tt"),
+                                          TimeStop = (j == null) ? "" : Convert.ToDateTime(j.TimeStop).ToString("hh:mm tt"),
+                                          DailyDate = (j == null) ? "" : String.Format("{0:dd-MMM-yyyy}", Convert.ToDateTime(j.TimeStop))
+                                      }).ToList();
+
+            return query;
+        }
+
         public static List<CalendarDaily> ListCalendarDaily(string emp_no)
         {
             ITCContext _dbITC = new ITCContext();
@@ -1327,7 +1430,7 @@ namespace ITC.Models
                 for (int i = 0; i < arrEmployeeNo.Length; i++)
                 {
                     var item = arrEmployeeNo[i];
-                    List<CalendarDaily> query = ListJobPlanning().Where(w => w.AssignTo == item && (w.Status == 4 || w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).ToList()
+                    List<CalendarDaily> query = ListJobPlanning().Where(w => w.AssignTo == item && (w.Status == 5 || w.Status == 6 || w.Status == 7 || w.Status == 8 || w.Status == 9 || w.Status == 12 || w.Status == 13)).ToList()
                         .Select(s => new CalendarDaily
                         {
                             title = "\n" + s.WoNo + "-" + s.Rework + "\n" + "ASSIGN TO : " + s.AssignToName,
@@ -1367,7 +1470,6 @@ namespace ITC.Models
                 {
                     WorkOrder_Id = wo.Id,
                     WoNo = wo.WoNo,
-                    WorkDetail = jd.WorkDetail.Replace("\n", Environment.NewLine),
                     DailyDate = String.Format("{0:dd-MMM-yyyy}", jd.DailyDate),
                     Rework = (wo.Rework.ToString().Length == 1) ? "0" + wo.Rework.ToString() : wo.Rework.ToString(),
                     StatusWorkOrderStr = (jd.Status == 1) ? "Doing" : (jd.Status == 2) ? "PM" : "Complete",

@@ -118,7 +118,37 @@ namespace ITC.Models
 
         public static List<AccountJoinEmployee> ListAccountMeyer()
         {
-            List<AccountJoinEmployee> query = ListEmployee().Union(ListManager()).ToList();
+            List<AccountJoinEmployee> query = ListEmployee().Union(ListManager()).Distinct().GroupBy(g => new {
+                g.Id,
+                g.EmployeeNo,
+                g.UserName,
+                g.EMPLOYEE_NAME,
+                g.Email,
+                g.DIVISION_CODE,
+                g.DEPARTMENT_CODE,
+                g.DEPARTMENT_DESCRIPTION,
+                g.SECTION_CODE,
+                g.SECTION_DESCRIPTION,
+                g.POSITION_DESCRIPTION,
+                g.CreatedDate,
+                g.EMPLOYEE_STATUS
+            }, (key, group) => new AccountJoinEmployee
+            {
+                Id = key.Id,
+                EmployeeNo = key.EmployeeNo,
+                UserName = key.UserName,
+                EMPLOYEE_NAME = key.EMPLOYEE_NAME,
+                Email = key.Email,
+                DIVISION_CODE = key.DIVISION_CODE,
+                DEPARTMENT_CODE = key.DEPARTMENT_CODE,
+                DEPARTMENT_DESCRIPTION = key.DEPARTMENT_DESCRIPTION,
+                SECTION_CODE = key.SECTION_CODE,
+                SECTION_DESCRIPTION = key.SECTION_DESCRIPTION,
+                POSITION_DESCRIPTION = key.POSITION_DESCRIPTION,
+                CreatedDate = key.CreatedDate,
+                EMPLOYEE_STATUS = key.EMPLOYEE_STATUS
+            }).ToList();
+
             return query;
         }
 

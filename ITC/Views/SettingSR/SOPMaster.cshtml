@@ -1,0 +1,143 @@
+﻿<style>
+    #dtSOPMaster_filter > label {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="far fa-file-code fa-lg"></i>&nbsp;SOP Master</h3>
+            <div class="card-body">
+                <table id="dtSOPMaster" class="table font-weight-bold table-hover" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:17%;">PROCEDURE</th>
+                            <th style="width:15%;">SECTION TYPE</th>
+                            <th style="width:21%;">DESCRIPTION</th>
+                            <th style="width:15%;">CREATE DATE</th>
+                            <th style="width:17%;">CREATE BY</th>
+                            <th style="width:15%;">ACTION</th>
+                        </tr>
+                        <tr class="table-success">
+                            <th>
+                                <input class="form-control" id="txtProcedure">
+                            </th>
+                            <th>
+                                <select id="ddlType" class="form-control font-weight-bold">
+                                    <option class="font-weight-bold" value="IS">IS</option>
+                                    <option class="font-weight-bold" value="IT">IT</option>
+                                </select>
+                            </th>
+                            <th>
+                                <input class="form-control" id="txtDescription">
+                            </th>
+                            <th>
+                                <label id="lbCreateDate">@String.Format("{0:dd-MMM-yyyy hh:mm tt}", DateTime.Now)</label>
+                            </th>
+                            <th>
+                                <label>@ViewBag.BindEmployeeName</label>
+                            </th>
+                            <th>
+                                <button type="button" class="btn btn-outline-success btn-block" onclick="CreateSOP()"><i class="fas fa-plus"></i></button>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+    });
+
+    function loadDataTable() {
+        dataTable = $('#dtSOPMaster').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetSOP/",
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                { data: "Procedure" },
+                { data: "Type" },
+                { data: "Description" },
+                { data: "CreateDate" },
+                { data: "CreateBy" },
+                {
+                    data: "Id",
+                    render: function (data, type, row) {
+                        return `<button type="button" class="btn btn-outline-danger btn-block" onclick=DeleteSOP("./DeleteProcedure?id=${data}")><i class="fas fa-minus"></i></button>`;
+                    }
+                },
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    function CreateSOP()
+    {
+        $.ajax({
+            url: './CreateSOP',
+            data: JSON.stringify({
+                Procedure: $('#txtProcedure').val(),
+                Type: $('#ddlType').val(),
+                Description: $('#txtDescription').val(),
+                CreateDate: $('#lbCreateDate').text()
+            }),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            dataType: 'JSON',
+            success: (data) => {
+                if (data.success) {
+                    toastr.success(data.message);
+                    dataTable.ajax.reload();
+                    $('#lbCreateDate').text(data.date);
+                    $('#txtProcedure').val('');
+                } else {
+                    toastr.error(data.message);
+                }
+            }
+        });
+    }
+
+    function DeleteSOP(url) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            dataTable.ajax.reload();
+                            $('#lbCreateDate').text(data.date);
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>

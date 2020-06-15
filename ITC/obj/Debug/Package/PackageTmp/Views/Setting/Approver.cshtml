@@ -1,0 +1,117 @@
+﻿<style>
+    #dtApprover_filter > label {
+        font-weight: bold;
+    }
+
+    #dtApprover_info {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
+        <div class="card m-2 p-1">
+            <h3 class="card-header font-weight-bold"><i class="fas fa-users fa-lg"></i>&nbsp;Approver</h3>
+            <div class="card-body">
+                <button id="btnCreateApprover" type="button" class="btn btn-success font-weight-bold"><i class="fas fa-plus fa-lg"></i>&nbsp;Create Approver</button>
+                <br /><br />
+                <table id="dtApprover" class="table table-hover font-weight-bold" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width:24%;">DEPARTMEN CODE / DESC</th>
+                            <th style="width:15%;">SECTION CODE / DESC</th>
+                            <th style="width:11%;">EMPLOYEE NO</th>
+                            <th style="width:20%;">EMPLOYEE NAME</th>
+                            <th style="width:20%;">POSITION</th>
+                            <th style="width:10%;">ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btnCreateApprover').on('click', (e) => {
+        e.stopImmediatePropagation();
+
+        $('.PartialSubSetting').empty().load('./CreateApprover');
+    });
+
+    var dataTable;
+
+    $(document).ready(() => {
+        loadDataTable();
+    });
+
+    function loadDataTable() {
+        dataTable = $('#dtApprover').DataTable({
+            destroy: true,
+            responsive: true,
+            bInfo: true,
+            ordering: false,
+            bLengthChange: false,
+            paging: false,
+            scrollY: 500,
+            ajax: {
+                url: "./GetApprover/",
+                type: "GET",
+                datatype: "json"
+            },
+            columns: [
+                {
+                    data: "DEPARTMENT_CODE",
+                    render: function (data, type, row) {
+                        return `${data} / ${row.DEPARTMENT_DESCRIPTION}`;
+                    }
+                },
+                {
+                    data: "SECTION_CODE",
+                    render: function (data, type, row) {
+                        return `${data} / ${row.SECTION_DESCRIPTION}`;
+                    }
+                },
+                { data: "EmployeeNo" },
+                { data: "EMPLOYEE_NAME" },
+                { data: "POSITION_DESCRIPTION" },
+                {
+                    data: "Id",
+                    render: function (data) {
+                        return `<button class="btn btn-danger btn-sm font-weight-bold" onclick=Delete("./DeleteApprover?id=${data}")>
+                            Delete
+                        </button>`;
+                    }
+                }
+            ],
+            language: {
+                "emptyTable": "no data found"
+            }
+        });
+    }
+
+    function Delete(url) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted,you will not be able to recover",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    success: (data) => {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            dataTable.ajax.reload();
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>

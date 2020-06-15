@@ -1,1 +1,41 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row mt-3 mb-3">
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><i class="fab fa-stack-overflow fa-lg"></i> WORK REQUEST</h4>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success btn-block font-weight-bold" onclick="WorkRequest()"><i class="fas fa-arrow-circle-right"></i> Go Site</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><i class="fas fa-edit fa-lg"></i> SYSTEM REQUISITION FORM</h4>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success btn-block font-weight-bold" onclick="SystemRequisitionForm()"><i class="fas fa-arrow-circle-right"></i> Go Site</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function WorkRequest() {
+            window.location.href = "../Job/Index";
+
+        }
+
+        function SystemRequisitionForm() {
+            window.location.href = "../SystemRequest/Index";
+        }
+    </script>
+}

@@ -31,10 +31,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2015 18:46:26</publishTime>
     </File>
     <File Include="bin/ITC.dll">
-      <publishTime>05/25/2020 14:45:47</publishTime>
+      <publishTime>06/12/2020 16:53:27</publishTime>
     </File>
     <File Include="bin/ITC.pdb">
-      <publishTime>05/25/2020 14:45:47</publishTime>
+      <publishTime>06/12/2020 16:53:27</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>04/24/2018 12:47:38</publishTime>
@@ -359,6 +359,2196 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="JavaScript/userList.js">
       <publishTime>03/11/2020 10:05:04</publishTime>
+    </File>
+    <File Include="lib/amcharts4/amcharts.js">
+      <publishTime>06/02/2020 09:54:36</publishTime>
+    </File>
+    <File Include="lib/amcharts4/CHANGELOG.md">
+      <publishTime>06/02/2020 09:54:36</publishTime>
+    </File>
+    <File Include="lib/amcharts4/charts.js">
+      <publishTime>06/02/2020 09:54:36</publishTime>
+    </File>
+    <File Include="lib/amcharts4/charts.js.map">
+      <publishTime>06/02/2020 09:54:36</publishTime>
+    </File>
+    <File Include="lib/amcharts4/core.js">
+      <publishTime>06/02/2020 09:54:37</publishTime>
+    </File>
+    <File Include="lib/amcharts4/core.js.map">
+      <publishTime>06/02/2020 09:54:37</publishTime>
+    </File>
+    <File Include="lib/amcharts4/deps/canvg.js">
+      <publishTime>06/02/2020 09:54:37</publishTime>
+    </File>
+    <File Include="lib/amcharts4/deps/canvg.js.map">
+      <publishTime>06/02/2020 09:54:37</publishTime>
+    </File>
+    <File Include="lib/amcharts4/deps/pdfmake.js">
+      <publishTime>06/02/2020 09:54:37</publishTime>
+    </File>
+    <File Include="lib/amcharts4/deps/pdfmake.js.map">
+      <publishTime>06/02/2020 09:54:37</publishTime>
+    </File>
+    <File Include="lib/amcharts4/deps/xlsx.js">
+      <publishTime>06/02/2020 09:54:37</publishTime>
+    </File>
+    <File Include="lib/amcharts4/deps/xlsx.js.map">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/100%25-stacked-column-chart/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/100%25-stacked-column-chart/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/100%25-stacked-column-chart/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/100%25-stacked-column-chart/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/adding-live-data/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/adding-live-data/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/adding-live-data/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/adding-live-data/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/amcharts3/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/amcharts3/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/amcharts3/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/amcharts3/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/amcharts3/v3.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/animating-along-the-line-series/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/animating-along-the-line-series/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/animating-along-the-line-series/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/animating-along-the-line-series/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/bar-chart-race/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/bar-chart-race/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/bar-chart-race/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/bar-chart-race/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/base/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/base/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/base/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/base/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/bubble-chart/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/bubble-chart/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/bubble-chart/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/bubble-chart/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/candlestick-chart/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/candlestick-chart/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/candlestick-chart/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/candlestick-chart/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/changing-series-apppearance/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/changing-series-apppearance/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/changing-series-apppearance/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/changing-series-apppearance/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/changing-tree-map-data/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/changing-tree-map-data/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/changing-tree-map-data/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/changing-tree-map-data/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-diagram-non-ribbon/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-diagram-non-ribbon/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-diagram-non-ribbon/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-diagram-non-ribbon/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-diagram/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-diagram/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-diagram/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-diagram/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-friends-kisses/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-friends-kisses/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-friends-kisses/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-friends-kisses/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/chord-friends-kisses/whokissed.png">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/clock/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/clock/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/clock/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/clock/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-axis-break/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-axis-break/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-axis-break/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-axis-break/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/chandler.jpg">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/joey.jpg">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/monica.jpg">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/phoebe.jpg">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/rachel.jpg">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/column-chart-with-images-as-bullets/ross.jpg">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/columns-with-pies-inside/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/columns-with-pies-inside/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/columns-with-pies-inside/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/columns-with-pies-inside/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/countries-morphing-to-pie-chart/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/countries-morphing-to-pie-chart/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/countries-morphing-to-pie-chart/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/countries-morphing-to-pie-chart/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/curved-column-chart/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/curved-column-chart/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/curved-column-chart/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/curved-column-chart/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/cylinder-chart/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/cylinder-chart/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/cylinder-chart/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/cylinder-chart/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/data-grouping-50K/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/data-grouping-50K/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/data-grouping-50K/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/data-grouping-50K/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/date-based-radar/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/date-based-radar/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/date-based-radar/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/date-based-radar/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/day-night-map/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/day-night-map/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/day-night-map/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/day-night-map/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/donut-chart/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/donut-chart/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/donut-chart/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/donut-chart/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drag-and-change-values/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drag-and-change-values/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drag-and-change-values/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drag-and-change-values/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dragging-pie-slices/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dragging-pie-slices/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dragging-pie-slices/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dragging-pie-slices/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-map/index.css">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-map/index.html">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-map/index.js">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-map/README.md">
+      <publishTime>06/02/2020 09:54:38</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/acura.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/audi.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/bmw.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/buick.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/cadillac.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/chevrolet.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/chrysler.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/dodge.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/ford.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/gmc.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/honda.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/hyundai.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/infiniti.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/jeep.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/kia.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/lexus.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/lincoln.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/mazda.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/mercedes-benz.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/mitsubishi.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/nissan.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/other.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/subaru.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/toyota.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/logos/volkswagen.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/drill-down-tree-map/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dumbbell-plot-horizontal/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dumbbell-plot-horizontal/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dumbbell-plot-horizontal/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dumbbell-plot-horizontal/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dumbbell-plot/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dumbbell-plot/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dumbbell-plot/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/dumbbell-plot/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/duration-axis/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/duration-axis/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/duration-axis/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/duration-axis/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/error-chart/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/error-chart/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/error-chart/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/error-chart/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/fill-between-lines-chart/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/fill-between-lines-chart/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/fill-between-lines-chart/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/fill-between-lines-chart/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-creating-links/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-creating-links/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-creating-links/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-creating-links/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-network/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-network/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-network/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-network/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-tree-expandable/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-tree-expandable/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-tree-expandable/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-tree-expandable/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-tree/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-tree/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-tree/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/force-directed-tree/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/funnel-chart-horizontal/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/funnel-chart-horizontal/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/funnel-chart-horizontal/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/funnel-chart-horizontal/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/funnel-chart/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/funnel-chart/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/funnel-chart/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/funnel-chart/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/gantt-chart/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/gantt-chart/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/gantt-chart/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/gantt-chart/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/gauge-with-bands/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/gauge-with-bands/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/gauge-with-bands/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/gauge-with-bands/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/geo-heat-map/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/geo-heat-map/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/geo-heat-map/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/geo-heat-map/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map-circles/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map-circles/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map-circles/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map-circles/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map-radar/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map-radar/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map-radar/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map-radar/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/heat-map/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/horizontally-stacked-axes/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/horizontally-stacked-axes/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/horizontally-stacked-axes/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/horizontally-stacked-axes/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/line-different-ups-downs/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/line-different-ups-downs/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/line-different-ups-downs/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/line-different-ups-downs/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/map-line-gauge-mix/bang.png">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/map-line-gauge-mix/index.css">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/map-line-gauge-mix/index.html">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/map-line-gauge-mix/index.js">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/map-line-gauge-mix/README.md">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/map-line-gauge-mix/rocket.svg">
+      <publishTime>06/02/2020 09:54:39</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/morphing-countries/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/morphing-countries/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/morphing-countries/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/morphing-countries/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/multiple-axes-date-based-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/multiple-axes-date-based-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/multiple-axes-date-based-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/multiple-axes-date-based-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/multiple-series-map-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/multiple-series-map-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/multiple-series-map-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/multiple-series-map-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/non-chart-usage/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/non-chart-usage/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/non-chart-usage/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/non-chart-usage/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/ohlc-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/ohlc-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/ohlc-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/ohlc-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/packed-circles/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/packed-circles/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/packed-circles/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/packed-circles/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-bar-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-bar-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-bar-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-bar-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-stacked-chart-horizontal/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-stacked-chart-horizontal/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-stacked-chart-horizontal/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-stacked-chart-horizontal/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-stacked-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-stacked-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-stacked-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pictorial-stacked-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/polar-area-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/polar-area-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/polar-area-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/polar-area-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/population-pyramid/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/population-pyramid/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/population-pyramid/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/population-pyramid/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pyramid-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pyramid-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pyramid-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/pyramid-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radar-chart-with-axis-break/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radar-chart-with-axis-break/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radar-chart-with-axis-break/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radar-chart-with-axis-break/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radar-timeline-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radar-timeline-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radar-timeline-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radar-timeline-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radial-bar-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radial-bar-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radial-bar-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/radial-bar-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/real-time-data-sorting/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/real-time-data-sorting/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/real-time-data-sorting/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/real-time-data-sorting/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/rotating-globe-with-circles/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/rotating-globe-with-circles/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/rotating-globe-with-circles/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/rotating-globe-with-circles/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/rotating-globe/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/rotating-globe/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/rotating-globe/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/rotating-globe/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/sankey-diagram-with-animated-bullets/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/sankey-diagram-with-animated-bullets/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/sankey-diagram-with-animated-bullets/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/sankey-diagram-with-animated-bullets/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/semi-circle-donut-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/semi-circle-donut-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/semi-circle-donut-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/semi-circle-donut-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-3D-pie-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-3D-pie-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-3D-pie-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-3D-pie-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-bar-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-bar-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-bar-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-bar-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-column-chart/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-column-chart/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-column-chart/index.js">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-column-chart/README.md">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-gauge/index.css">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-gauge/index.html">
+      <publishTime>06/02/2020 09:54:40</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-gauge/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-gauge/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-line-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-line-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-line-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-line-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-map-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-map-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-map-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-map-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-pie-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-pie-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-pie-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-pie-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-radar-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-radar-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-radar-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-radar-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-sankey-diagram/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-sankey-diagram/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-sankey-diagram/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-sankey-diagram/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-tree-map/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-tree-map/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-tree-map/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/simple-tree-map/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-3D-column-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-3D-column-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-3D-column-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-3D-column-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-area-radar-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-area-radar-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-area-radar-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-area-radar-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-column-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-column-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-column-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stacked-column-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-count-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-count-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-count-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-count-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-line-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-line-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-line-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-line-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-line-no-risers-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-line-no-risers-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-line-no-risers-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/step-line-no-risers-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stock-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stock-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stock-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stock-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stock-comparing-values/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stock-comparing-values/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stock-comparing-values/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/stock-comparing-values/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/sunburst/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/sunburst/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/sunburst/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/sunburst/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/syncing-cursors-and-zoom/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/syncing-cursors-and-zoom/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/syncing-cursors-and-zoom/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/syncing-cursors-and-zoom/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/bent-gantt-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/bent-gantt-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/bent-gantt-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/bent-gantt-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/custom-shape-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/custom-shape-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/custom-shape-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/custom-shape-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/fishbone-timeline/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/fishbone-timeline/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/fishbone-timeline/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/fishbone-timeline/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/infinity-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/infinity-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/infinity-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/infinity-chart/moon.png">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/infinity-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/road-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/road-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/road-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/road-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-gantt-horizontal/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-gantt-horizontal/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-gantt-horizontal/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-gantt-horizontal/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-step-line/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-step-line/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-step-line/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-step-line/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-timeline/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-timeline/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-timeline/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-timeline/monica.jpg">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-timeline/rachel.jpg">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/serpentine-timeline/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-bar-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-bar-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-bar-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-bar-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-chart/index.js">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-chart/README.md">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-gantt-chart/index.css">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-gantt-chart/index.html">
+      <publishTime>06/02/2020 09:54:41</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-gantt-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/spiral-gantt-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/chandler.jpg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/joey.jpg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/monica.jpg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/phoebe.jpg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/rachel.jpg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/stadium-track-chart/ross.jpg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/dance.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/timeline0.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/timeline1.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/timeline2.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/timeline3.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/timeline4.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/timeline5.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/timeline6.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/timeline/timeline/timeline7.svg">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/triangle-column-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/triangle-column-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/triangle-column-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/triangle-column-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-angle-radar-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-angle-radar-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-angle-radar-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-angle-radar-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-height-3D-pie-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-height-3D-pie-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-height-3D-pie-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-height-3D-pie-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-radius-pie-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-radius-pie-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-radius-pie-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/variable-radius-pie-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/venn-diagram-with-patterns/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/venn-diagram-with-patterns/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/venn-diagram-with-patterns/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/venn-diagram-with-patterns/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/venn-diagram/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/venn-diagram/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/venn-diagram/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/venn-diagram/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/vertical-sankey-diagram/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/vertical-sankey-diagram/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/vertical-sankey-diagram/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/vertical-sankey-diagram/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/vertically-stacked-axes/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/vertically-stacked-axes/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/vertically-stacked-axes/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/vertically-stacked-axes/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/waterfall-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/waterfall-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/waterfall-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/waterfall-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/word-cloud-changing-data/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/word-cloud-changing-data/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/word-cloud-changing-data/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/word-cloud-changing-data/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/word-cloud/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/word-cloud/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/word-cloud/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/word-cloud/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/work-hours-map/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/work-hours-map/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/work-hours-map/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/work-hours-map/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/xy-error-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/xy-error-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/xy-error-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/javascript/xy-error-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/candlestick-series/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/candlestick-series/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/candlestick-series/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/candlestick-series/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/changing-series-apppearance/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/changing-series-apppearance/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/changing-series-apppearance/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/changing-series-apppearance/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/columns-with-pies-inside/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/columns-with-pies-inside/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/columns-with-pies-inside/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/columns-with-pies-inside/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/multiple-series-map-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/multiple-series-map-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/multiple-series-map-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/multiple-series-map-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-3D-pie-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-3D-pie-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-3D-pie-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-3D-pie-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-bar-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-bar-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-bar-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-bar-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-column-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-column-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-column-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-column-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-gauge/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-gauge/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-gauge/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-gauge/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-line-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-line-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-line-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-line-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-map-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-map-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-map-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-map-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-pie-chart-rounded-corners/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-pie-chart-rounded-corners/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-pie-chart-rounded-corners/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-pie-chart-rounded-corners/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-pie-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-pie-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-pie-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-pie-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-radar-chart/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-radar-chart/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-radar-chart/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-radar-chart/README.md">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-sankey-diagram/index.css">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-sankey-diagram/index.html">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-sankey-diagram/index.js">
+      <publishTime>06/02/2020 09:54:42</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-sankey-diagram/README.md">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-tree-map/index.css">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-tree-map/index.html">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-tree-map/index.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/simple-tree-map/README.md">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/dance.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/index.css">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/index.html">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/index.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/README.md">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/timeline0.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/timeline1.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/timeline2.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/timeline3.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/timeline4.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/timeline5.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/timeline6.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/examples/json/timeline/timeline7.svg">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ar.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ar.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/bs_BA.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/bs_BA.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ca_ES.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ca_ES.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/cs_CZ.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/cs_CZ.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/da_DK.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/da_DK.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/de_CH.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/de_CH.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/de_DE.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/de_DE.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/el_GR.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/el_GR.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/en.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/en.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/en_CA.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/en_CA.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/en_US.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/en_US.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/es_ES.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/es_ES.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/et_EE.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/et_EE.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/fi_FI.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/fi_FI.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/fr_FR.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/fr_FR.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/he_IL.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/he_IL.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/hi_IN.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/hi_IN.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/hr_HR.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/hr_HR.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/hu_HU.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/hu_HU.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/id_ID.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/id_ID.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/it_IT.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/it_IT.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ja_JP.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ja_JP.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ko_KR.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ko_KR.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/lt_LT.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/lt_LT.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/lv_LV.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/lv_LV.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/nb_NO.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/nb_NO.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/nl_NL.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/nl_NL.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/pl_PL.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/pl_PL.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/pt_BR.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/pt_BR.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/pt_PT.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/pt_PT.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ro_RO.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ro_RO.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ru_RU.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/ru_RU.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/sl_SL.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/sl_SL.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/sr_RS.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/sr_RS.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/sv_SE.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/sv_SE.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/th_TH.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/th_TH.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/tr_TR.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/tr_TR.js.map">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/uk_UA.js">
+      <publishTime>06/02/2020 09:54:43</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/uk_UA.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/vi_VN.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/vi_VN.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/zh_Hans.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/zh_Hans.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/zh_Hant.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/lang/zh_Hant.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/LICENSE">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/LICENSE-3RD-PARTY.md">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/maps.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/maps.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/annotation.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/annotation.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/bullets.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/bullets.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/forceDirected.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/forceDirected.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/overlapBuster.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/overlapBuster.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/regression.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/regression.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/sliceGrouper.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/sliceGrouper.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/sunburst.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/sunburst.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/timeline.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/timeline.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/venn.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/venn.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/wordCloud.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/plugins/wordCloud.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/README.md">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/serial.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/amcharts.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/amcharts.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/amchartsdark.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/amchartsdark.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/animated.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/animated.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/dark.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/dark.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/dataviz.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/dataviz.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/frozen.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/frozen.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/kelly.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/kelly.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/material.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/material.js.map">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/microchart.js">
+      <publishTime>06/02/2020 09:54:44</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/microchart.js.map">
+      <publishTime>06/02/2020 09:54:45</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/moonrisekingdom.js">
+      <publishTime>06/02/2020 09:54:45</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/moonrisekingdom.js.map">
+      <publishTime>06/02/2020 09:54:45</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/patterns.js">
+      <publishTime>06/02/2020 09:54:45</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/patterns.js.map">
+      <publishTime>06/02/2020 09:54:45</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/spiritedaway.js">
+      <publishTime>06/02/2020 09:54:45</publishTime>
+    </File>
+    <File Include="lib/amcharts4/themes/spiritedaway.js.map">
+      <publishTime>06/02/2020 09:54:45</publishTime>
     </File>
     <File Include="lib/bootstrap-validate/bootstrap-validate.js">
       <publishTime>04/20/2020 14:37:42</publishTime>
@@ -7222,19 +9412,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2020 15:05:30</publishTime>
     </File>
     <File Include="Styles/font-responsive.css">
-      <publishTime>05/05/2020 15:02:23</publishTime>
+      <publishTime>06/08/2020 11:41:08</publishTime>
     </File>
     <File Include="Views/Account/ChangePassword.cshtml">
       <publishTime>03/07/2020 10:37:16</publishTime>
+    </File>
+    <File Include="Views/Dashboard/Index.cshtml">
+      <publishTime>06/05/2020 10:18:08</publishTime>
     </File>
     <File Include="Views/Doing/FeedJob.cshtml">
       <publishTime>05/22/2020 11:11:14</publishTime>
     </File>
     <File Include="Views/Doing/Index.cshtml">
-      <publishTime>05/25/2020 10:02:17</publishTime>
+      <publishTime>06/12/2020 16:38:22</publishTime>
     </File>
     <File Include="Views/Doing/JobDaily.cshtml">
-      <publishTime>05/25/2020 10:10:53</publishTime>
+      <publishTime>06/03/2020 16:10:33</publishTime>
     </File>
     <File Include="Views/HandOut/ApproveJob.cshtml">
       <publishTime>03/21/2020 08:52:52</publishTime>
@@ -7242,8 +9435,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/HandOut/ExportJob.cshtml">
       <publishTime>03/24/2020 15:19:26</publishTime>
     </File>
+    <File Include="Views/HandOut/FeedJob.cshtml">
+      <publishTime>06/11/2020 09:27:42</publishTime>
+    </File>
     <File Include="Views/HandOut/Index.cshtml">
-      <publishTime>05/22/2020 17:12:27</publishTime>
+      <publishTime>06/11/2020 11:08:33</publishTime>
     </File>
     <File Include="Views/HandOut/JobDaily.cshtml">
       <publishTime>05/22/2020 17:12:28</publishTime>
@@ -7255,10 +9451,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/22/2020 17:09:06</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>05/18/2020 11:43:29</publishTime>
+      <publishTime>06/09/2020 14:19:02</publishTime>
     </File>
     <File Include="Views/Inspector/Index.cshtml">
-      <publishTime>05/22/2020 17:11:14</publishTime>
+      <publishTime>06/08/2020 09:05:13</publishTime>
     </File>
     <File Include="Views/Inspector/JobDaily.cshtml">
       <publishTime>05/22/2020 17:11:42</publishTime>
@@ -7273,7 +9469,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/22/2020 11:10:04</publishTime>
     </File>
     <File Include="Views/Job/Index.cshtml">
-      <publishTime>05/23/2020 15:40:48</publishTime>
+      <publishTime>06/12/2020 15:36:59</publishTime>
     </File>
     <File Include="Views/Job/js/createWR.js">
       <publishTime>03/03/2020 15:29:03</publishTime>
@@ -7297,40 +9493,43 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/11/2020 13:50:02</publishTime>
     </File>
     <File Include="Views/Setting/CreateEquipmentType.cshtml">
-      <publishTime>05/21/2020 09:19:00</publishTime>
+      <publishTime>05/30/2020 08:34:01</publishTime>
     </File>
     <File Include="Views/Setting/CreateGrade.cshtml">
       <publishTime>03/11/2020 15:35:12</publishTime>
     </File>
     <File Include="Views/Setting/CreateHardwareAsset.cshtml">
-      <publishTime>05/21/2020 09:26:54</publishTime>
+      <publishTime>06/05/2020 10:16:03</publishTime>
     </File>
     <File Include="Views/Setting/CreateMis.cshtml">
-      <publishTime>04/22/2020 15:37:55</publishTime>
+      <publishTime>06/05/2020 09:03:18</publishTime>
     </File>
     <File Include="Views/Setting/CreatePriority.cshtml">
       <publishTime>03/11/2020 16:17:36</publishTime>
     </File>
     <File Include="Views/Setting/CreateSoftwareAsset.cshtml">
-      <publishTime>04/23/2020 14:28:16</publishTime>
+      <publishTime>06/10/2020 10:35:02</publishTime>
     </File>
     <File Include="Views/Setting/CreateSymptom.cshtml">
-      <publishTime>05/25/2020 14:44:38</publishTime>
+      <publishTime>06/04/2020 14:19:07</publishTime>
     </File>
     <File Include="Views/Setting/CreateUser.cshtml">
       <publishTime>03/10/2020 16:26:54</publishTime>
+    </File>
+    <File Include="Views/Setting/Dashboard.cshtml">
+      <publishTime>06/02/2020 09:47:47</publishTime>
     </File>
     <File Include="Views/Setting/EquipmentMng.cshtml">
       <publishTime>05/15/2020 08:27:58</publishTime>
     </File>
     <File Include="Views/Setting/EquipmentType.cshtml">
-      <publishTime>05/21/2020 09:20:46</publishTime>
+      <publishTime>05/30/2020 08:34:39</publishTime>
     </File>
     <File Include="Views/Setting/Grade.cshtml">
       <publishTime>03/11/2020 15:51:06</publishTime>
     </File>
     <File Include="Views/Setting/HardwareAsset.cshtml">
-      <publishTime>05/23/2020 13:29:08</publishTime>
+      <publishTime>06/05/2020 10:16:21</publishTime>
     </File>
     <File Include="Views/Setting/Index.cshtml">
       <publishTime>04/21/2020 15:22:57</publishTime>
@@ -7345,13 +9544,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/11/2020 16:25:49</publishTime>
     </File>
     <File Include="Views/Setting/SoftwareAsset.cshtml">
-      <publishTime>04/28/2020 14:42:57</publishTime>
+      <publishTime>06/10/2020 10:20:49</publishTime>
     </File>
     <File Include="Views/Setting/SoftwareHolder.cshtml">
-      <publishTime>05/07/2020 16:37:54</publishTime>
+      <publishTime>05/30/2020 08:38:06</publishTime>
     </File>
     <File Include="Views/Setting/Symptom.cshtml">
-      <publishTime>05/23/2020 16:20:04</publishTime>
+      <publishTime>06/04/2020 14:18:48</publishTime>
     </File>
     <File Include="Views/Setting/TeamFoundationMng.cshtml">
       <publishTime>03/13/2020 08:47:46</publishTime>
@@ -7362,11 +9561,41 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Setting/UserMng.cshtml">
       <publishTime>04/21/2020 15:22:58</publishTime>
     </File>
+    <File Include="Views/SettingSR/Index.cshtml">
+      <publishTime>06/12/2020 10:06:38</publishTime>
+    </File>
+    <File Include="Views/SettingSR/PermissionMng.cshtml">
+      <publishTime>06/12/2020 10:57:37</publishTime>
+    </File>
+    <File Include="Views/SettingSR/Role.cshtml">
+      <publishTime>06/12/2020 15:18:15</publishTime>
+    </File>
+    <File Include="Views/SettingSR/SOPAsset.cshtml">
+      <publishTime>06/12/2020 10:00:29</publishTime>
+    </File>
+    <File Include="Views/SettingSR/SOPMaster.cshtml">
+      <publishTime>06/12/2020 10:45:39</publishTime>
+    </File>
+    <File Include="Views/SettingSR/SOPMng.cshtml">
+      <publishTime>06/10/2020 09:08:08</publishTime>
+    </File>
+    <File Include="Views/SettingSR/TeamFoundationMng.cshtml">
+      <publishTime>06/10/2020 08:39:47</publishTime>
+    </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>03/03/2020 15:05:32</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>05/20/2020 14:55:28</publishTime>
+      <publishTime>06/09/2020 14:36:40</publishTime>
+    </File>
+    <File Include="Views/Shared/_LayoutHome.cshtml">
+      <publishTime>06/09/2020 14:35:15</publishTime>
+    </File>
+    <File Include="Views/Shared/_LayoutSystemRequisitionForm.cshtml">
+      <publishTime>06/12/2020 15:21:33</publishTime>
+    </File>
+    <File Include="Views/SystemRequest/Index.cshtml">
+      <publishTime>06/12/2020 16:29:55</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>03/03/2020 15:05:17</publishTime>

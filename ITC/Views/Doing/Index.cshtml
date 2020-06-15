@@ -473,7 +473,7 @@
                     {
                         data: "Id",
                         render: function (data, type, row) {
-                            if (row.RootCause == "") {
+                            if (row.PlanStartDate == "" && row.PlanFinishDate == "") {
                                 return `<button class="btn btn-warning btn-sm font-weight-bold" onclick=Info("./GetJobPlanningInfo?id=${row.WorkOrder_Id}")><i class="fas fa-edit"></i></button>
                                                                                                            <button class="btn btn-danger btn-sm font-weight-bold")><i class="fas fa-exclamation-triangle"></i></button>`;
                             } else {
@@ -500,7 +500,7 @@
                     $('#lbEquipment').text(data[0].Description + ' (' + data[0].Equipment + ')');
                     $('#lbWorkRequest').text(data[0].WorkRequest + '-' + data[0].Line);
                     var htmlDetail = $('#lbRequestDetail').text(data[0].Detail);
-                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>'));
+                    htmlDetail.html(htmlDetail.html().replace(/\n/g, '<br/>')); ModalJobPlanning
                     var htmlSuggestion = $('#lbSuggestion').text(data[0].Suggestion);
                     htmlSuggestion.html(htmlSuggestion.html().replace(/\n/g, '<br/>'));
                     $('#lbRequireDate').text(data[0].RequireDate);
@@ -720,7 +720,7 @@
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                                 <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
                                                 <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${row.Id}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                <button class="btn btn-warning btn-sm font-weight-bold">PENDING</button>`;
+                                                <button class="btn btn-sm font-weight-bold" style="background-color:#a333c8;border-color:#a333c8;color:#ffffff;">PENDING</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                                 <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
@@ -728,10 +728,17 @@
                                                 <button class="btn btn-secondary btn-sm font-weight-bold" onclick="ReasonRework('./GetReasonJobRework?WorkOrder_Id=${data}')">REWORKED</button>`;
                                 }
                             } else if (row.Status == 9) {
-                                return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                if (row.StatusWorkOrder == true) {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                             <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
                                             <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${row.Id}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
                                             <button class="btn btn-success btn-sm font-weight-bold"><i class="fas fa-check"></i> COMPLETED</button>`;
+                                } else {
+                                    return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
+                                            <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
+                                            <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${row.Id}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
+                                            <button class="btn btn-secondary btn-sm font-weight-bold">REWORKED</button>`;
+                                }
                             } else if (row.Status == 12 || row.Status == 13) {
                                 return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                             <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
@@ -743,7 +750,7 @@
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                                 <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
                                                 <button class="btn btn-light btn-sm font-weight-bold" onclick="FeedJob('./GetFeedJob?id=${row.Id}&WorkOrder_Id=${row.WorkOrder_Id}')"><i class="fas fa-comments"></i></button>
-                                                <button class="btn btn-warning btn-sm font-weight-bold">PENDING</button>`;
+                                                <button class="btn btn-sm font-weight-bold" style="background-color:#a333c8;border-color:#a333c8;color:#ffffff;">PENDING</button>`;
                                 } else {
                                     return `<button class="btn btn-secondary btn-sm font-weight-bold" onclick=InfoDailyReport("./GetInfoDailyReport?id=${data}")><i class="far fa-calendar-alt"></i></button>
                                                 <button class="btn btn-primary btn-sm font-weight-bold" onclick=InfoJobOnHand("./GetJobOnHandInfo?id=${data}")><i class="fas fa-info-circle"></i></button>
@@ -755,6 +762,10 @@
                     }
                 ],
                 createdRow: function (row, data, dataIndex) {
+                    console.log(`Lead Time : ${data.LeadTime}`)
+                    console.log(`Critical Date : ${data.CriticalDate}`)
+                    console.log(`Progress : ${data.Progress}`)
+                    console.log(`Critical Percent : ${data.CriticalPercent}`)
                     if (data.LeadTime <= data.CriticalDate && data.Progress < data.CriticalPercent) {
                         $(row).css('background-color', '#ffc107');
                     }

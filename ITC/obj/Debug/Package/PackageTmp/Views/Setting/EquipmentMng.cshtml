@@ -1,0 +1,85 @@
+﻿﻿<div class="card m-2 p-1" style="background-color: #00b5ad;">
+    <h3 class="card-header font-weight-bold" style="background-color: #009991;"><i class="fas fa-edit fa-lg"></i>&nbsp;Equipment</h3>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3 p-1">
+                <div id="divSoftwareAsset" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnSoftwareAsset" href="#">
+                            <i class="far fa-file-code fa-4x"></i><br />
+                        </a>
+                        Software Master
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divSoftwareHolder" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnSoftwareHolder" href="#">
+                            <i class="far fa-folder-open fa-4x"></i><br />
+                        </a>
+                        Software Asset
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divHardwareAsset" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnHardwareAsset" href="#">
+                            <i class="far fa-hdd fa-4x"></i><br />
+                        </a>
+                        Hardware Asset
+                    </center>
+                </div>
+            </div>
+            <div class="col-sm-3 p-1">
+                <div id="divEquipmentType" style="text-align:center;background-color:#ffffff;" class="rounded p-3 font-weight-bold">
+                    <center>
+                        <a id="btnEquipmentType" href="#">
+                            <i class="fas fa-folder fa-4x"></i><br />
+                        </a>
+                        Equipment Type
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#btnSoftwareAsset').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSoftwareAsset').css('background-color', '#ccfffd');
+        $('#divSoftwareHolder').css('background-color', '#ffffff');
+        $('#divHardwareAsset').css('background-color', '#ffffff');
+        $('#divEquipmentType').css('background-color', '#ffffff');
+        $('.PartialSubSetting').empty().load('./SoftwareAsset');
+    });
+
+
+    $('#btnSoftwareHolder').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSoftwareAsset').css('background-color', '#ffffff');
+        $('#divSoftwareHolder').css('background-color', '#ccfffd');
+        $('#divHardwareAsset').css('background-color', '#ffffff');
+        $('#divEquipmentType').css('background-color', '#ffffff');
+        $('.PartialSubSetting').empty().load('./SoftwareHolder');
+    });
+
+    $('#btnHardwareAsset').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSoftwareAsset').css('background-color', '#ffffff');
+        $('#divSoftwareHolder').css('background-color', '#ffffff');
+        $('#divHardwareAsset').css('background-color', '#ccfffd');
+        $('#divEquipmentType').css('background-color', '#ffffff');
+        $('.PartialSubSetting').empty().load('./HardwareAsset');
+    });
+
+    $('#btnEquipmentType').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('#divSoftwareAsset').css('background-color', '#ffffff');
+        $('#divSoftwareHolder').css('background-color', '#ffffff');
+        $('#divHardwareAsset').css('background-color', '#ffffff');
+        $('#divEquipmentType').css('background-color', '#ccfffd');
+        $('.PartialSubSetting').empty().load('./EquipmentType');
+    });
+</script>

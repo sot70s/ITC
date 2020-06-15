@@ -1,0 +1,40 @@
+﻿@media only screen and (min-device-width: 1280px) and (max-device-width: 1360px) {
+    html {
+        font-size: 0.4rem;
+    }
+
+    .logo {
+        width: 50%
+    }
+}
+
+
+@media only screen and (min-device-width: 1366px) and (max-device-width: 1400px) {
+    html {
+        font-size: 0.6rem;
+    }
+
+    .logo {
+        width: 52%
+    }
+}
+
+@media only screen and (min-device-width: 1440px) and (max-device-width: 1600px) {
+    html {
+        font-size: 0.8rem;
+    }
+
+    .logo {
+        width: 54%
+    }
+}
+
+@media only screen and (min-device-width: 1680px) and (max-device-width: 1920px) {
+    html {
+        font-size: 0.9rem;
+    }
+
+    .logo {
+        width: 56%
+    }
+}

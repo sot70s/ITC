@@ -112,13 +112,12 @@
                                         <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
                                         <label class="label" for="inputGroupSelect01">Equipment Type</label>
                                     </div>
-                                    <select id="txtEquipmentType" class="form-control selectpicker" witdh="100%" data-live-search="true">
+                                    <select id="ddlEquipmentType" class="form-control selectpicker" witdh="100%" data-live-search="true">
                                         <option class="font-bold">Select</option>
                                         @foreach (var i in ViewBag.BindEquipmentType)
                                         {
                                             <option class="font-bold" value="@i.EquipmentType">@i.EquipmentType  (@i.Description)</option>
                                         }
-
                                     </select>
                                 </div>
                                 <div class="input-group mb-3">
@@ -164,16 +163,24 @@
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Location</label>
                                     </div>
-                                    <input type="text" class="form-control font" id="txtLocation" placeholder="">
+                                    <select id="ddlLocation" class="form-control font" witdh="100%" data-live-search="true">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold">L1</option>
+                                        <option class="font-bold">L2</option>
+                                        <option class="font-bold">L3</option>
+                                        <option class="font-bold">L4</option>
+                                        <option class="font-bold">L5</option>
+                                        <option class="font-bold">L6</option>
+                                    </select>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-white" id="basic-addon1"><i class="fas fa-star-of-life" style="color:red;"></i></span>
                                     </div>
                                     <div class="input-group-prepend">
-                                        <label class="label" for="inputGroupSelect01">Telephone Owner</label>
+                                        <label class="label" for="inputGroupSelect01">Previous Owner</label>
                                     </div>
-                                    <input type="text" class="form-control font" id="txtTelephoneOwner" placeholder="">
+                                    <input type="text" class="form-control font" id="txtPreviousOwner" placeholder="">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -191,7 +198,7 @@
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Status</label>
                                     </div>
-                                    <select id="txtStatus" class="form-control font">
+                                    <select id="ddlStatus" class="form-control font">
                                         <option class="font-bold">Select</option>
                                         <option class="font-bold" value="1">Service</option>
                                         <option class="font-bold" value="2">Inservice</option>
@@ -203,21 +210,29 @@
                             <div class="row m-5">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <label class="label" for="inputGroupSelect01">Previous Owner</label>
+                                        <label class="label" for="inputGroupSelect01">Telephone Owner</label>
                                     </div>
-                                    <input type="text" class="form-control font" id="txtPreviousOwner" placeholder="">
+                                    <input type="text" class="form-control font" id="txtTelephoneOwner" placeholder="">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Previous Location</label>
                                     </div>
-                                    <input type="text" class="form-control font" id="txtPreviousLocation" placeholder="">
+                                    <select id="ddlPreviousLocation" class="form-control font" witdh="100%" data-live-search="true">
+                                        <option class="font-bold">Select</option>
+                                        <option class="font-bold">L1</option>
+                                        <option class="font-bold">L2</option>
+                                        <option class="font-bold">L3</option>
+                                        <option class="font-bold">L4</option>
+                                        <option class="font-bold">L5</option>
+                                        <option class="font-bold">L6</option>
+                                    </select>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Service Vendor</label>
                                     </div>
-                                    <select id="txtServiceVendor" class="form-control font">
+                                    <select id="ddlServiceVendor" class="form-control font">
                                         <option class="font-bold">Select</option>
                                         <option class="font-bold" value="1">1</option>
                                         <option class="font-bold" value="2">2</option>
@@ -228,7 +243,7 @@
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Company</label>
                                     </div>
-                                    <select id="txtCompany" class="form-control font">
+                                    <select id="ddlCompany" class="form-control font">
                                         <option class="font-bold">Select</option>
                                         <option class="font-bold" value="MIL">MIL</option>
                                         <option class="font-bold" value="MTL">MTL</option>
@@ -238,7 +253,7 @@
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Equipment Group</label>
                                     </div>
-                                    <select id="txtEquipmentGroup" class="form-control font">
+                                    <select id="ddlEquipmentGroup" class="form-control font">
                                         <option class="font-bold">Select</option>
                                         <option class="font-bold" value="Select All">Select All</option>
                                         <option class="font-bold" value="Lease">Lease</option>
@@ -289,7 +304,7 @@
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Warranty Date</label>
                                     </div>
-                                    <select id="txtWarrantyType" class="form-control font">
+                                    <select id="ddlWarrantyType" class="form-control font">
                                         <option class="font-bold">Select</option>
                                         <option class="font-bold" value="Day">Day</option>
                                         <option class="font-bold" value="Month">Month</option>
@@ -319,7 +334,7 @@
 
 <script>
 
-    $('#txtEquipmentType').selectpicker();
+    $('#ddlEquipmentType').selectpicker();
 
     $('#PurchaseDate').datetimepicker({
         format: 'DD-MMM-YYYY'
@@ -333,33 +348,31 @@
         format: 'DD-MMM-YYYY'
     });
 
-    bootstrapValidate(['#txtEquipment', '#txtEquipmentType', '#txtDescription', '#txtSerialNumber', '#txtModel', '#txtOwner', '#txtLocation', '#txtTelephoneOwner', '#txtResponsible', '#txtStatus'], 'required:Please fill out this field!');
+    bootstrapValidate(['#txtEquipment', '#ddlEquipmentType', '#txtDescription', '#txtSerialNumber', '#txtModel', '#txtOwner', '#ddlLocation', '#txtTelephoneOwner', '#txtResponsible', '#ddlStatus'], 'required:Please fill out this field!');
 
     function InsertHardwareAsset() {
-
-
         $.ajax({
             url: "./InsertHardwareAsset",
             data: JSON.stringify({
                 Equipment: $('#txtEquipment').val(),
-                EquipmentType: $('#txtEquipmentType').val(),
+                EquipmentType: $('#ddlEquipmentType').val(),
                 Description: $('#txtDescription').val(),
                 SerialNumber: $('#txtSerialNumber').val(),
                 Model: $('#txtModel').val(),
                 Owner: $('#txtOwner').val(),
-                Location: $('#txtLocation').val(),
+                Location: $('#ddlLocation').val(),
                 TelephoneOwner: $('#txtTelephoneOwner').val(),
                 Responsible: $('#txtResponsible').val(),
-                Status: $('#txtStatus').val(),
+                Status: $('#ddlStatus').val(),
                 PreviousOwner: $('#txtPreviousOwner').val(),
-                PreviousLocation: $('#txtPreviousLocation').val(),
-                ServiceVendor: $('#txtServiceVendor').val(),
-                Company: $('#txtCompany').val(),
-                EquipmentGroup: $('#txtEquipmentGroup').val(),
+                PreviousLocation: $('#ddlPreviousLocation').val(),
+                ServiceVendor: $('#ddlServiceVendor').val(),
+                Company: $('#ddlCompany').val(),
+                EquipmentGroup: $('#ddlEquipmentGroup').val(),
                 PurchaseDate: $('#txtPurchaseDate').val(),
                 ReceiveDate: $('#txtReceiveDate').val(),
                 ServiceDate: $('#txtServiceDate').val(),
-                WarrantyType: $('#txtWarrantyType').val(),
+                WarrantyType: $('#ddlWarrantyType').val(),
                 WarrantyNum: $('#txtWarrantyNum').val(),
                 SafetyNote: $('#txtSafetyNote').val(),
 
@@ -374,8 +387,8 @@
                         icon: "success",
                         buttons: "DONE"
                     }).then((willDone) => {
-                        $('#txtEquipment,#txtEquipmentType,#txtDescription,#txtSerialNumber,#txtModel,#txtOwner,#txtLocation,#txtTelephoneOwner,#txtResponsible,#txtStatus,#txtPreviousOwner').val('');
-                        $('#txtPreviousLocation,#txtServiceVendor,#txtCompany,#txtEquipmentGroup,#txtEquipmentGroup,#txtPurchaseDate,#txtReceiveDate,#txtServiceDate,#txtWarrantyType,#txtWarrantyNum,#txtSafetyNote').val('');
+                        $('#txtEquipment,#ddlEquipmentType,#txtDescription,#txtSerialNumber,#txtModel,#txtOwner,#ddlLocation,#txtTelephoneOwner,#txtResponsible,#ddlStatus,#txtPreviousOwner').val('');
+                        $('#ddlPreviousLocation,#ddlServiceVendor,#ddlCompany,#ddlEquipmentGroup,#txtPurchaseDate,#txtReceiveDate,#txtServiceDate,#ddlWarrantyType,#txtWarrantyNum,#txtSafetyNote').val('');
                     });
                 } else {
                     swal({
@@ -384,9 +397,6 @@
                         icon: "warning",
                         buttons: "DONE",
                         dangerMode: true
-                    }).then((willDone) => {
-                        $('#txtEquipment,#txtEquipmentType,#txtDescription,#txtSerialNumber,#txtModel,#txtOwner,#txtLocation,#txtTelephoneOwner,#txtResponsible,#txtStatus,#txtPreviousOwner').val('');
-                        $('#txtPreviousLocation,#txtServiceVendor,#txtCompany,#txtEquipmentGroup,#txtEquipmentGroup,#txtPurchaseDate,#txtReceiveDate,#txtServiceDate,#txtWarrantyType,#txtWarrantyNum,#txtSafetyNote').val('');
                     });
                 }
             }
@@ -394,12 +404,12 @@
 
     }
 
-    $('#txtEquipmentType').on('change', (e) => {
+    $('#ddlEquipmentType').on('change', (e) => {
         e.stopImmediatePropagation();
         $.ajax({
             url: './GetEquipmentLest',
             data: JSON.stringify({
-                EquipmentType: $('#txtEquipmentType').val(),
+                EquipmentType: $('#ddlEquipmentType').val(),
             }),
             contentType: "application/json; charset=utf-8",
             type: "POST",
