@@ -1,8 +1,6 @@
 ﻿﻿
 <link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
 <style>
-
-
     .button {
         background-color: #4CAF50;
         border: none;
@@ -133,7 +131,8 @@
     </center>
 </div>
 <script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
-<script>$('#CreateDate').datetimepicker({
+<script>
+    $('#CreateDate').datetimepicker({
         format: 'DD-MMM-YYYY'
     });
     $('#CreateBy').datetimepicker({
@@ -162,7 +161,7 @@
                         buttons: "DONE"
                     }).then((willDone) => {
 
-                        });
+                    });
                 } else {
                     swal({
                         title: "Warning",
