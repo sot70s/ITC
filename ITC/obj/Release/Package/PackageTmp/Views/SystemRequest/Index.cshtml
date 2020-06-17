@@ -1,6 +1,18 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutSystemRequisitionForm.cshtml";
 }
+﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+<style>
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="row">
@@ -29,13 +41,24 @@
                     SERVICE REQUEST
                 </div>
                 <div class="card-body">
-                    <div class="custom-control custom-radio mb-2">
-                        <input type="radio" id="chkSymptom1" name="customRadio" class="custom-control-input">
-                        <label class="custom-control-label font-weight-bold" for="chkSymptom1">New System</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="chkSymptom2" name="customRadio" class="custom-control-input">
-                        <label class="custom-control-label font-weight-bold" for="chkSymptom2">Replace Symptom</label>
+                    <div class="row">
+                        <div class="col-sm-6 mb-2">
+                            <div class="custom-control custom-radio mb-4">
+                                <input type="radio" id="chkSymptom1" name="customRadio" class="custom-control-input" checked>
+                                <label class="custom-control-label font-weight-bold" for="chkSymptom1">New System</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="chkSymptom2" name="customRadio" class="custom-control-input">
+                                <label class="custom-control-label font-weight-bold" for="chkSymptom2">Replace Symptom</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <label class="font-weight-bold">System Name</label>
+                            <input type="text" class="form-control" id="txtSystemName">
+                            <select id="ddlSystemName" class="form-control selectpicker" style="width:50%;" data-live-search="true">
+                                <option class="font-weight-bold" value="0">Select</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="card-header p-1 font-weight-bold" style="text-align:center;">
@@ -43,16 +66,99 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-8 mb-2" style="padding-right:unset;">
-                            <input type="text" class="form-control" id="txtProposed">
+                        <div class="col-sm-12 mb-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txtProposed">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddProposed"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-2 mb-2" style="padding-left:unset;padding-right:unset;">
-                            <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddProposed"><i class="fas fa-plus"></i></button>
+                        <div class="col-sm-12 mb-2">
+                            <ul class="list-group add-proposed"></ul>
                         </div>
-                        <div class="col-sm-2 mb-2" style="padding-left:unset;">
-                            <button class="btn btn-outline-danger font-weight-bold btn-block" id="btnMinusProposed"><i class="fas fa-minus"></i></button>
+                        @*<div class="col-sm-2 mb-2" style="padding-left:unset;">
+                                <button class="btn btn-outline-danger font-weight-bold btn-block" id="btnMinusProposed"><i class="fas fa-minus"></i></button>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                    WHAT BENEFIT WILL THE SYSTEM REQUEST PROVIDE?
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 mb-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txtBenefit">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddBenefit"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <ul class="list-group add-benefit"></ul>
                         </div>
                     </div>
+                </div>
+                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                    WHO IS THE USE GROUP? WHERE WILL IT BE USED
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 mb-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txtGroup">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddGroup"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-2">
+                            <ul class="list-group add-group"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                    ESTIMATE LEAD TIME
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 mb-2">
+                            <label class="font-weight-bold">Duration</label>
+                            <input type="text" class="form-control" id="txtDuration" disabled>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <label class="font-weight-bold">Period</label>
+                            <div class="form-group">
+                                <div class="input-group date" id="dateStartDate" data-target-input="nearest">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text font-weight-bold" style="width:60px;">From</span>
+                                    </div>
+                                    <input id="txtStartDate" type="text" class="form-control datetimepicker-input" data-target="#dateStartDate" />
+                                    <div class="input-group-append" data-target="#dateStartDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group date" id="dateFinishDate" data-target-input="nearest">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text font-weight-bold" style="width:60px;">To</span>
+                                    </div>
+                                    <input id="txtFinishDate" type="text" class="form-control datetimepicker-input" data-target="#dateFinishDate" />
+                                    <div class="input-group-append" data-target="#dateFinishDate" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                    ESTIMATE BUDGET
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control" id="txtBudget" rows="3"></textarea>
                 </div>
                 <div class="card-footer">
                     <div class="row">
@@ -68,9 +174,66 @@
     </div>
 </div>
 
+@section Scripts {
+    <script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
 
-<script>
-    $('#btnSubmit').on('click', (e) => {
-        e.stopImmediatePropagation();
-    });
-</script>
+    <script>
+
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+            icons: {
+                time: 'far fa-clock',
+                up: 'fas fa-sort-up',
+                down: 'fas fa-sort-down',
+                previous: 'fas fa-caret-left',
+                next: 'fas fa-caret-right'
+            }
+        });
+
+        $('#dateStartDate,#dateFinishDate').datetimepicker({
+            format: 'DD-MMM-YYYY',
+        }).on("change.datetimepicker", ({ date, oldDate }) => {
+            console.log("New date", date);
+            console.log("Old date", oldDate)
+        });
+
+        $('#ddlSystemName').selectpicker('hide');
+
+        $('#btnSubmit').on('click', (e) => {
+            e.stopImmediatePropagation();
+        });
+
+        $('#chkSymptom1').on('click', (e) => {
+            e.stopImmediatePropagation();
+            if ($('#chkSymptom1').is(':checked')) {
+                $('#txtSystemName').val('').removeAttr('hidden');
+                $('#ddlSystemName').selectpicker('hide');
+            }
+        });
+
+        $('#chkSymptom2').on('click', (e) => {
+            e.stopImmediatePropagation();
+            if ($('#chkSymptom2').is(':checked')) {
+                $('#txtSystemName').attr('hidden', 'hidden');
+                $('#ddlSystemName').val('0').selectpicker('show');
+            }
+        });
+
+        $('#btnAddProposed').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('.add-proposed').append(
+                `<li class="list-group-item">Cras justo odio</li>`);
+        });
+
+        $('#btnAddBenefit').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('.add-benefit').append(
+                `<li class="list-group-item">Cras justo odio</li>`);
+        });
+
+        $('#btnAddGroup').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('.add-group').append(
+                `<li class="list-group-item">Cras justo odio</li>`);
+        });
+    </script>
+}

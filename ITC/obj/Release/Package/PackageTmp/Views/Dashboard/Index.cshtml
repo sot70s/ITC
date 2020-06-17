@@ -151,6 +151,7 @@
                                             <label class="label" for="inputGroupSelect01">Equipment Type</label>
                                         </div>
                                         <select id="ddlEquipmentType" class="form-control selectpicker select4" witdh="100%" data-live-search="true" multiple>
+                                            <option class="font-bold">Select</option>
                                             @foreach (var i in ViewBag.BindEQUIPTYPE)
                                             {
                                                 <option class="font-bold" value="@i.EquipmentType">@i.EquipmentType  (@i.Description)</option>
@@ -161,7 +162,7 @@
                                         <div class="input-group-prepend">
                                             <label class="label" for="inputGroupSelect01">Location</label>
                                         </div>
-                                        <select id="ddlLocation" class="form-control font" witdh="100%" data-live-search="true">
+                                        <select id="ddlLocation" class="form-control selectpicker font" witdh="100%" data-live-search="true" multiple>
                                             <option class="font-bold">Select All</option>
                                             <option class="font-bold">L1</option>
                                             <option class="font-bold">L2</option>
@@ -194,9 +195,9 @@
                                         </div>
                                         <select id="ddlResponsible" class="form-control selectpicker select6" witdh="100%" data-live-search="true">
                                             <option class="font-bold">Select</option>
-                                            @foreach (var i in ViewBag.BindPersonal)
+                                            @foreach (var i in ViewBag.BindSupportBy)
                                             {
-                                                <option class="font-bold" value="@i.EMPLOYEE_NO">@i.EMPLOYEE_NO  (@i.EMPLOYEE_NAME)</option>
+                                                <option class="font-bold" value="@i.EmployeeNo">@i.EmployeeNo  (@i.EMPLOYEE_NAME)</option>
                                             }
                                         </select>
                                     </div>
@@ -229,8 +230,7 @@
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-    <script>
-        $('.select4,.select5,.select6').selectpicker();
+    <script>$('.select4,.select5,.select6').selectpicker();
 
         $(document).ready(() => {
             LoadChartDasnboard();
@@ -250,7 +250,7 @@
             $.ajax({
                 url: "./GetChartDashboard",
                 data: JSON.stringify({
-                    objEquipmentType: $('#ddlEquipmentType').val(),
+                    EquipmentType: $('#ddlEquipmentType').val(),
                     Location: $('#ddlLocation').val(),
                     Responsible: $('#ddlResponsible').val(),
                     EquipmentAgingType: $('#ddlAge').val(),
@@ -264,25 +264,27 @@
                     console.log(data);
                     var taskData = '';
                     var task = '';
+                    var LO = '';
+                    var task = '';
                     for (i in data.obj) {
                         var item = data.obj[i];
-                        for (j in item.objEquipmentType) {
-                            var itemObj = item.objEquipmentType[j];
-                            task += ',"' + itemObj.EquipmentType + '" : ' + itemObj.CountType + '';
-                            if (LO != item.Location) {
-                                task = '';
+                        if (LO != item.Location) {
+                            task = '';
+                            LO = item.Location;
+                            for (j in item.objEquipmentType) {
+                                var itemObj = item.objEquipmentType[j];
                                 task += ',"' + itemObj.EquipmentType + '" : ' + itemObj.CountType + '';
-                                var LO = item.Location;
                             }
+                        }
+                        else {
+                            task += ',"' + itemObj.EquipmentType + '" : ' + itemObj.CountType + '';
                         }
                         taskData += '{"Location" : "' + item.Location + '"  ' + task + '  },';
                     };
 
                     taskData = taskData.substr(0, taskData.lastIndexOf(","));
                     var taskDataArr = JSON.parse('[' + taskData + ']');
-
-                    //console.log(taskDataArr);
-
+                    console.log(taskDataArr);
                     am4core.ready(function () {
 
                         am4core.useTheme(am4themes_animated);
@@ -326,15 +328,12 @@
                             var item = data.objEQT[i];
                             itemEQT = item.EquipmentType;
                             createSeries(itemEQT, itemEQT);
-                            console.log(itemEQT);
 
                         };
                     });
                 }
             })
-        }
-
-    </script>
+        }</script>
 
 
 }

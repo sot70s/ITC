@@ -37,5 +37,12 @@ namespace ITC.Models
         public DbSet<SOPTemplate> SOPTemplate { get; set; }
         public DbSet<SOPAsset> SOPAsset { get; set; }
         public DbSet<RoleSR> RoleSR { get; set; }
+        public DbSet<Inventory> Inventory { get; set; }
+        public DbSet<InventoryType> InventoryType { get; set; }
+        public DbSet<Lot> Lot { get; set; }
+        public DbSet<SparesCode> SparesCode { get; set; }
+        public DbSet<SparesCodeTemplate> SparesCodeTemplate { get; set; }
+        public DbSet<PartAsset> PartAsset { get; set; }
+        public DbSet<SystemRequestHeader> SystemRequestHeader { get; set; }
     }
 }

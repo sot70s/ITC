@@ -130,7 +130,7 @@ namespace ITC.Controllers
                                                    Note = jp.Note,
                                                    SUBLOCATION1 = (j == null) ? "" : j.SUBLOCATION1,
                                                    SUBLOCATION2 = (j == null) ? "" : j.SUBLOCATION2,
-                                                   SUBLOCATION3 = (j == null) ? "N/A" : j.SUBLOCATION2 + " / " + j.SUBLOCATION2
+                                                   SUBLOCATION3 = (j == null) ? "N/A" : j.SUBLOCATION1 + " / " + j.SUBLOCATION2
                                                }).ToList();
                 
             return Json(ListJobRequest, JsonRequestBehavior.AllowGet);

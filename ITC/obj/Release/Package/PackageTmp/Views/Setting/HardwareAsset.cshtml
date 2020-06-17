@@ -1,5 +1,7 @@
 ﻿﻿﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
 <style>
+
+
     .button {
         background-color: #4CAF50;
         border: none;
@@ -156,10 +158,10 @@
                             </div>
                             <div class="modal-body">
                                 <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input font" id="txtExcel" aria-describedby="Excel">
-                                        <label class="custom-file-label font" for="txtExcel">Choose file excel</label>
-                                    </div>
+                                    <form class="form-control" id="FileUpload" action="" method="post" enctype="multipart/form-data">
+                                        <input type="file" id="txtExcel" class="custom-file-input font" aria-describedby="txtExcel">
+                                    </form>
+                                    <label class="custom-file-label font">Choose file excel</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -276,9 +278,9 @@
                                         </div>
                                         <select id="ddlDepartment" class="form-control selectpicker select3" witdh="100%" data-live-search="true">
                                             <option class="font-bold">Select</option>
-                                            @foreach (var i in ViewBag.BindHRMSectionMaster)
+                                            @foreach (var i in ViewBag.BindHRMDepartmentMaster)
                                             {
-                                                <option class="font-bold" value="@i.DEPARTMENT_CODE">@i.DEPARTMENT_CODE  (@i.SECTION_DESCRIPTION)</option>
+                                                <option class="font-bold" value="@i.DEPARTMENT_DESCRIPTION">@i.DEPARTMENT_CODE  (@i.DEPARTMENT_DESCRIPTION)</option>
                                             }
                                         </select>
                                     </div>
@@ -479,6 +481,12 @@
                                             <div class="row" style="margin-top: 30px; margin-right:20px">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
+                                                        <label class="label-model font" for="inputGroupSelect01">Previous Owner</label>
+                                                    </div>
+                                                    <input type="text" class="form-control font" id="txtmPreviousOwner" placeholder="">
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
                                                         <label class="label-model font" for="inputGroupSelect01">Previous Location</label>
                                                     </div>
                                                     <select id="ddlmPreviousLocation" class="form-control selectpicker select6" witdh="100%" data-live-search="true">
@@ -558,6 +566,18 @@
                                                         <label class="label-model font" for="inputGroupSelect01">Safety Note</label>
                                                     </div>
                                                     <textarea class="form-control font" id="txtmSafetyNote" aria-label="With textarea"></textarea>
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="label-model font" for="inputGroupSelect01">Support By</label>
+                                                    </div>
+                                                    <select id="ddlSupportBy" class="form-control font" witdh="100%" data-live-search="true">
+                                                        <option class="font-bold">Select</option>
+                                                        @foreach (var i in ViewBag.BindSupportBy)
+                                                        {
+                                                            <option class="font-bold" value="@i.EmployeeNo">@i.EmployeeNo  (@i.EMPLOYEE_NAME)</option>
+                                                        }
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -804,21 +824,27 @@
                     SerialNumber: $('#txtSerialNumber').val(),
                     Model: $('#txtModel').val(),
                     Owner: $('#txtOwner').val(),
+                    Responsible: $('#txtResponsible').val(),
                     Location: $('#ddlLocation').val(),
                     TelephoneOwner: $('#txtTelephoneOwner').val(),
-                    Responsible: $('#txtResponsible').val(),
                     Status: $('#ddlStatus').val(),
                     PreviousOwner: $('#txtPreviousOwner').val(),
                     PreviousLocation: $('#ddlPreviousLocation').val(),
                     ServiceVendor: $('#ddlServiceVendor').val(),
-                    Company: $('#txtCompany').val(),
                     EquipmentGroup: $('#txtEquipmentGroup').val(),
-                    PurchaseDate: $('#txtPurchaseDate').val(),
-                    ReceiveDate: $('#txtReceiveDate').val(),
-                    ServiceDate: $('#txtServiceDate').val(),
+                    PurchaseDate: $('#txtstartdatepickerp').val(),
+                    ServiceDate: $('#txtstartdatepickers').val(),
+                    WarrantyDate: $('#txtstartdatepickerw').val(),
+                    StopPurchaseDate: $('#txtstopdatepickerp').val(),
+                    StopServiceDate: $('#txtstopdatepickers').val(),
+                    EquipmentAgingType: $('#ddlAging').val(),
+                    EquipmentAgingNum: $('#txtEquipmentAging').val(),
+                    StopWarrantyDate: $('#txtstopdatepickerw').val(),
                     WarrantyType: $('#ddlmWarrantyType').val(),
                     WarrantyNum: $('#txtWarrantyNum').val(),
                     SafetyNote: $('#txtSafetyNote').val(),
+                    Section: $('#ddlSection').val(),
+                    Department: $('#ddlDepartment').val(),
                 },
                 type: "GET",
                 datatype: "json",
@@ -938,6 +964,7 @@
                 $('#ddlmWarrantyType').val(data[0].WarrantyType);
                 $('#txtmWarrantyNum').val(data[0].WarrantyNum);
                 $('#txtmSafetyNote').val(data[0].SafetyNote);
+                $('#ddlSupportBy').val(data[0].SupportBy);
             }
         });
     }
@@ -964,6 +991,7 @@
                 WarrantyType: $('#ddlmWarrantyType').val(),
                 WarrantyNum: $('#txtmWarrantyNum').val(),
                 SafetyNote: $('#txtmSafetyNote').val(),
+                SupportBy: $('#ddlSupportBy').val(),
             }),
             contentType: "application/json; charset=utf-8",
             type: "PUT",
@@ -1037,14 +1065,16 @@
     }
 
     function UploadExcel() {
+        var formData = new FormData();
+        var files = document.getElementById("txtExcel").files[0];
+        formData.append("FileUpload", files);
         $.ajax({
             url: "./UploadExcel",
-            data: JSON.stringify({
-                Excel: $('#txtExcel').val(),
-            }),
-            contentType: "application/json; charset=utf-8",
+            data: formData,
             type: "POST",
             dataType: "JSON",
+            processData: false,
+            contentType: false,
             success: (data) => {
                 if (data.success == true) {
                     swal({

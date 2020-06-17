@@ -31,10 +31,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2015 18:46:26</publishTime>
     </File>
     <File Include="bin/ITC.dll">
-      <publishTime>06/12/2020 16:53:27</publishTime>
+      <publishTime>06/16/2020 13:43:48</publishTime>
     </File>
     <File Include="bin/ITC.pdb">
-      <publishTime>06/12/2020 16:53:27</publishTime>
+      <publishTime>06/16/2020 13:43:48</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>04/24/2018 12:47:38</publishTime>
@@ -74,6 +74,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/Microsoft.IdentityModel.Tokens.dll">
       <publishTime>10/18/2019 23:44:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.mshtml.dll">
+      <publishTime>03/16/2020 07:52:13</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.dll">
       <publishTime>11/12/2019 18:46:02</publishTime>
@@ -260,6 +263,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>08/08/2018 12:18:16</publishTime>
+    </File>
+    <File Include="bin/Spire.Common.dll">
+      <publishTime>09/02/2019 02:38:54</publishTime>
+    </File>
+    <File Include="bin/Spire.License.dll">
+      <publishTime>05/09/2019 02:05:08</publishTime>
+    </File>
+    <File Include="bin/Spire.Pdf.dll">
+      <publishTime>09/02/2019 02:38:54</publishTime>
+    </File>
+    <File Include="bin/Spire.XLS.dll">
+      <publishTime>09/02/2019 02:37:42</publishTime>
     </File>
     <File Include="bin/System.IdentityModel.Tokens.Jwt.dll">
       <publishTime>10/18/2019 23:38:18</publishTime>
@@ -9418,7 +9433,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/07/2020 10:37:16</publishTime>
     </File>
     <File Include="Views/Dashboard/Index.cshtml">
-      <publishTime>06/05/2020 10:18:08</publishTime>
+      <publishTime>06/15/2020 15:02:37</publishTime>
     </File>
     <File Include="Views/Doing/FeedJob.cshtml">
       <publishTime>05/22/2020 11:11:14</publishTime>
@@ -9529,7 +9544,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/11/2020 15:51:06</publishTime>
     </File>
     <File Include="Views/Setting/HardwareAsset.cshtml">
-      <publishTime>06/05/2020 10:16:21</publishTime>
+      <publishTime>06/15/2020 15:04:06</publishTime>
     </File>
     <File Include="Views/Setting/Index.cshtml">
       <publishTime>04/21/2020 15:22:57</publishTime>
@@ -9586,7 +9601,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2020 15:05:32</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/09/2020 14:36:40</publishTime>
+      <publishTime>06/15/2020 15:19:19</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutHome.cshtml">
       <publishTime>06/09/2020 14:35:15</publishTime>
@@ -9595,7 +9610,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/12/2020 15:21:33</publishTime>
     </File>
     <File Include="Views/SystemRequest/Index.cshtml">
-      <publishTime>06/12/2020 16:29:55</publishTime>
+      <publishTime>06/16/2020 11:21:29</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>03/03/2020 15:05:17</publishTime>
@@ -9604,7 +9619,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2020 15:05:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/20/2020 08:40:56</publishTime>
+      <publishTime>06/16/2020 09:36:42</publishTime>
     </File>
   </ItemGroup>
 </Project>

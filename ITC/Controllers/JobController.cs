@@ -269,7 +269,7 @@ namespace ITC.Controllers
                         content +=
                             "<b>" +
                             "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
                             "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                             "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
                             "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br><br>" +
@@ -289,7 +289,7 @@ namespace ITC.Controllers
                         content +=
                             "<b>" +
                             "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
                             "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                             "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
                             "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "</b><br>";
@@ -303,7 +303,7 @@ namespace ITC.Controllers
                         content +=
                             "<b>" +
                             "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
                             "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                             "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "</b><br>" +
                             "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>";
@@ -365,6 +365,16 @@ namespace ITC.Controllers
                 }
                 email_to = QueryRequest.StrEmailApprover(id);
                 sm.SendEMailTo("swadmin@meyer-mil.com", titleEmail, email_to, "", "", subject, content, true, "");
+
+
+                var content2 =
+                "<b>" +
+                "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
+                "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
+                "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
+                "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "</b><br>" +
+                "<span style='color:#007acc;'>Detail : </span> " + data.Detail.Replace(Environment.NewLine, "<br>") + "<br>";
+                sm.SendEMailTo("swadmin@meyer-mil.com", titleEmail, "RonnapornK@meyer-mil.com", "", "", subject, content2, true, "");
             }
             catch (Exception ex)
             {

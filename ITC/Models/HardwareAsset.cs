@@ -19,9 +19,11 @@ namespace ITC.Models
         public string SerialNumber { get; set; }
         public string Model { get; set; }
         public string Owner { get; set; }
+        public string OwnerNo { get; set; }
         public string Location { get; set; }
         public string TelephoneOwner { get; set; }
         public string Responsible { get; set; }
+        public string ResponsibleNo { get; set; }
         public int Status { get; set; }
         public string PreviousOwner { get; set; }
         public string PreviousLocation { get; set; }
@@ -54,11 +56,13 @@ namespace ITC.Models
         public string SerialNumber { get; set; }
         public string Model { get; set; }
         public string Owner { get; set; }
+        public string OwnerNo { get; set; }
         public string Location { get; set; }
         public string Section { get; set; }
         public string Department { get; set; }
         public string TelephoneOwner { get; set; }
         public string Responsible { get; set; }
+        public string ResponsibleNo { get; set; }
         public int Status { get; set; }
         public string PreviousOwner { get; set; }
         public string PreviousLocation { get; set; }

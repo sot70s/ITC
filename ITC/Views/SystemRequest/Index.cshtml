@@ -1,65 +1,268 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutSystemRequisitionForm.cshtml";
 }
+﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+<style>
+    .btn-light {
+        color: #000000;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .filter-option-inner {
+        font-weight: bold;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6" style="padding-left:unset;padding-right:unset;">
             <div class="card m-2">
                 <div class="card-header p-1 font-weight-bold" style="text-align:center;">
-                    SYSTEM REQUISITION FORM
+                    CREATE SYSTEM REQUISITION FORM
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 mb-2">
-                            <label class="font-weight-bold">Name</label>
-                            <input type="text" class="form-control" id="txtName">
-                        </div>
-                        <div class="col-sm-6 mb-2">
-                            <label class="font-weight-bold">Job Title</label>
-                            <input type="text" class="form-control" id="txtJobtitle">
-                        </div>
-                        <div class="col-sm-6 mb-2">
-                            <label class="font-weight-bold">Date</label>
-                            <input type="text" class="form-control" id="txtDate" value="@String.Format("{0:dd-MMM-yyyy}",DateTime.Now)" disabled>
+                    <button class="btn btn-success font-weight-bold btn-block" type="button" id="btnCreateSR" onclick="CreateSystemRequest()"><i class="fas fa-plus"></i>&nbsp;CREATE</button>
+                    <input type="text" class="form-control" id="txtSR" value="@ViewBag.BindSR" placeholder="Please Create System Requisition Form" disabled>
+                </div>
+                <div class="div-sr" hidden>
+                    <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                        SYSTEM REQUISITION FORM
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 mb-2">
+                                <label class="font-weight-bold">Name</label>
+                                <input type="text" class="form-control" id="txtName" value="@ViewBag.BindEmployeeName" disabled>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <label class="font-weight-bold">Job Title</label>
+                                <input type="text" class="form-control" id="txtJobtitle">
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <label class="font-weight-bold">Date</label>
+                                <input type="text" class="form-control" id="txtDate" value="@String.Format("{0:dd-MMM-yyyy}",DateTime.Now)" disabled>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
-                    SERVICE REQUEST
-                </div>
-                <div class="card-body">
-                    <div class="custom-control custom-radio mb-2">
-                        <input type="radio" id="chkSymptom1" name="customRadio" class="custom-control-input">
-                        <label class="custom-control-label font-weight-bold" for="chkSymptom1">New System</label>
+                    <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                        SERVICE REQUEST
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="chkSymptom2" name="customRadio" class="custom-control-input">
-                        <label class="custom-control-label font-weight-bold" for="chkSymptom2">Replace Symptom</label>
-                    </div>
-                </div>
-                <div class="card-header p-1 font-weight-bold" style="text-align:center;">
-                    WHAT IS THIS SYSTEM BEING PROPOSED?
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-8 mb-2" style="padding-right:unset;">
-                            <input type="text" class="form-control" id="txtProposed">
-                        </div>
-                        <div class="col-sm-2 mb-2" style="padding-left:unset;padding-right:unset;">
-                            <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddProposed"><i class="fas fa-plus"></i></button>
-                        </div>
-                        <div class="col-sm-2 mb-2" style="padding-left:unset;">
-                            <button class="btn btn-outline-danger font-weight-bold btn-block" id="btnMinusProposed"><i class="fas fa-minus"></i></button>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 mb-2">
+                                <div class="custom-control custom-radio mb-4">
+                                    <input type="radio" id="chkSymptom1" name="customRadio" class="custom-control-input" checked>
+                                    <label class="custom-control-label font-weight-bold" for="chkSymptom1">New System</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="chkSymptom2" name="customRadio" class="custom-control-input">
+                                    <label class="custom-control-label font-weight-bold" for="chkSymptom2">Replace Symptom</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <label class="font-weight-bold">System Name</label>
+                                <input type="text" class="form-control" id="txtSystemName">
+                                <select id="ddlSystemName" class="form-control selectpicker" style="width:50%;" data-live-search="true">
+                                    <option class="font-weight-bold" value="0">Select</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-sm-10"></div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-warning font-weight-bold" id="btnClear">Clear</button>
-                            <button class="btn btn-primary font-weight-bold" id="btnSubmit">Submit</button>
+                    <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                        WHAT IS THIS SYSTEM BEING PROPOSED?
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtProposed">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddProposed"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <ul class="list-group add-proposed"></ul>
+                            </div>
+                            @*<div class="col-sm-2 mb-2" style="padding-left:unset;">
+                                    <button class="btn btn-outline-danger font-weight-bold btn-block" id="btnMinusProposed"><i class="fas fa-minus"></i></button>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                        WHAT BENEFIT WILL THE SYSTEM REQUEST PROVIDE?
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtBenefit">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddBenefit"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <ul class="list-group add-benefit"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                        WHO IS THE USE GROUP? WHERE WILL IT BE USED
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtGroup">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddGroup"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 mb-2">
+                                <ul class="list-group add-group"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                        ESTIMATE LEAD TIME
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 mb-2">
+                                <label class="font-weight-bold">Duration</label>
+                                <input type="text" class="form-control" id="txtDuration" disabled>
+                            </div>
+                            <div class="col-sm-6 mb-2">
+                                <label class="font-weight-bold">Period</label>
+                                <div class="form-group">
+                                    <div class="input-group date" id="dateStartDate" data-target-input="nearest">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text font-weight-bold" style="width:60px;">From</span>
+                                        </div>
+                                        <input id="txtStartDate" type="text" class="form-control datetimepicker-input" data-target="#dateStartDate" />
+                                        <div class="input-group-append" data-target="#dateStartDate" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group date" id="dateFinishDate" data-target-input="nearest">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text font-weight-bold" style="width:60px;">To</span>
+                                        </div>
+                                        <input id="txtFinishDate" type="text" class="form-control datetimepicker-input" data-target="#dateFinishDate" />
+                                        <div class="input-group-append" data-target="#dateFinishDate" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header p-1 font-weight-bold" style="text-align:center;">
+                        ESTIMATE BUDGET
+                    </div>
+                    <div class="card-body">
+                        <label class="font-weight-bold">Hardware</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Category</span>
+                            </div>
+                            <input type="text" style="width:300px;" class="form-control" id="txtCategoryHW">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Cost</span>
+                            </div>
+                            <input type="number" min="0" class="form-control" id="txtCostHW" value="0">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Quantity</span>
+                            </div>
+                            <input type="number" min="0" class="form-control" id="txtQtyHW" value="0">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddHW"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-10"></div>
+                            <div class="col-sm-2">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text font-weight-bold">Total</span>
+                                    </div>
+                                    <input type="text" style="text-align:right;" class="form-control" id="txtTotalHW" value="0" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label class="font-weight-bold">Software</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Category</span>
+                            </div>
+                            <input type="text" style="width:300px;" class="form-control" id="txtCategorySW">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Cost</span>
+                            </div>
+                            <input type="number" min="0" class="form-control" id="txtCostSW" value="0">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Quantity</span>
+                            </div>
+                            <input type="number" min="0" class="form-control" id="txtQtySW" value="0">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddSW"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-10"></div>
+                            <div class="col-sm-2">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text font-weight-bold">Total</span>
+                                    </div>
+                                    <input type="text" style="text-align:right;" class="form-control" id="txtTotalHW" value="0" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label class="font-weight-bold">Other</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Category</span>
+                            </div>
+                            <input type="text" style="width:300px;" class="form-control" id="txtCategoryOth">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Cost</span>
+                            </div>
+                            <input type="number" min="0" class="form-control" id="txtCostOth" value="0">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text font-weight-bold">Quantity</span>
+                            </div>
+                            <input type="number" min="0" class="form-control" id="txtQtyOth" value="0">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-success font-weight-bold btn-block" id="btnAddOth"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-10"></div>
+                            <div class="col-sm-2">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text font-weight-bold">Total</span>
+                                    </div>
+                                    <input type="text" style="text-align:right;" class="form-control" id="txtTotalHW" value="0" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-10"></div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-warning font-weight-bold" id="btnClear">Clear</button>
+                                <button class="btn btn-primary font-weight-bold" id="btnSubmit">Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,8 +272,168 @@
 </div>
 
 
-<script>
-    $('#btnSubmit').on('click', (e) => {
-        e.stopImmediatePropagation();
-    });
-</script>
+@section Scripts {
+    <script src="~/Scripts/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+
+    <script>
+        $(document).ready(() => {
+            if ($('#txtSR').val() != '') {
+                $('.div-sr').removeAttr('hidden');
+            }
+        });
+
+        function CreateSystemRequest() {
+            $.ajax({
+                url: './CreateSystemRequest',
+                type: 'POST',
+                dataType: 'JSON',
+                success: (data) => {
+                    if (data.success == true) {
+                        swal({
+                            title: data.message,
+                            icon: "success",
+                            buttons: "DONE"
+                        }).then(() => {
+                            $('.div-sr').removeAttr('hidden');
+                        });
+                        $('#txtSR').val(data.system_request);
+                    } else {
+                        swal({
+                            title: "Warning",
+                            text: data.message,
+                            icon: "warning",
+                            buttons: "DONE",
+                            dangerMode: true
+                        });
+                    }
+                },
+                error: (err) => {
+                    window.location.href = '../Home/SignOut';
+                }
+            });
+        }
+
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+            icons: {
+                time: 'far fa-clock',
+                up: 'fas fa-sort-up',
+                down: 'fas fa-sort-down',
+                previous: 'fas fa-caret-left',
+                next: 'fas fa-caret-right'
+            }
+        });
+
+        var date = new Date();
+        $('#dateStartDate').datetimepicker({
+            format: 'DD-MMM-YYYY',
+            defaultDate: date
+        });
+
+        $('#dateStartDate').on("change.datetimepicker", (e) => {
+            if (Date.parse($('#txtFinishDate').val()) > Date.parse($('#txtStartDate').val())) {
+                $('#txtStartDate').removeClass('is-invalid');
+                $.ajax({
+                    url: './GetDurationDate',
+                    data: JSON.stringify({
+                        StartDate: $('#txtStartDate').val(),
+                        FinishDate: $('#txtFinishDate').val()
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: (data) => {
+                        $('#txtDuration').val(data.duration);
+                    }
+                });
+            } else {
+                swal({
+                    title: "Warning",
+                    text: "Something error with you ,Please check your date",
+                    icon: "warning",
+                    buttons: "DONE",
+                    dangerMode: true
+                }).then(() => {
+                    $('#txtStartDate').addClass('is-invalid');
+
+                });
+            }
+
+        });
+
+        $('#dateFinishDate').datetimepicker({
+            format: 'DD-MMM-YYYY',
+            defaultDate: date.setMonth(date.getMonth() + 1)
+        });
+
+        $('#dateFinishDate').on("change.datetimepicker", (e) => {
+            if (Date.parse($('#txtFinishDate').val()) > Date.parse($('#txtStartDate').val())) {
+                $('#txtFinishDate').removeClass('is-invalid');
+                $.ajax({
+                    url: './GetDurationDate',
+                    data: JSON.stringify({
+                        StartDate: $('#txtStartDate').val(),
+                        FinishDate: $('#txtFinishDate').val()
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: (data) => {
+                        $('#txtDuration').val(data.duration);
+                    }
+                });
+            } else {
+                swal({
+                    title: "Warning",
+                    text: "Something error with you ,Please check your date.",
+                    icon: "warning",
+                    buttons: "DONE",
+                    dangerMode: true
+                }).then(() => {
+                    $('#txtFinishDate').addClass('is-invalid');
+                });
+            }
+
+        });
+
+        $('#ddlSystemName').selectpicker('hide');
+
+        $('#btnSubmit').on('click', (e) => {
+            e.stopImmediatePropagation();
+        });
+
+        $('#chkSymptom1').on('click', (e) => {
+            e.stopImmediatePropagation();
+            if ($('#chkSymptom1').is(':checked')) {
+                $('#txtSystemName').val('').removeAttr('hidden');
+                $('#ddlSystemName').selectpicker('hide');
+            }
+        });
+
+        $('#chkSymptom2').on('click', (e) => {
+            e.stopImmediatePropagation();
+            if ($('#chkSymptom2').is(':checked')) {
+                $('#txtSystemName').attr('hidden', 'hidden');
+                $('#ddlSystemName').val('0').selectpicker('show');
+            }
+        });
+
+        $('#btnAddProposed').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('.add-proposed').append(
+                `<li class="list-group-item">Cras justo odio</li>`);
+        });
+
+        $('#btnAddBenefit').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('.add-benefit').append(
+                `<li class="list-group-item">Cras justo odio</li>`);
+        });
+
+        $('#btnAddGroup').on('click', (e) => {
+            e.stopImmediatePropagation();
+            $('.add-group').append(
+                `<li class="list-group-item">Cras justo odio</li>`);
+        });
+    </script>
+}

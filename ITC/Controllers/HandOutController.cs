@@ -164,7 +164,7 @@ namespace ITC.Controllers
                         content +=
                             "<b>" +
                             "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                            "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
                             "<span style='color:#007acc;'>Symptom : </span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                             "<span style='color:#007acc;'>Require Date : </span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
                             "<span style='color:#007acc;'>Responsible : </span> " + data.ResponsibleName + " (" + data.Responsible + ")" + "<br>" +
@@ -215,7 +215,7 @@ namespace ITC.Controllers
                             content +=
                                 "<b>" +
                                 "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                                "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                                "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
                                 "<span style='color:#007acc;'>Symptom :</span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                                 "<span style='color:#007acc;'>Require Date :</span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
                                 "<span style='color:#007acc;'>Responsible :</span> " + data.ResponsibleName + "<br>" +
@@ -288,7 +288,7 @@ namespace ITC.Controllers
                             content +=
                                 "<b>" +
                                 "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                                "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                                "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
                                 "<span style='color:#007acc;'>Symptom :</span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                                 "<span style='color:#007acc;'>Require Date :</span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
                                 "<span style='color:#007acc;'>Responsible :</span> " + data.ResponsibleName + "<br>" +
@@ -339,7 +339,7 @@ namespace ITC.Controllers
                         }
                         break;
                 }
-                email_to = QueryRequest.StrEmailManager();
+                email_to = QueryRequest.StrEmailManager(data.SectionType);
                 sm.SendEMailTo("swadmin@meyer-mil.com", titleEmail, email_to, "", "", subject, content, true, "");
 
             }
@@ -411,7 +411,7 @@ namespace ITC.Controllers
                 content +=
                     "<b>" +
                     "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                    "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                    "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
                     "<span style='color:#007acc;'>Symptom :</span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                     "<span style='color:#007acc;'>Require Date :</span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
                     "<span style='color:#007acc;'>Responsible :</span> " + data.ResponsibleName + "<br>" +
@@ -559,7 +559,7 @@ namespace ITC.Controllers
                     content +=
                         "<b>" +
                         "<span style='color:#007acc;'>Request by : </span> " + data.Requestor + " " + data.RequestorName + "<br>" +
-                        "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + "<br>" +
+                        "<span style='color:#007acc;'>Equipment : </span> " + data.Equipment + " " + data.Description + " (" + data.SUBLOCATION3 + ")" + "<br>" +
                         "<span style='color:#007acc;'>Symptom :</span> " + data.Symptom + " (" + data.SymptomName_Th + ")" + "<br>" +
                         "<span style='color:#007acc;'>Require Date :</span> " + String.Format("{0:dd-MMM-yyyy hh:mm tt}", Convert.ToDateTime(data.RequireDate)) + "<br>" +
                         "<span style='color:#007acc;'>Responsible :</span> " + data.ResponsibleName + "<br>" +

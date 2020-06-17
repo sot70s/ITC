@@ -840,6 +840,45 @@ namespace ITC.Models
                          ApproveByName = (j == null) ? "" : j.EMPLOYEE_NAME
                      }).ToList();
 
+            MP2Context _dbMP2 = new MP2Context();
+            query = (from jr in query.ToList()
+                     join eq in _dbMP2.EQUIP.ToList()
+                     on jr.Equipment equals eq.EQNUM into joined
+                     from j in joined.DefaultIfEmpty()
+                     select new JobRequest {
+                         Id = jr.Id,
+                         WorkRequest = jr.WorkRequest,
+                         Equipment = jr.Equipment,
+                         Description = jr.Description,
+                         Line = jr.Line,
+                         Symptom = jr.Symptom,
+                         SymptomName_Th = jr.SymptomName_Th,
+                         StandardDate = jr.StandardDate,
+                         CriticalDate = jr.CriticalDate,
+                         CriticalPercent = jr.CriticalPercent,
+                         Detail = jr.Detail,
+                         RequireDate = jr.RequireDate,
+                         CreateDate = jr.CreateDate,
+                         Status = jr.Status,
+                         DecisionType = jr.DecisionType,
+                         SectionType = jr.SectionType,
+                         Score = jr.Score,
+                         SectionCode = jr.SectionCode,
+                         Suggestion = jr.Suggestion,
+                         Requestor = jr.Requestor,
+                         RequestorName = jr.RequestorName,
+                         Responsible = jr.Responsible,
+                         ResponsibleName = jr.ResponsibleName,
+                         AssignTo = jr.AssignTo,
+                         AssignToName = jr.AssignToName,
+                         ApproveBy = jr.ApproveBy,
+                         ApproveDate = jr.ApproveDate,
+                         ApproveByName = jr.ApproveByName,
+                         SUBLOCATION1 = (j == null) ? "" : j.SUBLOCATION1,
+                         SUBLOCATION2 = (j == null) ? "" : j.SUBLOCATION2,
+                         SUBLOCATION3 = (j == null) ? "N/A" : j.SUBLOCATION1 + " / " + j.SUBLOCATION2
+                     }).ToList();
+
             return query;
         }
 
@@ -877,7 +916,8 @@ namespace ITC.Models
                                           ApproveBy = jr.ApproveBy,
                                           ApproveDate = jr.ApproveDate,
                                           ApproveByName = jr.ApproveByName,
-                                          Reason = (j == null) ? "" : j.Reason
+                                          Reason = (j == null) ? "" : j.Reason,
+                                          SUBLOCATION3 = jr.SUBLOCATION3
                                       }).ToList();
             return query;
         }
@@ -896,10 +936,14 @@ namespace ITC.Models
             return query;
         }
 
-        public static List<MisFlowJoinEmployee> ListEmailManager()
+        public static List<MisFlowJoinEmployee> ListEmailManager(string SectionType)
         {
             ITCContext _dbITC = new ITCContext();
-            List<MisFlowJoinEmployee> query = QueryMisFlow.ListMisFlow().Where(w => w.JobType == "Manager").ToList();
+            List<MisFlowJoinEmployee> query = QueryMisFlow.ListMisFlow().Where(w => w.JobType == "Manager" && 
+            ((SectionType == "ISD") ? w.Division == "IS" :
+            (SectionType == "ISS") ? w.Division == "IS" :
+            (SectionType == "ITS") ? w.Division == "IS" :
+            w.Division == "IT")).ToList();
 
             return query;
         }
@@ -1061,10 +1105,10 @@ namespace ITC.Models
             return email;
         }
 
-        public static string StrEmailManager()
+        public static string StrEmailManager(string SectionType)
         {
             var email = "";
-            List<MisFlowJoinEmployee> queryEmailManager = ListEmailManager();
+            List<MisFlowJoinEmployee> queryEmailManager = ListEmailManager(SectionType);
             for (int i = 0; i < queryEmailManager.Count(); i++)
             {
                 email += ";" + queryEmailManager[i].Email;

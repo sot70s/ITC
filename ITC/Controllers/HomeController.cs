@@ -13,8 +13,8 @@ namespace ITC.Controllers
     {
         public ActionResult Index()
         {
-            //return View();
-            return RedirectToAction("../Job/Index");
+            return View();
+            //return RedirectToAction("../Job/Index");
         }
 
         [HttpGet]

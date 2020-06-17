@@ -1,5 +1,6 @@
-﻿﻿﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
+﻿﻿﻿﻿<link href="~/Scripts/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css" rel="stylesheet" />
 <style>
+
 
 
     .button {
@@ -129,7 +130,6 @@
         font-weight: bold;
     }
 </style>
-
 <div class="row">
     <div class="col-sm-12" style="padding-left:unset;padding-right:unset;">
         <div class="card m-2 p-1">
@@ -144,9 +144,9 @@
                     Upload Hardware Asset
                 </button>
                 <!-- Upload excel -->
-                <div class="modal fade" id="ModalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="ModalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" w>
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                        <div class="modal-content">
+                        <div class="modal-content" style="width:200%">
                             <div class="modal-header">
                                 <h5 class="modal-title font" id="exampleModalLabel">
                                     <i class="fas fa-cloud-upload-alt" style="margin-right: 5px;"></i>
@@ -163,9 +163,11 @@
                                     </form>
                                     <label class="custom-file-label font">Choose file excel</label>
                                 </div>
+                                @*<div class="PartialExcel m-2 p-1"></div>*@
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary font-bold" data-dismiss="modal">Reset</button>
+                                <button type="button" class="btn btn-warning font-bold" id="btnEx" data-dismiss="modal"><a href="~/Download/xlsx/FormatExcel.xlsx" download>Click to Download Format Excel</a></button>
+                                <button type="button" class="btn btn-danger font-bold" data-dismiss="modal">Reset</button>
                                 <button type="submit" class="btn btn-info font-bold" id="btnSubmit" data-dismiss="modal" onclick="UploadExcel()">Submit</button>
                             </div>
                         </div>
@@ -202,13 +204,25 @@
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Owner</label>
                                     </div>
-                                    <input type="text" class="form-control font" id="txtOwner" placeholder="">
+                                    <select id="ddlOwner" class="form-control selectpicker select" witdh="100%" data-live-search="true">
+                                        <option class="font-bold">Select</option>
+                                        @foreach (var i in ViewBag.BindOwner)
+                                        {
+                                            <option class="font-bold" value="@i.Owner">@i.OwnerNo  (@i.Owner)</option>
+                                        }
+                                    </select>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <label class="label" for="inputGroupSelect01">Responsible</label>
                                     </div>
-                                    <input type="text" class="form-control font" id="txtResponsible" placeholder="">
+                                    <select id="ddlResponsible" class="form-control selectpicker select" witdh="100%" data-live-search="true">
+                                        <option class="font-bold">Select</option>
+                                        @foreach (var i in ViewBag.BindResponsible)
+                                        {
+                                            <option class="font-bold" value="@i.Responsible">@i.ResponsibleNo  (@i.Responsible)</option>
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -388,6 +402,7 @@
                     <thead>
                         <tr>
                             <th>EQUIPMENT</th>
+                            <th>EQUIPMENT TYPE</th>
                             <th>DESCRIPTION</th>
                             <th>OWNER</th>
                             <th>RESPONSIBLE</th>
@@ -799,6 +814,10 @@
         e.stopImmediatePropagation();
         $('.PartialSubSetting').empty().load('./CreateHardwareAsset');
     });
+    $('#btnEx').on('click', (e) => {
+        e.stopImmediatePropagation();
+        $('.PartialExcel').empty().load('./Excel');
+    });
 
     var dataTable;
     $(document).ready(() => {
@@ -823,8 +842,8 @@
                     Description: $('#txtDescription').val(),
                     SerialNumber: $('#txtSerialNumber').val(),
                     Model: $('#txtModel').val(),
-                    Owner: $('#txtOwner').val(),
-                    Responsible: $('#txtResponsible').val(),
+                    Owner: $('#ddlOwner').val(),
+                    Responsible: $('#ddlResponsible').val(),
                     Location: $('#ddlLocation').val(),
                     TelephoneOwner: $('#txtTelephoneOwner').val(),
                     Status: $('#ddlStatus').val(),
@@ -852,6 +871,7 @@
             },
             columns: [
                 { data: "Equipment" },
+                { data: "EquipmentType" },
                 { data: "Description" },
                 { data: "Owner" },
                 { data: "Responsible" },
@@ -1100,6 +1120,4 @@
     }
 
 </script>
-
-
 
